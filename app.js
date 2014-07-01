@@ -9,7 +9,8 @@ var expressLayouts = require('express-ejs-layouts');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+//app.set('views', path.join(__dirname, 'apps/default/views'));
+app.set('views', path.join(__dirname, 'apps'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 
@@ -18,10 +19,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(require('less-middleware')(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(require('less-middleware')(path.join(__dirname, 'public')));
+app.use('/default/content',express.static(path.join(__dirname, 'apps/default/content')));
+app.use('/admin/content', express.static(path.join(__dirname, 'apps/admin/content')));
 
-require('./routes/default')(app);
+require('./apps/admin/controllers/login')(app);
+require('./apps/default/controllers/home')(app);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
