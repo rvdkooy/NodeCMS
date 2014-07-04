@@ -24,6 +24,8 @@ app.use('/default/assets',express.static(path.join(__dirname, 'public/default'))
 app.use('/admin/assets', express.static(path.join(__dirname, 'public/admin')));
 
 require('./controllers/admin/login')(app);
+require('./controllers/admin/home')(app);
+
 require('./controllers/default/home')(app);
 
 /// catch 404 and forward to error handler
