@@ -1,0 +1,113 @@
+<%- contentFor('body') %>
+
+
+<!-- @section title
+{
+    <h3><i class="fa fa-dashboard fa-fw"></i> @Html.GetResource(ResourceClass.Admin, "DASHBOARD_LABEL_MAINTITLE") <small>@Html.GetResource(ResourceClass.Admin, "DASHBOARD_LABEL_SUBTITLE")</small></h3>
+}
+
+@section InitStartupScripts
+{
+    cms.home.init();
+    cms.googleAnalyticsAuthorisation.init('@Model.GoogleGaAccount', '@Model.GoogleGaHistory', cms.home.googleApiAuthorised);
+}
+
+@Html.GenerateBreadCrumbFor("")
+ -->
+
+<div ng-controller="dashboardController">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-bar-chart-o fa-fw"></i> Google analytics</div>
+                <div class="panel-body">
+                    <div class="busy" id="googleAnalyticsBusyIndicator"></div>
+                    <div id="googleAnalyticsResult"></div>
+                    
+                </div>
+                <div class="panel-footer">
+                    <input id="googlelogin-button" class="btn btn-blue"
+                      value="Login" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-bar-chart-o fa-fw"></i> Content Statistics</div>
+                <div class="panel-body">
+                    <!-- <div class="busy" ng-show="showContentStatisticsLoader"></div> -->
+                    <div id="statisticsContainer">
+                        <p>Currently</p>
+                        <h5><span class="label label-primary">5</span> Content pages</h5>
+                        <h5><span class="label label-primary">17</span> Menus</h5>
+                        <h5><span class="label label-primary">21</span> Users</h5>
+                        <h5><span class="label label-primary">35</span> Uploaded files</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-file-text-o fa-fw"></i> Latest changes</div>
+                <div class="panel-body">
+                    <!-- <div class="busy" ng-show="showLatestChangedContentPagesLoader"></div> -->
+                    <div id="latestChangedContainer" ng-cloak>
+                        <h5>Content pages:</h5>
+                        <div class="list-group">
+                            <!-- <a ng-href="#" class="list-group-item" ng-repeat="latestpage in LatestChangedContentPages">
+                                <i class="fa fa-file-text-o fa-fw"></i> {{ latestpage.PageName }}
+                                <span class="pull-right text-muted small">
+                                    <em>{{ latestpage.LastChanged }}</em>
+                                </span>
+                            </a> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bell fa-fw"></i> Latest logs
+                    <div class="pull-right">
+                        <a href="#" class="btn btn-default btn-xs">All logs<i class="fa fa-arrow-right fa-fw"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <!-- <div class="busy" ng-show="showLogMessagesLoader"></div> -->
+                    <div id="logMessagesContainer">
+                        
+                        <ul class="list-group">
+                           <!--  <li class="list-group-item" ng-repeat="logMessage in latestLogMessages">
+                                <span class="label" ng-class="logMessage.IconClass">{{ logMessage.IconText }}</span>
+                                <span class="text-muted small" ng-bind-html-unsafe="logMessage.Message"></span>
+                            </li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- @section endOfBody
+{
+    <script type="text/javascript">
+        function googleApiLoaded() {
+            cms.googleAnalyticsAuthorisation.handleClientLoad('@Model.GoogleApiKey' , '@Model.GoogleClientId');
+        }
+    </script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"> </script>
+    <script src="https://apis.google.com/js/client.js?onload=googleApiLoaded"> </script>
+    @Scripts.Render("~/admin/scripts/dashboard")
+    <script type="text/javascript">
+        google.load('visualization', '1', { packages: ['corechart'] });
+    </script>
+} -->
