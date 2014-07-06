@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressLayouts = require('express-ejs-layouts');
+var I18n = require('i18n-2');
+var fs = require('fs');
 
 var app = express();
 
@@ -19,14 +21,32 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+I18n.expressBind(app, { locales: ['en'] });
+app.use(function(req, res, next) {
+    req.i18n.setLocale('en');
+    next();
+});
+
 //app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use('/default/assets',express.static(path.join(__dirname, 'public/default')));
 app.use('/admin/assets', express.static(path.join(__dirname, 'public/admin')));
 
-require('./controllers/admin/login')(app);
-require('./controllers/admin/home')(app);
 
-require('./controllers/default/home')(app);
+fs.readdirSync(path.join(__dirname, 'controllers/default')).forEach( function (file) {
+
+	var controller = './controllers/default/' + file;
+	console.log('Registering default controller: ' + controller);
+
+	require(controller)(app);
+});
+
+fs.readdirSync(path.join(__dirname, 'controllers/admin')).forEach( function (file) {
+
+	var controller = './controllers/admin/' + file;
+	console.log('Registering admin controller: ' + controller);
+
+	require(controller)(app);
+});
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -34,6 +54,10 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
+
+
+
+
 
 /// error handlers
 
