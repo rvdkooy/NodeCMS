@@ -1,12 +1,14 @@
+<% appName = "dashboard" %>
+
+<!-- TITLE CONTENT -->
+<%- contentFor('title') %>
+<h3><i class="fa fa-dashboard fa-fw"></i> Dashboard <small>Dashboard subtitle</small></h3>
+<!-- END OF TITLE CONTENT -->
+
+<!-- BODY CONTENT -->
 <%- contentFor('body') %>
 
-
-<!-- @section title
-{
-    <h3><i class="fa fa-dashboard fa-fw"></i> @Html.GetResource(ResourceClass.Admin, "DASHBOARD_LABEL_MAINTITLE") <small>@Html.GetResource(ResourceClass.Admin, "DASHBOARD_LABEL_SUBTITLE")</small></h3>
-}
-
-@section InitStartupScripts
+<!-- @section InitStartupScripts
 {
     cms.home.init();
     cms.googleAnalyticsAuthorisation.init('@Model.GoogleGaAccount', '@Model.GoogleGaHistory', cms.home.googleApiAuthorised);
@@ -96,7 +98,7 @@
         </div>
     </div>
 </div>
-
+<!-- END OF BODY CONTENT -->
 <!-- @section endOfBody
 {
     <script type="text/javascript">

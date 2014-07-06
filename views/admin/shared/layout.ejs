@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html ng-ap="<%= appName %>">
     <head>
         <title>Admin</title>
         <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
@@ -116,7 +116,7 @@
 
                 <div class="row">
                     <div class="col-lg-12 titlesection">
-                        <!-- @RenderSection("title", false) -->
+                       <%- title %>
                     </div>
                 </div>
                 <%- body %> 
