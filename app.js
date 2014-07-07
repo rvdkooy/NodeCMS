@@ -21,7 +21,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-I18n.expressBind(app, { locales: ['en'] });
+I18n.expressBind(app, { locales: ['en', 'nl'] });
 app.use(function(req, res, next) {
     req.i18n.setLocale('en');
     next();

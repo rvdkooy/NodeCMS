@@ -8,6 +8,13 @@ body a { color: rgb(99, 99, 99); }
 
 body a:hover { cursor: pointer; }
 
+.cmslogo{
+    position: relative;
+    top: 5px;
+    left: 20px;
+    width: 125px
+}
+
 .navbar-brand { font-size: 24px; }
 
 .navbar-static-top {
