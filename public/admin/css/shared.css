@@ -68,7 +68,7 @@ body a:hover { cursor: pointer; }
 }
 
 #page-wrapper {
-    background-image: url('/areas/admin/content/images/bg.png');
+    background-image: url('/admin/assets/images/bg.png');
     padding: 0 !important;
     min-height: 0;
 }
@@ -93,7 +93,7 @@ thead td { font-weight: bold; }
 
 
 .busy {
-    background-image: url('/Areas/Admin/Content/Images/Icons/icon_busy.gif');
+    background-image: url('/admin/assets/Images/icons/icon_busy.gif');
     background-position: center;
     background-repeat: no-repeat;
     width: 100%;

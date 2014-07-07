@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-ap="<%= appName %>">
+<html ng-app="<%= appName %>">
     <head>
         <title><%= __('ADMIN_COMMON_LABEL_ADMINTITLE') %></title>
         <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
@@ -42,7 +42,8 @@
         </script>
     </head>
     <body >
-        <div id="wrapper" ng-controller="mainController">
+        <!-- <div id="wrapper" ng-controller="mainController"> -->
+        <div id="wrapper">
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
@@ -132,5 +133,6 @@
                 <%- body %> 
             </div>
         </div>
+         <%- bodyend %>
     </body>
 </html>
