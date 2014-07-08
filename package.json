@@ -20,7 +20,7 @@
     "karma-jasmine": "x",
     "karma-junit-reporter": "x",
     "karma-commonjs": "x",
-    "karma-phantomjs-launcher": "x"
-
+    "karma-phantomjs-launcher": "x",
+    "mocha": "x"
    }
 }

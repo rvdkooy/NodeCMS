@@ -7,6 +7,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'controllers/**/*.js',
       'specs/server/*.js'
     ],
 
@@ -69,7 +70,7 @@ module.exports = function(config) {
     reportSlowerThan: 500,
 
     plugins: [
-      'karma-jasmine',
+      'jasmine-node-karma',
       //'karma-chrome-launcher',
       'karma-junit-reporter',
       'karma-commonjs',

@@ -31,22 +31,8 @@ app.use(function(req, res, next) {
 app.use('/default/assets',express.static(path.join(__dirname, 'public/default')));
 app.use('/admin/assets', express.static(path.join(__dirname, 'public/admin')));
 
-
-fs.readdirSync(path.join(__dirname, 'controllers/default')).forEach( function (file) {
-
-	var controller = './controllers/default/' + file;
-	console.log('Registering default controller: ' + controller);
-
-	require(controller)(app);
-});
-
-fs.readdirSync(path.join(__dirname, 'controllers/admin')).forEach( function (file) {
-
-	var controller = './controllers/admin/' + file;
-	console.log('Registering admin controller: ' + controller);
-
-	require(controller)(app);
-});
+require('./controllers/admin/routes')(app);
+require('./controllers/default/routes')(app);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
