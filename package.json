@@ -15,6 +15,12 @@
     "ejs": "~0.8.5",
     "less-middleware": "1.0.x",
     "express-ejs-layouts": "1.1.x",
-    "i18n-2": "0.4.x"
-  }
+    "i18n-2": "0.4.x",
+    "karma": "0.12.x",
+    "karma-jasmine": "x",
+    "karma-junit-reporter": "x",
+    "karma-commonjs": "x",
+    "karma-phantomjs-launcher": "x"
+
+   }
 }

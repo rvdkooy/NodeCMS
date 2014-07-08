@@ -1,4 +1,6 @@
 NodeCMS
 =======
 
-Content management system for Website build in NodeJs
+An awesome Content Management System build in NodeJs.
+
+Feel free to contribute :-)
