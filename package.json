@@ -21,6 +21,7 @@
     "karma-junit-reporter": "x",
     "karma-commonjs": "x",
     "karma-phantomjs-launcher": "x",
-    "mocha": "x"
-   }
+    "mocha": "x",
+    "tingodb": "~0.2.1"
+  }
 }

@@ -64,4 +64,6 @@ app.use(function(req, res, next) {
 // 
 
 
+global.__PROJECTDIR = __dirname + '/';
+
 module.exports = app;
