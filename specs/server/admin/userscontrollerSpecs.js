@@ -1,6 +1,6 @@
 var assert = require("assert");
 
-describe('user controller specs', function(){
+describe('User controller specs:', function(){
 
 	var controller = require('../../../controllers/admin/userscontroller.js');
 	var responseObject = {
@@ -10,13 +10,13 @@ describe('user controller specs', function(){
 		}
 	};
 	
-	describe('when requesting the index', function(){
+	describe('When requesting the index,', function(){
 		
 		beforeEach(function(){
 			controller.index(null, responseObject);
 		});
 
-		it('should render the index with the standard layout', function(){
+		it('It should render the index with the standard layout', function(){
 			assert.equal(responseObject.view, 'admin/users/index');
 			assert.equal(responseObject.options.layout, 'admin/shared/layout');
 		});

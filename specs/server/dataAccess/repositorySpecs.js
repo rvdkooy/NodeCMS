@@ -1,10 +1,10 @@
-describe('repository specs', function(){
+describe('Repository specs:', function(){
 
 	var repository = require('../../../data/repository');
 	var should = require('should');
 	var path = require('path'); 
 
-	describe('When inserting data into a collection', function(){
+	describe('When adding an object to the repository,', function(){
 		
 		var usersRepository = new repository("USERS", path.join( __dirname, 'data'));
 
@@ -14,8 +14,8 @@ describe('repository specs', function(){
 			});			
 		});
 
-		it('should persist', function(done){
-			
+		it('It should persist', function(done){
+
 			usersRepository.add( { name:'Ronald', age: 34} , function(result) {
 				result._id.should.not.equal(undefined);
 				done();

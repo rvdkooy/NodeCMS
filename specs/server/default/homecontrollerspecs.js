@@ -1,6 +1,6 @@
 var assert = require("assert");
 
-describe('default home controller specs', function(){
+describe('Default home controller specs:', function(){
 
 	var controller = require('../../../controllers/default/homecontroller.js');
 	var responseObject = {
@@ -10,13 +10,13 @@ describe('default home controller specs', function(){
 		}
 	};
 	
-	describe('when requesting the index', function(){
+	describe('When requesting the index,', function(){
 		
 		beforeEach(function(){
 			controller.index(null, responseObject);
 		});
 
-		it('should render the index with the standard layout', function(){
+		it('It should render the index with the standard layout', function(){
 			assert.equal(responseObject.view, 'default/home/index');
 			assert.equal(responseObject.options.layout, 'default/layout.ejs');
 			assert.equal(responseObject.options.title, 'Express');
