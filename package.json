@@ -4,26 +4,28 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-	   "test": "node node_modules/mocha/bin/mocha specs/**/*.js --reporter list"
+    "test": "node node_modules/mocha/bin/mocha specs/**/*.js --reporter list"
   },
   "dependencies": {
-    "express": "~4.2.0",
-    "static-favicon": "~1.0.0",
-    "morgan": "~1.0.0",
-    "cookie-parser": "~1.0.1",
     "body-parser": "~1.0.0",
+    "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
     "ejs": "~0.8.5",
-    "less-middleware": "1.0.x",
+    "express": "~4.2.0",
     "express-ejs-layouts": "1.1.x",
     "i18n-2": "0.4.x",
     "karma": "0.12.x",
+    "karma-commonjs": "x",
     "karma-jasmine": "x",
     "karma-junit-reporter": "x",
-    "karma-commonjs": "x",
     "karma-phantomjs-launcher": "x",
+    "less-middleware": "1.0.x",
     "mocha": "x",
+    "morgan": "~1.0.0",
     "nedb": "~0.10.6",
-    "should": "~4.0.4"
+    "passport": "^0.2.0",
+    "passport-local": "^1.0.0",
+    "should": "~4.0.4",
+    "static-favicon": "~1.0.0"
   }
 }

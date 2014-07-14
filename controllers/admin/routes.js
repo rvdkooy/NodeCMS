@@ -1,11 +1,15 @@
 var homecontroller = require('./homecontroller');
 var userscontroller = require('./userscontroller');
 var logincontroller = require('./logincontroller');
+var passport = require('passport');
+var localStrategy = require('passport-local').Strategy;
 
 module.exports = function(app){
 	
+	initAuthentication(app);
+
 	// default admin route
-	app.get('/admin', homecontroller.index);
+	app.get('/admin/home', homecontroller.index);
 	
 	// Loginroutes
 	app.get('/admin/login', logincontroller.index);
@@ -14,3 +18,26 @@ module.exports = function(app){
 	app.get('/admin/users', userscontroller.index);
 
 };
+
+function initAuthentication(app){
+	
+	passport.use(new localStrategy(function(username, password, done) {
+          
+  		if(username == 'admin' && password == 'password'){
+      		return done({ username: username, password: password });
+		}
+  		else{
+      		return done(null, false, { message: 'Invalid username password combination' });
+  		}
+  	}));
+
+  	app.all('/admin/*', function(req, res, next){
+		
+  		console.log(req.url);
+		if (req.isAuthenticated() || req.url === '/admin/login') { 
+			return next(); 
+		}
+  		
+  		res.redirect('/admin/login');
+	});
+}
