@@ -8,8 +8,9 @@ var expressLayouts = require('express-ejs-layouts');
 var I18n = require('i18n-2');
 var fs = require('fs');
 
-var app = express();
+global.__PROJECTDIR = __dirname + '/';
 
+var app = express();
 // view engine setup
 //app.set('views', path.join(__dirname, 'apps/default/views'));
 app.set('views', path.join(__dirname, 'views'));
@@ -64,6 +65,6 @@ app.use(function(req, res, next) {
 // 
 
 
-global.__PROJECTDIR = __dirname + '/';
+
 
 module.exports = app;

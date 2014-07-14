@@ -4,15 +4,28 @@ describe('Repository specs:', function(){
 	var should = require('should');
 	var path = require('path'); 
 
-	describe('When adding an object to the repository,', function(){
-		
-		var usersRepository = new repository("USERS", path.join( __dirname, 'data'));
+	// create an inmemory repository that will be used by all the specs in this file
+	var usersRepository = new repository("REPOSITORYSPECS");
+	
+	describe('When updating an object,', function(){
 
-		beforeEach(function(done){
-			usersRepository.remove({}, { multi: true }, function(result){
-				done(); 
-			});			
+		it('Should persist', function(done){
+
+			usersRepository.add( { name:'Ronald', age: 34 }, function(result){
+
+				usersRepository.update( { _id: result._id }, { $set: { age: 35 } }, function(callback){
+		  		
+		  		usersRepository.find( { _id: result._id }, function(items) {
+		    			items.length.should.equal(1);
+		    			items[0].age.should.equal(35);
+		    			done();
+	  				});
+			  	} );
+			});
 		});
+	});
+
+	describe('When adding an object to the repository,', function(){
 
 		it('It should persist', function(done){
 
@@ -22,30 +35,4 @@ describe('Repository specs:', function(){
   			});
 		});
 	});
-
-	// describe('When updating data in a collection', function(done){
-	// 	var id;
-	// 	var usersRepository = new repository("USERS", path.join( __dirname, '../../../'));
-	// 	beforeEach(function(){
-	// 		usersRepository.remove({});
-	// 		usersRepository.add([ { name:'Ronald', age: 34 } ], function(result){
-	// 			id = result[0]._id;
-	// 			console.log( 'id : ' + id);
-	// 			done();
-	// 		});
-	// 	});
-
-	// 	it('should persist', function(done){
-
-	// 	  	usersRepository.update( { id:id }, { $set: { age: 35 } }, function(bla){
-	// 	  		usersRepository.find( { id: id }, function(items) {
-	    			
-	//     			assert.equal(1, items.length);
-	//     			assert.equal(35, items[0].age);
-	//     			done();
- //  				});
-	// 	  	} );
-	// 	});
-	// });
-
 });
