@@ -6,7 +6,7 @@ cms.services.factory('authenticationService', ["$http", function ($http) {
         authenticate: function(username, password, language) {
             return $http({
                 method: 'POST',
-                url: '/admin/api/authentication/authenticate',
+                url: '/public/api/authentication/authenticate',
                 data: { username: username, password: password, language: language }
             });
         },

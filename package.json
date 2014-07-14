@@ -26,6 +26,7 @@
     "passport": "^0.2.0",
     "passport-local": "^1.0.0",
     "should": "~4.0.4",
-    "static-favicon": "~1.0.0"
+    "static-favicon": "~1.0.0",
+    "express-session": "~1.6.5"
   }
 }

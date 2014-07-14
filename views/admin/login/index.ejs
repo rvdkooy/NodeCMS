@@ -7,9 +7,19 @@
         <title><%= __('ADMIN_COMMON_LABEL_ADMINTITLE') %></title>
         <!--<script type="text/javascript" src="~/admin/js/globalresources.js"></script>-->
         <script type="text/javascript" src="/admin/assets/scripts/Vendor/jquery-1.10.2.js"></script>
+         <script type="text/javascript" src="/admin/assets/resourceProvider.js"> </script>
         <link href="/admin/assets/font-awesome/css/font-awesome.css" media="screen" rel="stylesheet" type="text/css" />
         <link rel='stylesheet' href='/admin/assets/css/bootstrap.min.css' />
     	<link rel='stylesheet' href='/admin/assets/css/sb-admin.css' />
+        <link href="/admin/assets/scripts/vendor/Growl/jquery.growl.css" media="screen" rel="stylesheet" type="text/css" />
+
+        <script type="text/javascript" src="/admin/assets/scripts/vendor/jquery-1.10.2.js"> </script>
+        <script type="text/javascript" src="/admin/assets/scripts/vendor/angular.min.js"></script>
+        <script type="text/javascript" src="/admin/assets/scripts/vendor/angular-resource.min.js"> </script>
+        <script type="text/javascript" src="/admin/assets/scripts/vendor/Growl/jquery.growl.js"> </script>
+        <script type="text/javascript" src="/admin/assets/scripts/vendor/jquery.shake.js"> </script>
+        <script type="text/javascript" src="/admin/assets/scripts/vendor/jquery.cookie.js"> </script>
+       
     </head>
     <body ng-controller="loginController">
         <div ui-growler></div>
@@ -61,5 +71,15 @@
                 </div>
             </div>
         </div>
+
+        <script type="text/javascript" src="/admin/assets/scripts/apps/shared/common.js"> </script>
+        <script type="text/javascript" src="/admin/assets/scripts/apps/services/framework.module.js"> </script>
+        <script type="text/javascript" src="/admin/assets/scripts/apps/directives/cms.growlers.js"> </script>
+        <script type="text/javascript" src="/admin/assets/scripts/apps/authentication/loginApp.js"> </script>
+        <script type="text/javascript" src="/admin/assets/scripts/apps/authentication/loginController.js"> </script>
+        <script type="text/javascript" src="/admin/assets/scripts/apps/services/authenticationService.js"> </script>
+        <script type="text/javascript" src="/admin/assets/scripts/apps/directives/cms.focus.js"> </script>
+        <script type="text/javascript" src="/admin/assets/scripts/apps/directives/cms.loginshaker.js"> </script>
+
     </body>
 </html>
