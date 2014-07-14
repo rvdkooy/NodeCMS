@@ -9,6 +9,7 @@ module.exports = function(app){
 	initAuthentication(app);
 
 	// default admin route
+	app.get('/admin', function(req, res){ res.redirect('/admin/home'); });
 	app.get('/admin/home', homecontroller.index);
 	
 	// Loginroutes
@@ -16,14 +17,16 @@ module.exports = function(app){
 
 	// Users Routes
 	app.get('/admin/users', userscontroller.index);
-
 };
 
 function initAuthentication(app){
 	
 	passport.use(new localStrategy(function(username, password, done) {
-          
+        
+        console.log('authenticating with username: ' + username);
+
   		if(username == 'admin' && password == 'password'){
+      		console.log('authenticated!');
       		return done({ username: username, password: password });
 		}
   		else{
@@ -33,11 +36,14 @@ function initAuthentication(app){
 
   	app.all('/admin/*', function(req, res, next){
 		
-  		console.log(req.url);
-		if (req.isAuthenticated() || req.url === '/admin/login') { 
+  		if (req.isAuthenticated() || req.url === '/admin/login') { 
 			return next(); 
 		}
   		
   		res.redirect('/admin/login');
+	});
+
+	app.post('admin/api/login', passport.authenticate('local'), function(req, res){
+		res.json({ success: false });
 	});
 }
