@@ -44,7 +44,7 @@ exports.ApiAddUser = function(req, res){
 			Active: req.body.Active
 		});
 
-	res.json({ success: true });
+	res.status(200).send();
 }
 
 exports.ApiUpdateUser = function(req, res){
@@ -54,5 +54,5 @@ exports.ApiUpdateUser = function(req, res){
 	user.FullName = req.body.FullName,
 	user.Active = req.body.Active
 
-	res.json({ success: true });
+	res.status(200).send();
 }
