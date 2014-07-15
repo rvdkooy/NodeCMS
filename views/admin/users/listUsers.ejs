@@ -1,0 +1,51 @@
+﻿
+<!-- @Html.GenerateBreadCrumbFor("users") -->
+
+<div ui-growler></div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span>
+                    <i class="fa fa-user fa-fw"></i>
+                    <a href="#/adduser"><%= __('ADMIN_USERS_LABEL_CREATENEW') %></a>
+                </span>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td style="text-align: left"><%= __('ADMIN_USERS_LABEL_TABLEHEADER_USERNAME') %></td>
+                            <td style="text-align: left"><%= __('ADMIN_USERS_LABEL_TABLEHEADER_FULLNAME') %></td>
+                            <td style="text-align: left"><%= __('ADMIN_USERS_LABEL_TABLEHEADER_LASTLOGIN') %></td>
+                            <td style="text-align: center"><%= __('ADMIN_USERS_LABEL_TABLEHEADER_ACTIVE') %></td>
+                            <td style="text-align: center"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in users">
+                            <td style="text-align: left">
+                                <a href="#/edituser/{{ user.Id }}"><h4>{{ user.UserName }}</h4></a>
+                            </td>
+                            <td style="text-align: left">
+                                <span>{{ user.FullName }}</span>
+                            </td>
+                            <td style="text-align: left">
+                                <span>{{ user.LastLoginDateTime }}</span>
+                            </td>
+                            <td style="text-align: center; width: 50px;">
+                                <img ng-show="user.Active" src="/admin/assets/Images/Icons/icon_greenbullet.gif" />
+                                <img ng-show="!user.Active" src="/admin/assets/Images/Icons/icon_redbullet.gif" />
+                            </td>
+                            <td style="text-align: center; width: 50px;">
+                                <a href="#" ng-click="deleteUser($index)" 
+                                title="<%= __('ADMIN_USERS_LABEL_DELETEUSER', '{{ user.UserName }}') %>">
+                                <i class="fa fa-trash-o fa-fw"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

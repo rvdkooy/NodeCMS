@@ -17,16 +17,18 @@ module.exports = function(app){
 
 	// Users Routes
 	app.get('/admin/users', userscontroller.index);
+	app.get('/admin/users/listusers', userscontroller.listUsers);
+	app.get('/admin/users/edituser', userscontroller.editUser);
+	app.get('/admin/users/adduser', userscontroller.addUser);
+	app.get('/admin/api/users', userscontroller.ApiUsers);
+	app.get('/admin/api/users/:id', userscontroller.ApiGetUser);
 };
 
 function initAuthentication(app){
 	
 	passport.use(new localStrategy(function(username, password, done) {
         
-        console.log('authenticating with username: ' + username);
-
   		if(username == 'admin' && password == 'password'){
-      		console.log('authenticated!');
       		return done(null, { username: username, password: password } );
 		}
   		else{
@@ -47,7 +49,6 @@ function initAuthentication(app){
 	app.use(passport.session());
 
   	app.all('/admin/*', function(req, res, next){
-		console.log('user is authenticated: ' + req.isAuthenticated());
   		if (req.isAuthenticated() || req.url === '/admin/login') { 
 			return next(); 
 		}
