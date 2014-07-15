@@ -32,3 +32,27 @@ exports.ApiGetUser = function(req, res){
 	
 	res.json(users[req.params.id]);
 }
+
+exports.ApiAddUser = function(req, res){
+	
+		users.push(
+		{
+			Id: users.length,
+			UserName: req.body.UserName,
+			FullName: req.body.FullName,
+			LastLoginDateTime: 'N/A',
+			Active: req.body.Active
+		});
+
+	res.json({ success: true });
+}
+
+exports.ApiUpdateUser = function(req, res){
+	
+	var user = users[req.params.id];
+
+	user.FullName = req.body.FullName,
+	user.Active = req.body.Active
+
+	res.json({ success: true });
+}

@@ -22,6 +22,8 @@ module.exports = function(app){
 	app.get('/admin/users/adduser', userscontroller.addUser);
 	app.get('/admin/api/users', userscontroller.ApiUsers);
 	app.get('/admin/api/users/:id', userscontroller.ApiGetUser);
+	app.post('/admin/api/users', userscontroller.ApiAddUser);
+	app.put('/admin/api/users/:id', userscontroller.ApiUpdateUser);
 };
 
 function initAuthentication(app){
