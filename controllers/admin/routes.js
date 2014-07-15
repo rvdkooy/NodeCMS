@@ -17,13 +17,11 @@ module.exports = function(app){
 
 	// Users Routes
 	app.get('/admin/users', userscontroller.index);
-	app.get('/admin/users/listusers', userscontroller.listUsers);
-	app.get('/admin/users/edituser', userscontroller.editUser);
-	app.get('/admin/users/adduser', userscontroller.addUser);
 	app.get('/admin/api/users', userscontroller.ApiUsers);
 	app.get('/admin/api/users/:id', userscontroller.ApiGetUser);
 	app.post('/admin/api/users', userscontroller.ApiAddUser);
 	app.put('/admin/api/users/:id', userscontroller.ApiUpdateUser);
+	app.delete('/admin/api/users/:id', userscontroller.ApiDeleteUser);
 };
 
 function initAuthentication(app){

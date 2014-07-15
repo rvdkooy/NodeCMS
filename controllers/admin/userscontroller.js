@@ -11,18 +11,6 @@ exports.index = function(req, res){
 	});
 };
 
-exports.listUsers = function(req, res){
-	res.render('admin/users/listusers', { layout: false	});
-};
-
-exports.addUser = function(req, res){
-	res.render('admin/users/adduser', { layout: false	});
-};
-
-exports.editUser = function(req, res){
-	res.render('admin/users/edituser', { layout: false	});
-};
-
 // API
 exports.ApiUsers = function(req, res){
 	res.json(users);
@@ -53,6 +41,13 @@ exports.ApiUpdateUser = function(req, res){
 
 	user.FullName = req.body.FullName,
 	user.Active = req.body.Active
+
+	res.status(200).send();
+}
+
+exports.ApiDeleteUser = function(req, res){
+	
+	users.splice(users.indexOf(req.params.id));
 
 	res.status(200).send();
 }

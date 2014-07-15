@@ -5,6 +5,17 @@
 
 <!-- BODY CONTENT -->
 <%- contentFor('body') %>
+
+<script type="text/ng-template" id="/admin/users/listusers">
+  <%- include listusers.ejs %>
+</script>
+<script type="text/ng-template" id="/admin/users/adduser">
+  <%- include adduser.ejs %>
+</script>
+<script type="text/ng-template" id="/admin/users/edituser">
+  <%- include edituser.ejs %>
+</script>
+
 <div ng-view></div>
 
 <%- contentFor('bodyend') %>

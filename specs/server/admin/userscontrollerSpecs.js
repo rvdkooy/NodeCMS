@@ -21,30 +21,4 @@ describe('User controller specs:', function(){
 			assert.equal(responseObject.options.layout, 'admin/shared/layout');
 		});
 	});
-
-	describe('When requesting the users list view,', function(){
-		
-		var controller = require('../../../controllers/admin/userscontroller.js');
-		var responseObject = new ResponseObject();
-		
-		controller.listUsers(null, responseObject);
-
-		it('It should render the list users view without a layout', function(){
-			assert.equal(responseObject.view, 'admin/users/listusers');
-			assert.equal(responseObject.options.layout, false);
-		});
-	});
-
-	describe('When requesting the edit user view,', function(){
-		
-		var controller = require('../../../controllers/admin/userscontroller.js');
-		var responseObject = new ResponseObject();
-		
-		controller.editUser(null, responseObject);
-
-		it('It should render the edit user view without a layout', function(){
-			assert.equal(responseObject.view, 'admin/users/edituser');
-			assert.equal(responseObject.options.layout, false);
-		});
-	});
 });
