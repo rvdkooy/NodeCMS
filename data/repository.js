@@ -2,8 +2,11 @@ var path = require('path');
 var Datastore = require('nedb');
 
 var repository = function(collectionName, path){
+	path = (path) ? path + collectionName + '.db' : null;
+	console.log('Initializing collection: ' + collectionName);
+
 	this.db = new Datastore( { 
-		filename: (path) ? + '/' + collectionName + '.db' : null, 
+		filename: path, 
 		autoload: true 
 	}, function(err){
 		if(err){
@@ -29,6 +32,7 @@ repository.prototype.add =  function(item, resultCallback){
 };
 
 repository.prototype.find = function(query, resultCallback){
+	
 	this.db.find( query, function(err, result){
 		
 		if(err){
