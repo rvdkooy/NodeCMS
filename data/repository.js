@@ -46,6 +46,21 @@ repository.prototype.find = function(query, resultCallback){
 	});
 };
 
+repository.prototype.findOne = function(id, resultCallback){
+	
+	this.db.findOne( { _id: id }, function(err, result){
+		
+		if(err){
+			console.log(err);
+			throw err;
+		}	
+		
+		if(resultCallback) {
+			resultCallback(result);
+		}
+	});
+};
+
 repository.prototype.remove = function(query, options, resultCallback){
 	this.db.remove( query, options, function(result) {
 
@@ -56,7 +71,7 @@ repository.prototype.remove = function(query, options, resultCallback){
 };
 
 repository.prototype.update = function(query, update, resultCallback){
-	this.db.update( query, update, { multi: true } , function(err, result){
+	this.db.update( query, update, { multi: false } , function(err, result){
 		if(err){
 			console.log(err);
 			throw err;

@@ -18,7 +18,9 @@ exports.ApiUsers = function(req, res){
 
 exports.ApiGetUser = function(req, res){
 	
-	res.json(users[req.params.id]);
+	userRepository.findOne( req.params.id, function(result){
+		res.json(result);
+	});
 }
 
 exports.ApiAddUser = function(req, res){
@@ -37,12 +39,16 @@ exports.ApiAddUser = function(req, res){
 
 exports.ApiUpdateUser = function(req, res){
 	
-	// var user = users[req.params.id];
-
-	// user.FullName = req.body.FullName,
-	// user.Active = req.body.Active
-
-	// res.status(200).send();
+	userRepository.update( 	
+		{ _id: req.params.id }, 
+		{ $set: { 
+			FullName: req.body.FullName,
+			Active: req.body.Active 
+			}	 
+		}, 
+		function(){
+			res.status(200).send();
+		});
 }
 
 exports.ApiDeleteUser = function(req, res){
