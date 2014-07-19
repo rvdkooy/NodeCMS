@@ -1,6 +1,6 @@
 describe('Repository specs:', function(){
 
-	var repository = require('../../../data/repository');
+	var repository = require('../../../bin/repos/repository');
 	var should = require('should');
 	var path = require('path'); 
 

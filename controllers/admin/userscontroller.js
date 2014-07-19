@@ -1,5 +1,5 @@
 // VIEWS
-var UserRepository = require('../../data/usersRepository');
+var UserRepository = require('../../bin/repos/usersRepository');
 var userRepository = new UserRepository();
 
 exports.index = function(req, res){
