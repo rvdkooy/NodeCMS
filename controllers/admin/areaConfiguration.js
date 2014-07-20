@@ -1,5 +1,4 @@
 var homecontroller = require('./homecontroller');
-var userscontroller = require('./userscontroller');
 var logincontroller = require('./logincontroller');
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
@@ -15,7 +14,10 @@ module.exports = function(app){
 	// Loginroutes
 	app.get('/admin/login', logincontroller.index);
 
-	// Users Routes
+	// Users App
+	var UsersController = require('./userscontroller');
+	var UsersRepository = require('../../bin/repos/usersRepository');
+	var userscontroller = new UsersController(new UsersRepository());
 	app.get('/admin/users', userscontroller.index);
 	app.get('/admin/api/users', userscontroller.ApiUsers);
 	app.get('/admin/api/users/:id', userscontroller.ApiGetUser);

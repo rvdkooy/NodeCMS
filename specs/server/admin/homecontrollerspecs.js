@@ -1,14 +1,10 @@
 var assert = require("assert");
+var ResponseObject = require("../mocks/mockedResponseObject");
 
 describe('Admin home controller specs:', function(){
 
 	var controller = require('../../../controllers/admin/homecontroller.js');
-	var responseObject = {
-		render: function(view, options){
-			this.view = view;
-			this.options = options;
-		}
-	};
+	var responseObject = new ResponseObject();
 	
 	describe('When requesting the index,', function(){
 		
