@@ -4,5 +4,6 @@ node_js:
 - '0.10'
 deploy:
   provider: heroku
+  app: rvdkooij-nodecms
   api_key:
     secure: kNrUei7M/pCYoH5fspG65ecbXXYKimPbi3LhtMWTlxXu9SIRlN2iItm2TktxfR0j4p9woKyuukywUqz8S9DUaA7EttnMUnQS2EULhGTYfK77KNU+CXI5ew78RD/b9asHyP46HU7bWhDsuuKsPex4tZkDRbjWmyDNtr21qWMiNeQ=
