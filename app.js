@@ -34,8 +34,8 @@ app.use(function(req, res, next) {
 app.use('/default/assets',express.static(path.join(__dirname, 'public/default')));
 app.use('/admin/assets', express.static(path.join(__dirname, 'public/admin')));
 
-require('./controllers/admin/routes')(app);
-require('./controllers/default/routes')(app);
+require('./controllers/admin/areaConfiguration')(app);
+require('./controllers/default/areaConfiguration')(app);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
