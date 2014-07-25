@@ -6,14 +6,14 @@
 
     if (type === 'success') {
         $.growl.notice({
-            title: cms.adminResources.get('GROWL_TITLE_SUCCESS'),
+            title: cms.adminResources.get('ADMIN_GROWL_TITLE_SUCCESS'),
             message: message
         });
     }
 
     if (type === 'error') {
         $.growl.error({
-            title: cms.adminResources.get('GROWL_TITLE_ERROR'),
+            title: cms.adminResources.get('ADMIN_GROWL_TITLE_ERROR'),
             message: message
         });
     }

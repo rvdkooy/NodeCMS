@@ -31,8 +31,8 @@ app.use(function(req, res, next) {
 });
 
 //app.use(require('less-middleware')(path.join(__dirname, 'public')));
-app.use('/default/assets',express.static(path.join(__dirname, 'public/default')));
-app.use('/admin/assets', express.static(path.join(__dirname, 'public/admin')));
+app.use('/public/default/assets',express.static(path.join(__dirname, 'public/default')));
+app.use('/public/admin/assets', express.static(path.join(__dirname, 'public/admin')));
 
 require('./controllers/admin/areaConfiguration')(app);
 require('./controllers/default/areaConfiguration')(app);

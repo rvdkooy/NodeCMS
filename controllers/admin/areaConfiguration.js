@@ -1,5 +1,6 @@
 var homecontroller = require('./homecontroller');
 var logincontroller = require('./logincontroller');
+var resourceController = require('../resourcesController');
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 
@@ -13,6 +14,9 @@ module.exports = function(app){
 	
 	// Loginroutes
 	app.get('/admin/login', logincontroller.index);
+	
+	// Client side resource provider
+	app.get('/public/admin/js/globalresources.js', resourceController.getResources);
 
 	// Users App
 	var UsersController = require('./userscontroller');

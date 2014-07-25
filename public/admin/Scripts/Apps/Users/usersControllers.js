@@ -8,10 +8,10 @@
             var user = $scope.users[index];
 
             var userName = user.UserName;
-            if (confirm(cms.adminResources.get("USERS_NOTIFY_DELETEUSER", userName))) {
+            if (confirm(cms.adminResources.get("ADMIN_USERS_NOTIFY_DELETEUSER", userName))) {
                 user.$delete(function () {
 
-                    notificationService.addSuccessMessage(cms.adminResources.get("USERS_NOTIFY_USERDELETED", userName));
+                    notificationService.addSuccessMessage(cms.adminResources.get("ADMIN_USERS_NOTIFY_USERDELETED", userName));
 
                     loadUsers();
                 });
@@ -32,7 +32,7 @@ cms.usersApp.controller('addUserController', ['$scope', 'usersService', '$locati
 
             usersService.save($scope.user, function () {
 
-                notificationService.addSuccessMessage(cms.adminResources.get("USERS_NOTIFY_USERADDED", $scope.user.UserName));
+                notificationService.addSuccessMessage(cms.adminResources.get("ADMIN_USERS_NOTIFY_USERADDED", $scope.user.UserName));
                 $location.path('#/users');
             });
         };
@@ -54,7 +54,7 @@ cms.usersApp.controller('editUserController', ['$scope', 'user', '$location', 'n
         function updateUser(closePage) {
             $scope.user.$update(function () {
 
-                notificationService.addSuccessMessage(cms.adminResources.get("USERS_NOTIFY_USERUPDATED", $scope.user.UserName));
+                notificationService.addSuccessMessage(cms.adminResources.get("ADMIN_USERS_NOTIFY_USERUPDATED", $scope.user.UserName));
                 if (closePage) {
                     $location.path('#/users');
                 }
