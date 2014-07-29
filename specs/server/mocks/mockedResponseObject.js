@@ -3,4 +3,8 @@ module.exports = function(){
 		this.view = view;
 		this.options = options;
 	};
+
+	this.json = function(data){
+		this.jsonData = data;
+	}
 };
