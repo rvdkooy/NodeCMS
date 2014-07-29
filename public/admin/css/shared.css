@@ -187,3 +187,11 @@ form.ng-invalid input.ng-invalid-required:focus {
     border-color: red;
     outline-color: red;
 }
+
+.fa-cgreen{
+    color: green;
+}
+.fa-red{
+    color: red;
+}
+
