@@ -1,4 +1,6 @@
 module.exports = function(){
+	
+	var self = this;
 	this.render = function(view, options){
 		this.view = view;
 		this.options = options;
@@ -6,5 +8,14 @@ module.exports = function(){
 
 	this.json = function(data){
 		this.jsonData = data;
+	};
+
+	this.status = function(status){
+		this.currentStatus = status;
+		return this;
+	}
+
+	this.send = function(){
+		this.isSend = true;
 	}
 };

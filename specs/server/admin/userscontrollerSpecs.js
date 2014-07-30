@@ -17,7 +17,7 @@ describe('User controller specs:', function(){
 		});
 	});
 
-	describe('When requesting the users through the api,', function(){
+	describe('When getting users from the users api,', function(){
 
 		var responseObject = new ResponseObject();
 		
@@ -38,7 +38,7 @@ describe('User controller specs:', function(){
 		});
 	});
 
-	describe('When requesting a user through the api,', function(){
+	describe('When getting a user from the users api,', function(){
 
 		var responseObject = new ResponseObject();
 		var requestObject = { params: { id: 1 } }
@@ -58,6 +58,42 @@ describe('User controller specs:', function(){
 		it('It should return that user', function(){
 
 			assert.equal(responseObject.jsonData, user);
+		});
+	});
+
+	describe('When posting a user to the users api,', function(){
+
+		var newUser = { 
+			UserName: 'ronald',
+			FullName: 'Ronald van der Kooij',
+			LastLoginDateTime: 'N/A',
+			Active: true 
+		};
+
+		var userAddedByRepository = {};
+
+		var responseObject = new ResponseObject();
+		var requestObject = { body: newUser }	
+
+		var repository = {
+			add: function(subject, callback){
+				userAddedByRepository = subject;
+				callback();
+			}
+		};
+
+		var controller = new UsersController(repository);
+		controller.ApiAddUser(requestObject, responseObject);
+
+		it('It should add the user', function(){
+
+			assert.deepEqual(userAddedByRepository, newUser);
+		});
+
+		it('It should return a success result', function(){
+
+			assert.equal(responseObject.currentStatus, 200);
+			assert.equal(responseObject.isSend, true);
 		});
 	});
 });
