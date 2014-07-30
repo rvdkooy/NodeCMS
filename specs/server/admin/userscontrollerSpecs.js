@@ -1,10 +1,10 @@
 var assert = require("assert");
 var ResponseObject = require("../mocks/mockedResponseObject");
 var UsersController = require('../../../controllers/admin/userscontroller.js');
-
+var sinon = require('sinon');
 describe('User controller specs:', function(){
 	
-	describe('When requesting the index,', function(){
+	describe('When requesting the index view,', function(){
 
 		var responseObject = new ResponseObject();
 		var controller = new UsersController();
@@ -17,7 +17,7 @@ describe('User controller specs:', function(){
 		});
 	});
 
-	describe('When getting users from the users api,', function(){
+	describe('When getting users,', function(){
 
 		var responseObject = new ResponseObject();
 		
@@ -38,7 +38,7 @@ describe('User controller specs:', function(){
 		});
 	});
 
-	describe('When getting a user from the users api,', function(){
+	describe('When getting a user,', function(){
 
 		var responseObject = new ResponseObject();
 		var requestObject = { params: { id: 1 } }
@@ -61,7 +61,7 @@ describe('User controller specs:', function(){
 		});
 	});
 
-	describe('When posting a user to the users api,', function(){
+	describe('When posting a new user,', function(){
 
 		var newUser = { 
 			UserName: 'ronald',
@@ -76,6 +76,9 @@ describe('User controller specs:', function(){
 		var requestObject = { body: newUser }	
 
 		var repository = {
+			find: function(query, callback){
+				callback([]);
+			},
 			add: function(subject, callback){
 				userAddedByRepository = subject;
 				callback();
@@ -94,6 +97,39 @@ describe('User controller specs:', function(){
 
 			assert.equal(responseObject.currentStatus, 200);
 			assert.equal(responseObject.isSend, true);
+		});
+	});
+
+	describe('When posting a user with a username that is in use,', function(){
+
+		var newUser = { 
+			UserName: 'inuse'
+		};
+
+		var responseObject = new ResponseObject();
+		var requestObject = { body: newUser }	
+
+		var repository = {
+			find: function(query, callback){
+				
+				callback( [{ UserName: 'inuse' }] );	
+			},
+			add: function() {}
+		};
+
+		var spy = sinon.stub(repository, 'add');
+		
+		var controller = new UsersController(repository);
+		controller.ApiAddUser(requestObject, responseObject);
+
+		it('It should not add the user', function(){
+
+			assert.equal(spy.callCount, 0);
+		});
+
+		it('It should return a bad request', function(){
+
+			assert.equal(responseObject.currentStatus, 400);
 		});
 	});
 });

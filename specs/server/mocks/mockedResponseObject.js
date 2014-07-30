@@ -8,6 +8,7 @@ module.exports = function(){
 
 	this.json = function(data){
 		this.jsonData = data;
+		return this;
 	};
 
 	this.status = function(status){

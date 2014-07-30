@@ -24,17 +24,30 @@ module.exports = function(userRepository){
 	}
 
 	this.ApiAddUser = function(req, res){
-		
-			userRepository.add(
-			{
-				UserName: req.body.UserName,
-				FullName: req.body.FullName,
-				LastLoginDateTime: 'N/A',
-				Active: req.body.Active
-			},
-			function(){
-				res.status(200).send();
-			}) ;
+
+		userRepository.find( { UserName: req.body.UserName }, function(result){
+			
+			if(result.length === 0){
+				
+				userRepository.add(
+				{
+					UserName: req.body.UserName,
+					FullName: req.body.FullName,
+					LastLoginDateTime: 'N/A',
+					Active: req.body.Active
+				},
+				function(){
+					res.status(200).send();
+				}) ;
+			}
+			else{
+				res.status(400)
+					.json( { 
+						'RuleViolationExceptions': ['The username is already in use'] 
+					})
+					.send();
+			}
+		});		
 	}
 
 	this.ApiUpdateUser = function(req, res){
