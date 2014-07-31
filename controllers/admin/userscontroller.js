@@ -66,8 +66,21 @@ module.exports = function(userRepository){
 
 	this.ApiDeleteUser = function(req, res){
 		
-		userRepository.remove({ _id: req.params.id }, { multi: false }, function(){
-			res.status(200).send();
-		})
+		userRepository.findOne(req.params.id, function(result){
+			
+			console.log(result);
+			if(result && result.UserName.toLowerCase() === req.user.username.toLowerCase()){
+				res.status(400)
+					.json( { 
+						'RuleViolationExceptions': ['Cannot delete the currently loggin in user'] 
+					})
+					.send();
+			}
+			else{
+				userRepository.remove({ _id: req.params.id }, { multi: false }, function(){
+					res.status(200).send();
+				})
+			}
+		});
 	}
 };
