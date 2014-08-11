@@ -2,6 +2,7 @@ var assert = require("assert");
 var ResponseObject = require("../mocks/mockedResponseObject");
 var UsersController = require('../../../controllers/admin/userscontroller.js');
 var sinon = require('sinon');
+
 describe('User controller specs:', function(){
 	
 	describe('When requesting the index view,', function(){
@@ -67,6 +68,7 @@ describe('User controller specs:', function(){
 			UserName: 'ronald',
 			FullName: 'Ronald van der Kooij',
 			LastLoginDateTime: 'N/A',
+			Password: 'password',
 			Active: true 
 		};
 
@@ -144,7 +146,7 @@ describe('User controller specs:', function(){
 		var responseObject = new ResponseObject();
 		var requestObject = { 
 			params: { id: 1 },
-			body: { FullName: 'Ronald2', Active: false } 
+			body: { FullName: 'Ronald2', Password: 'password', Active: false } 
 		}	
 
 		var repository = {

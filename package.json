@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "a": "^0.4.5",
+    "bcrypt": "^0.8.0",
     "body-parser": "~1.0.0",
     "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
