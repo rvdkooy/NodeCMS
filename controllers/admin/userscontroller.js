@@ -58,7 +58,6 @@ module.exports = function(userRepository){
 
 	this.ApiUpdateUser = function(req, res){
 
-		console.log(req.body.Password);
 		var hashedPassword = bcrypt.hashSync(req.body.Password, bcrypt.genSaltSync());
 		userRepository.update(
 			{ _id: req.params.id },
@@ -77,7 +76,6 @@ module.exports = function(userRepository){
 
 		userRepository.findOne(req.params.id, function(result){
 
-			console.log(result);
 			if(result && result.UserName.toLowerCase() === req.user.username.toLowerCase()){
 				res.status(400)
 					.json( {
