@@ -7,7 +7,6 @@
     "test": "node node_modules/mocha/bin/mocha specs/**/*.js --reporter list"
   },
   "dependencies": {
-    "a": "^0.4.5",
     "bcrypt": "^0.8.0",
     "body-parser": "~1.0.0",
     "cookie-parser": "~1.0.1",
@@ -17,19 +16,18 @@
     "express-ejs-layouts": "1.1.x",
     "express-session": "~1.6.5",
     "i18n-2": "0.4.x",
-    "karma": "0.12.x",
-    "karma-commonjs": "x",
-    "karma-jasmine": "x",
-    "karma-junit-reporter": "x",
-    "karma-phantomjs-launcher": "x",
     "less-middleware": "1.0.x",
-    "mocha": "x",
     "morgan": "~1.0.0",
     "nedb": "~0.10.6",
     "passport": "^0.2.0",
     "passport-local": "^1.0.0",
-    "should": "~4.0.4",
-    "sinon": "^1.10.3",
     "static-favicon": "~1.0.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "mocha": "x",
+    "should": "~4.0.4",
+    "sinon": "^1.10.3"
   }
 }
