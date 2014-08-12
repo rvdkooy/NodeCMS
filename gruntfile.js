@@ -4,10 +4,29 @@ module.exports = function(grunt) {
     concat: {
       
         options: {
-          separator: ';'
+          separator: grunt.util.linefeed + ';' + grunt.util.linefeed
         },
         dist: {
-          src: ['public/admin/scripts/vendor/**/*.js'],
+          src: ['public/admin/scripts/vendor/jquery-1.10.2.js', 
+              'public/admin/scripts/vendor/angular.min.js', 
+              'public/admin/scripts/vendor/angular-resource.min.js', 
+              'public/admin/scripts/vendor/jquery-ui.min.js',
+              'public/admin/scripts/vendor/jquery.ui.nestedSortable.js',
+              'public/admin/scripts/vendor/ui-bootstrap-0.10.0.min.js',
+              'public/admin/scripts/vendor/underscore-min.js',      
+              'public/admin/scripts/vendor/jquery.shake.js',
+              'public/admin/scripts/vendor/jquery.cookie.js',
+              'public/admin/scripts/vendor/metisMenu/jquery.metisMenu.js',
+              'public/admin/scripts/vendor/morris/raphael-2.1.0.min.js',
+              'public/admin/scripts/vendor/morris/morris.js',
+              'public/admin/scripts/vendor/dateformat.js',
+              'public/admin/scripts/vendor/sharedFunctions.js',
+              'public/admin/scripts/vendor/bootstrap.js',
+              'public/admin/scripts/vendor/sb-admin.js',  
+              'public/admin/scripts/vendor/growl/jquery.growl.js',
+              'public/admin/scripts/vendor/tinymce/tinymce.min.js',
+              'public/admin/scripts/vendor/jquery.fileupload.js',
+              'public/admin/scripts/vendor/jquery.iframe-transport.js'],
           dest: 'public/admin/dist/vendorscripts.js'
         }
       
