@@ -1,6 +1,25 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+    concat: {
+      
+        options: {
+          separator: ';'
+        },
+        dist: {
+          src: ['public/admin/scripts/vendor/**/*.js'],
+          dest: 'public/admin/dist/vendorscripts.js'
+        }
+      
+    },
+    // uglify: {
+    //   dist: {
+    //     files: {
+    //       'dist/vendor.min.js': ['dist/vendor.js']
+    //     }
+    //   }
+    // },
+
     watch: {
       
       // src: {
@@ -22,8 +41,10 @@ module.exports = function(grunt) {
     });
   });
 
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
   grunt.registerTask('test', ['servertests', 'watch']);
-  grunt.registerTask('default', ['servertests']);
+  grunt.registerTask('build', ['servertests', 'concat:dist']);
 };
