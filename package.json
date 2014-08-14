@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./apps/system/app.js",
+    "start": "node ./server.js",
     "test": "node node_modules/mocha/bin/mocha apps/**/specs/**/*.js --reporter list"
   },
   "dependencies": {

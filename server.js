@@ -12,8 +12,7 @@ var session = require('express-session')
 global.__PROJECTDIR = __dirname + '/';
 
 var app = express();
-// view engine setup
-//app.set('views', path.join(__dirname, 'apps/default/views'));
+
 app.set('views', path.join(__dirname, 'apps'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
@@ -30,11 +29,19 @@ app.use(function(req, res, next) {
     next();
 });
 
-//app.use(require('less-middleware')(path.join(__dirname, 'public')));
-app.use('/assets',express.static(path.join(__dirname, 'apps/system/assets')));
+var appDirectories = fs.readdirSync('./apps');
+appDirectories.forEach(function(dir){
+	
+	var subApp = './apps/' + dir + '/app.js';
+	console.log(subApp);
+	if(fs.existsSync(subApp)) {
+  		
+  		console.log('registering the ' + dir + ' app');
+		require(subApp)(app);
+	}
+});
 
-require('./apps/system/controllers/admin/areaConfiguration')(app);
-require('./apps/system/controllers/default/areaConfiguration')(app);
+//app.use(require('less-middleware')(path.join(__dirname, 'public')));
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -42,10 +49,6 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
-
-
-
-
 
 /// error handlers
 
@@ -65,7 +68,14 @@ app.use(function(req, res, next) {
 // no stacktraces leaked to user
 // 
 
+//#!/usr/bin/env node
+//var debug = require('debug')('NodeCMS');
+//var app = require('../../server.js');
 
+app.set('port', process.env.PORT || 3000);
 
+var server = app.listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + server.address().port);
+});
 
-module.exports = app;
+//module.exports = app;
