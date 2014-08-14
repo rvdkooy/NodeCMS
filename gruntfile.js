@@ -7,27 +7,27 @@ module.exports = function(grunt) {
           separator: grunt.util.linefeed + ';' + grunt.util.linefeed
         },
         dist: {
-          src: ['public/admin/scripts/vendor/jquery-1.10.2.js', 
-              'public/admin/scripts/vendor/angular.min.js', 
-              'public/admin/scripts/vendor/angular-resource.min.js', 
-              'public/admin/scripts/vendor/jquery-ui.min.js',
-              'public/admin/scripts/vendor/jquery.ui.nestedSortable.js',
-              'public/admin/scripts/vendor/ui-bootstrap-0.10.0.min.js',
-              'public/admin/scripts/vendor/underscore-min.js',      
-              'public/admin/scripts/vendor/jquery.shake.js',
-              'public/admin/scripts/vendor/jquery.cookie.js',
-              'public/admin/scripts/vendor/metisMenu/jquery.metisMenu.js',
-              'public/admin/scripts/vendor/morris/raphael-2.1.0.min.js',
-              'public/admin/scripts/vendor/morris/morris.js',
-              'public/admin/scripts/vendor/dateformat.js',
-              'public/admin/scripts/vendor/sharedFunctions.js',
-              'public/admin/scripts/vendor/bootstrap.js',
-              'public/admin/scripts/vendor/sb-admin.js',  
-              'public/admin/scripts/vendor/growl/jquery.growl.js',
-              'public/admin/scripts/vendor/tinymce/tinymce.min.js',
-              'public/admin/scripts/vendor/jquery.fileupload.js',
-              'public/admin/scripts/vendor/jquery.iframe-transport.js'],
-          dest: 'public/admin/dist/vendorscripts.js'
+          src: ['apps/system/assets/scripts/vendor/jquery-1.10.2.js', 
+              'apps/system/assets/scripts/vendor/angular.min.js', 
+              'apps/system/assets/scripts/vendor/angular-resource.min.js', 
+              'apps/system/assets/scripts/vendor/jquery-ui.min.js',
+              'apps/system/assets/scripts/vendor/jquery.ui.nestedSortable.js',
+              'apps/system/assets/scripts/vendor/ui-bootstrap-0.10.0.min.js',
+              'apps/system/assets/scripts/vendor/underscore-min.js',      
+              'apps/system/assets/scripts/vendor/jquery.shake.js',
+              'apps/system/assets/scripts/vendor/jquery.cookie.js',
+              'apps/system/assets/scripts/vendor/metisMenu/jquery.metisMenu.js',
+              'apps/system/assets/scripts/vendor/morris/raphael-2.1.0.min.js',
+              'apps/system/assets/scripts/vendor/morris/morris.js',
+              'apps/system/assets/scripts/vendor/dateformat.js',
+              'apps/system/assets/scripts/vendor/sharedFunctions.js',
+              'apps/system/assets/scripts/vendor/bootstrap.js',
+              'apps/system/assets/scripts/vendor/sb-admin.js',  
+              'apps/system/assets/scripts/vendor/growl/jquery.growl.js',
+              'apps/system/assets/scripts/vendor/tinymce/tinymce.min.js',
+              'apps/system/assets/scripts/vendor/jquery.fileupload.js',
+              'apps/system/assets/scripts/vendor/jquery.iframe-transport.js'],
+          dest: 'apps/system/assets/dist/vendorscripts.js'
         }
       
     },
@@ -46,7 +46,7 @@ module.exports = function(grunt) {
       //   tasks: ['default'],
       // },
       servertests: {
-        files: 'specs/server/**/*.js',
+        files: 'apps/system/specs/server/**/*.js',
         tasks: ['servertests'],
       }
     }

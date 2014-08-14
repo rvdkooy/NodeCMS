@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html data-ng-app="loginApp">
+    <head>
+        <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
+        <meta charset="utf-8">
+        <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+        <title><%= __('ADMIN_COMMON_LABEL_ADMINTITLE') %></title>
+        
+        <script type="text/javascript" src="/assets/admin/dist/vendorscripts.js"></script>
+        <script type="text/javascript" src="/js/globalresources.js"> </script>
+        <link href="/assets/admin/font-awesome/css/font-awesome.css" media="screen" rel="stylesheet" type="text/css" />
+        <link rel='stylesheet' href='/assets/admin/css/bootstrap.min.css' />
+    	<link rel='stylesheet' href='/assets/admin/css/sb-admin.css' />
+    </head>
+    <body ng-controller="loginController">
+        <div ui-growler></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <div class="login-panel panel panel-default" login-Shaker>
+                        <div class="panel-heading">
+                            <span><%= __('ADMIN_LOGON_LABEL_ADMINLOGON') %></span>
+                        </div>
+                        <div class="panel-body">
+                            <form name='loginform'>
+                                <div class="form-group">
+                                    <span class="add-on">
+                                        <i class="icon-user"></i>
+                                    </span>
+                                    <input class="form-control" type="text" data-ng-model="username"
+                                           placeholder="<%= __('ADMIN_LOGON_LABEL_ENTERUSERNAME') %>"
+                                           ui_focus="" required />
+                                </div>
+                                <div class="form-group">
+                                    <span class="add-on">
+                                        <i class="icon-key"></i>
+                                    </span>
+                                    <input class="form-control" type="password" data-ng-model="password"
+                                           placeholder="<%= __('ADMIN_LOGON_LABEL_ENTERPASSWORD') %>"
+                                           required />
+                                </div>
+                                <div class="form-group">
+                                    <label><%= __('ADMIN_LOGON_LABEL_LANGUAGE') %></label>
+
+                                    <select class="form-control" ng-model="language">
+                                        <option value="en">EN</option>
+                                        <option value="nl">NL</option>
+                                    </select>
+
+                                </div>
+                                <div>
+                                    <input type="submit" value="<%= __('ADMIN_LOGON_LABEL_LOGIN') %>"
+                                           class="btn btn-lg btn-primary btn-block" ng-disabled="!loginform.$valid" ng-click="login()" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                            <!-- <img src="/public/admin/assets/images/nodelogo.svg" class="cmslogo" style="height: 20px" alt="nodecms"> -->
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="/assets/admin/scripts/apps/shared/common.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/apps/services/framework.module.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/apps/directives/cms.growlers.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/apps/authentication/loginApp.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/apps/authentication/loginController.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/apps/services/authenticationService.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/apps/directives/cms.focus.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/apps/directives/cms.loginshaker.js"> </script>
+
+    </body>
+</html>

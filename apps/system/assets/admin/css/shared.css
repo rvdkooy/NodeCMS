@@ -1,0 +1,197 @@
+body {
+    font-family: 'Open Sans', HelveticaNeue, Helvetica, Arial;
+    font-size: 1.3em;
+    color: rgb(99, 99, 99);
+}
+
+body a { color: rgb(99, 99, 99); }
+
+body a:hover { cursor: pointer; }
+
+.cmslogo{
+    position: relative;
+    top: 5px;
+    left: 20px;
+    width: 125px
+}
+
+.navbar-brand { font-size: 24px; }
+
+.navbar-static-top {
+    background-image: -webkit-linear-gradient(top, #1b2329, #11161a);
+    background-image: -moz-linear-gradient(top, #1b2329, #11161a);
+    background-image: -o-linear-gradient(top, #1b2329, #11161a);
+    border-color: transparent;
+}
+
+.sidebar-background {
+    position: fixed;
+    z-index: -1;
+    width: 250px;
+    background: #eaeaea;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-right: 1px solid #ccc;
+}
+
+.primary-sidebar-background {
+    width: 250px;
+    background: #11161A;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+.navbar-static-side { background-color: transparent !important; }
+
+.navbar-static-side ul li a { color: #939ea4; }
+
+.navbar-static-side ul li a:hover {
+    color: #2a6496;
+    background-color: transparent;
+}
+
+.navbar-static-side ul li { border-bottom: 2px solid transparent; }
+
+.navbar-static-side ul li:after {
+    background: -webkit-linear-gradient(left, transparent 0, rgba(32, 41, 47, 0.8) 35%, #20292f 50%, rgba(32, 41, 47, 0.8) 65%, transparent 100%);
+    background: -moz-linear-gradient(left, transparent 0, rgba(32, 41, 47, 0.8) 35%, #20292f 50%, rgba(32, 41, 47, 0.8) 65%, transparent 100%);
+    background: -o-linear-gradient(left, transparent 0, rgba(32, 41, 47, 0.8) 35%, #20292f 50%, rgba(32, 41, 47, 0.8) 65%, transparent 100%);
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    height: 1px;
+    width: 100%;
+    left: 0;
+}
+
+#page-wrapper {
+    background-image: url('/assets/admin/images/bg.png');
+    padding: 0 !important;
+    min-height: 0;
+}
+
+#page-wrapper .row { margin: 0; }
+
+.titlesection {
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.07);
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.panel, .breadcrumb { border: 1px solid rgb(205, 205, 205); }
+
+.panel-heading, .breadcrumb {
+    background-image: -webkit-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: -moz-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: -o-linear-gradient(top, #fdfdfd, #eaeaea);
+}
+
+thead td { font-weight: bold; }
+
+
+.busy {
+    background-image: url('/assets/admin/images/icons/icon_busy.gif');
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100px;
+}
+
+#nestedMenu {
+    padding-left: 0px;
+    padding-bottom: 10px;
+}
+
+#nestedMenu ol { padding-left: 50px; }
+
+#nestedMenu li { list-style: none; }
+
+
+#nestedMenu li div:hover { cursor: move; }
+
+#gritter-notice-wrapper {
+    top: 55px;
+    right: 5px;
+}
+
+#dropzone {
+    line-height: 55px;
+    text-align: center;
+    font-weight: bold;
+    border: 2px dashed gray;
+}
+
+#dropzone.in {
+    width: 600px;
+    height: 200px;
+    line-height: 200px;
+    font-size: larger;
+}
+
+#dropzone.hover { background: lightgrey; }
+
+#dropzone.fade {
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    opacity: 1;
+}
+
+#folderContents {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin: 20px 0 20px 0;
+    padding-left: 10px;
+    width: 100%;
+}
+
+#folderContents div.folderitem {
+    vertical-align: top;
+    display: inline-block;
+    margin: 15px;
+    padding: 0;
+    text-align: center;
+    height: 100px;
+}
+
+#folderContents li a { text-align: center; }
+
+#folderContents div.folderitem img.image {
+    height: 75px;
+    width: 75px;
+}
+
+#folderContents div.folderitem .text {
+    height: 40px;
+    width: 75px;
+    display: block;
+    overflow: hidden;
+}
+
+.tab-content {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+.nav-tabs { margin-bottom: 0; }
+
+form.ng-invalid input.ng-invalid-required:focus {
+    border-color: red;
+    outline-color: red;
+}
+
+.fa-green{
+    color: green;
+}
+.fa-red{
+    color: red;
+}
+
