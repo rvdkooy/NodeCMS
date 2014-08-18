@@ -21,10 +21,9 @@ function initDefaultArea(app){
 
 function initAdminArea(app){
 	
-	console.log('registering the admin area');
-
 	var homecontroller = require('./controllers/admin/homecontroller');
-	var logincontroller = require('./controllers/admin/logincontroller');
+	var LoginController = require('./controllers/admin/logincontroller');
+	var logincontroller = new LoginController();
 	
 	app.use('/assets/admin', express.static(path.join(__dirname, 'assets/admin')));
 	
@@ -34,7 +33,8 @@ function initAdminArea(app){
 	
 	// Loginroutes
 	app.get('/admin/login', logincontroller.index);
-	
+	app.post('/public/api/authentication/authenticate', passport.authenticate('local'), logincontroller.apiLogin);
+
 	// Client side resource provider
 	app.get('/js/globalresources.js', resourceController.getResources);
 
@@ -62,7 +62,6 @@ function initAuthentication(app){
   		}
   	}));
 
-
 	passport.serializeUser(function(user, done) {
 	  done(null, user);
 	});
@@ -80,13 +79,5 @@ function initAuthentication(app){
 		}
   		
   		res.redirect('/admin/login');
-	});
-
-	app.post('/public/api/authentication/authenticate', passport.authenticate('local'), function(req, res){
-		
-		var hour = 3600000;
-    	req.session.cookie.maxAge = 14 * 24 * hour; //2 weeks
-
-		res.json({ success: false });
 	});
 }
