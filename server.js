@@ -7,7 +7,9 @@ var bodyParser = require('body-parser');
 var expressLayouts = require('express-ejs-layouts');
 var I18n = require('i18n-2');
 var fs = require('fs');
-var session = require('express-session')
+var session = require('express-session');
+var NedbStore = require('connect-nedb-session')(session);
+var config = require('./config/config.js').config;
 
 global.__PROJECTDIR = __dirname + '/';
 
@@ -22,7 +24,15 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(session({secret: 'NODECMS', saveUninitialized: true, resave: true}))
+
+app.use(session(
+  {
+    secret: config.sessionsecret, 
+    saveUninitialized: true, 
+    resave: true,
+    store: new NedbStore({ filename: './data/SESSIONS.db' })
+  }));
+
 I18n.expressBind(app, { locales: ['en', 'nl'] });
 app.use(function(req, res, next) {
     req.i18n.setLocale('en');

@@ -83,6 +83,10 @@ function initAuthentication(app){
 	});
 
 	app.post('/public/api/authentication/authenticate', passport.authenticate('local'), function(req, res){
+		
+		var hour = 3600000;
+    	req.session.cookie.maxAge = 14 * 24 * hour; //2 weeks
+
 		res.json({ success: false });
 	});
 }
