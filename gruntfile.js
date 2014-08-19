@@ -23,7 +23,7 @@ module.exports = function(grunt) {
               'apps/system/assets/admin/scripts/vendor/bootstrap.js',
               'apps/system/assets/admin/scripts/vendor/sb-admin.js',  
               'apps/system/assets/admin/scripts/vendor/growl/jquery.growl.js'],
-          dest: 'apps/system/assets/dist/vendorscripts.js'
+          dest: 'apps/system/assets/admin/dist/vendorscripts.js'
         }
       
     },
