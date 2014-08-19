@@ -1,0 +1,9 @@
+{
+  "name": "SecurityApp",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "passport": "^0.2.0",
+    "passport-local": "^1.0.0"
+  }
+}

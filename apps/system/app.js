@@ -1,40 +1,23 @@
 var express = require('express');
 var path = require('path');
 var resourceController = require('./controllers/resourcesController');
-var passport = require('passport');
-var localStrategy = require('passport-local').Strategy;
-
-module.exports = function(mainApp){
-	
-	initAuthentication(mainApp);
-	initAdminArea(mainApp);
-	initDefaultArea(mainApp);
-}
 
 function initDefaultArea(app){
 	
-	var homecontroller = require('./controllers/default/homecontroller');
-
 	app.use('/assets/default', express.static(path.join(__dirname, 'assets/default')));
+	var homecontroller = require('./controllers/default/homecontroller');
 	app.get('/', homecontroller.index);
 }
 
 function initAdminArea(app){
 	
+	app.use('/assets/admin', express.static(path.join(__dirname, 'assets/admin')));	
 	var homecontroller = require('./controllers/admin/homecontroller');
-	var LoginController = require('./controllers/admin/logincontroller');
-	var logincontroller = new LoginController();
-	
-	app.use('/assets/admin', express.static(path.join(__dirname, 'assets/admin')));
-	
+
 	// default admin route
 	app.get('/admin', function(req, res){ res.redirect('/admin/home'); });
 	app.get('/admin/home', homecontroller.index);
 	
-	// Loginroutes
-	app.get('/admin/login', logincontroller.index);
-	app.post('/public/api/authentication/authenticate', passport.authenticate('local'), logincontroller.apiLogin);
-
 	// Client side resource provider
 	app.get('/js/globalresources.js', resourceController.getResources);
 
@@ -47,37 +30,11 @@ function initAdminArea(app){
 	app.get('/admin/api/users/:id', userscontroller.ApiGetUser);
 	app.post('/admin/api/users', userscontroller.ApiAddUser);
 	app.put('/admin/api/users/:id', userscontroller.ApiUpdateUser);
-	app.delete('/admin/api/users/:id', userscontroller.ApiDeleteUser);
+	app.delete('/admin/api/users/:id', userscontroller.ApiDeleteUser);	
 }
 
-function initAuthentication(app){
-	
-	passport.use(new localStrategy(function(username, password, done) {
-        
-  		if(username == 'admin' && password == 'password'){
-      		return done(null, { username: username, password: password } );
-		}
-  		else{
-      		return done(null, false, { message: 'Invalid username password combination' });
-  		}
-  	}));
+exports.registerRoutes = function(mainApp){
 
-	passport.serializeUser(function(user, done) {
-	  done(null, user);
-	});
-
-	passport.deserializeUser(function(user, done) {
-	  done(null, user);
-	});
-
-	app.use(passport.initialize());
-	app.use(passport.session());
-
-  	app.all('/admin/*', function(req, res, next){
-  		if (req.isAuthenticated() || req.url === '/admin/login') { 
-			return next(); 
-		}
-  		
-  		res.redirect('/admin/login');
-	});
-}
+	initAdminArea(mainApp);
+	initDefaultArea(mainApp);	
+};

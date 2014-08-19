@@ -1,9 +1,8 @@
 var assert = require("assert");
-var ResponseObject = require("../mocks/mockedResponseObject");
-var LoginControlller = require('../../../controllers/admin/logincontroller.js');
+var ResponseObject = require("./mockedResponseObject");
+var LoginControlller = require('../controllers/logincontroller.js');
 
 describe('Login controller specs:', function(){
-
 	
 	var responseObject = new ResponseObject();
 	
@@ -30,7 +29,7 @@ describe('Login controller specs:', function(){
 
 		controller.apiLogin(requestObject, responseObject);
 
-		it('It return a successfull result', function(){
+		it('It should return a successfull result', function(){
 
 			assert(responseObject.jsonData.success);
 		});

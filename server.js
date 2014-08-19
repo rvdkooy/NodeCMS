@@ -10,8 +10,9 @@ var fs = require('fs');
 var session = require('express-session');
 var NedbStore = require('connect-nedb-session')(session);
 var config = require('./config/config.js').config;
+var appLoader = require('./apps/system/lib/apploader');
 
-global.__PROJECTDIR = __dirname + '/';
+global.__ROOTDIR = __dirname + '/';
 
 var app = express();
 
@@ -39,19 +40,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-var appDirectories = fs.readdirSync('./apps');
-appDirectories.forEach(function(dir){
-	
-	var subApp = './apps/' + dir + '/app.js';
-	console.log(subApp);
-	if(fs.existsSync(subApp)) {
-  		
-  		console.log('registering the ' + dir + ' app');
-		require(subApp)(app);
-	}
-});
-
-//app.use(require('less-middleware')(path.join(__dirname, 'public')));
+appLoader.loadApps(app);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

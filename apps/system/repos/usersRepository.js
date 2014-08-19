@@ -3,7 +3,7 @@ var usersRepo = function(){
 	
 };
 
-usersRepo.prototype = new baseRepo('USERS', __PROJECTDIR + '/data/' );
+usersRepo.prototype = new baseRepo('USERS', __ROOTDIR + '/data/' );
 usersRepo.constructor = usersRepo
 
 module.exports = usersRepo;
