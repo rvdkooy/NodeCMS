@@ -14,7 +14,7 @@ describe('Login controller specs:', function(){
 		controller.index(null, responseObject);
 
 		it('It should render the index without a layout', function(){
-			assert.equal(responseObject.view, 'system/views/admin/login/index');
+			assert.equal(responseObject.view, 'security/server/views/login/index');
 			assert.equal(responseObject.options.layout, false);
 		});
 	});

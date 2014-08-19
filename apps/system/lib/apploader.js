@@ -4,7 +4,7 @@ var path = require('path');
 exports.loadApps = function(mainApp){
 
 	loopTroughApps('init', mainApp);
-	loopTroughApps('registerRoutes', mainApp);
+	loopTroughApps('register', mainApp);
 };
 
 function loopTroughApps(method, mainApp){
@@ -20,9 +20,9 @@ function loopTroughApps(method, mainApp){
 	  			console.log('init the ' + dir + ' app');
 	  			subApp.init(mainApp);
 	  		}
-	  		if(method === 'registerRoutes' && subApp.registerRoutes){
-	  			console.log('registering the routes for the ' + dir + ' app');
-	  			subApp.registerRoutes(mainApp);
+	  		if(method === 'register' && subApp.register){
+	  			console.log('registering the ' + dir + ' app');
+	  			subApp.register(mainApp);
 	  		}
 		}
 	});

@@ -20,20 +20,9 @@ function initAdminArea(app){
 	
 	// Client side resource provider
 	app.get('/js/globalresources.js', resourceController.getResources);
-
-	// Users App
-	var UsersController = require('./controllers/admin/userscontroller');
-	var UsersRepository = require('./repos/usersRepository');
-	var userscontroller = new UsersController(new UsersRepository());
-	app.get('/admin/users', userscontroller.index);
-	app.get('/admin/api/users', userscontroller.ApiUsers);
-	app.get('/admin/api/users/:id', userscontroller.ApiGetUser);
-	app.post('/admin/api/users', userscontroller.ApiAddUser);
-	app.put('/admin/api/users/:id', userscontroller.ApiUpdateUser);
-	app.delete('/admin/api/users/:id', userscontroller.ApiDeleteUser);	
 }
 
-exports.registerRoutes = function(mainApp){
+exports.register = function(mainApp){
 
 	initAdminArea(mainApp);
 	initDefaultArea(mainApp);	

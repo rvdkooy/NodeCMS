@@ -1,6 +1,6 @@
 var assert = require("assert");
-var ResponseObject = require("../mocks/mockedResponseObject");
-var UsersController = require('../../../controllers/admin/userscontroller.js');
+var ResponseObject = require("./mockedResponseObject");
+var UsersController = require('../controllers/userscontroller.js');
 var sinon = require('sinon');
 
 describe('User controller specs:', function(){
@@ -13,7 +13,7 @@ describe('User controller specs:', function(){
 		controller.index(null, responseObject);
 
 		it('It should render the index with the standard layout', function(){
-			assert.equal(responseObject.view, 'system/views/admin/users/index');
+			assert.equal(responseObject.view, 'security/server/views/users/index');
 			assert.equal(responseObject.options.layout, 'system/views/admin/shared/layout');
 		});
 	});
