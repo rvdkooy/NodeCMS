@@ -40,7 +40,14 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use(function(req, res, next){
+  res.locals.NODECMS_CONFIG = app.get('NODECMS_CONFIG');
+  next();
+});
+
 appLoader.loadApps(app);
+
+
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -57,3 +57,8 @@ exports.register = function(mainApp) {
 	mainApp.put('/admin/api/users/:id', userscontroller.ApiUpdateUser);
 	mainApp.delete('/admin/api/users/:id', userscontroller.ApiDeleteUser);	
 };
+
+exports.config = {
+	//adminMenu: [ { key: 'SECURITY', url: '#' } ]
+	adminMenu: [ { key: 'SECURITY', url: '#', menuItems: [ { key: 'USERS', url: '/admin/users' } ] } ]
+};

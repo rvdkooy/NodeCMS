@@ -1,16 +1,24 @@
 var express = require('express');
 var path = require('path');
 var resourceController = require('./controllers/resourcesController');
+var HomeController = require('./controllers/admin/homecontroller');
 
 exports.register = function(mainApp) {
 
-	mainApp.use('/assets/admin', express.static(path.join(__dirname, 'assets/admin')));	
-	var homecontroller = require('./controllers/homecontroller');
-
+function initAdminArea(app){
+	
+	app.use('/assets/admin', express.static(path.join(__dirname, 'assets/admin')));	
+	
 	// default admin route
-	mainApp.get('/admin', function(req, res){ res.redirect('/admin/home'); });
-	mainApp.get('/admin/home', homecontroller.index);
+	var homeController = new HomeController();
+	
+	app.get('/admin', function(req, res){ res.redirect('/admin/home'); });
+	app.get('/admin/home', homeController.index);
 	
 	// Client side resource provider
 	mainApp.get('/js/globalresources.js', resourceController.getResources);
+};
+
+exports.config = {
+	adminMenu: [ { key: 'DASHBOARD' , url: '/admin'} ]
 };

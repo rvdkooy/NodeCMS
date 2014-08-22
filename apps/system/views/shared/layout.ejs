@@ -57,11 +57,38 @@
             <nav class="navbar-default navbar-static-side" role="navigation">
                 <div class="sidebar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li>
+                        <!-- <li>
                             <a href="/admin"><i class="fa fa-dashboard fa-fw"></i> 
                             <%= __('ADMIN_LEFTMENU_LABEL_DASHBOARD') %></a>
-                        </li>
-                        <li>
+                        </li> -->
+
+
+                        <% 
+                        var adminMenu = NODECMS_CONFIG.adminMenu;
+                        for(var i=0; i< adminMenu.length; i++) {%>
+                            <li>
+                                <a href="<%= adminMenu[i].url %>">
+                                    <i class="fa fa-lock fa-fw"></i> 
+                                    <%= __('ADMIN_LEFTMENU_LABEL_' + adminMenu[i].key) %>
+                                    <% if( adminMenu[i].menuItems) { %> <span class="fa arrow"></span> <% } %>
+                                </a>
+
+                                <% if( adminMenu[i].menuItems) { %>
+
+                                    <ul class="nav nav-second-level">
+                                
+                                    <% for(var j=0; j< adminMenu[i].menuItems.length; j++) {%>
+
+                                        <li><a href='<%= adminMenu[i].menuItems[j].url %>'><i class="fa fa-user fa-fw"></i> 
+                                        <%= __('ADMIN_LEFTMENU_LABEL_' + adminMenu[i].menuItems[j].key) %></a></li>
+                                    <% } %>
+                                     </ul>
+                                <% } %>
+                            </li>   
+                        <% } %>
+
+
+                        <!-- <li>
                             <a href="#"><i class="fa fa-sitemap fa-fw"></i> 
                             <%= __('ADMIN_LEFTMENU_LABEL_CONTENT') %><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -98,7 +125,7 @@
                         <li><a href="#"><i class="fa fa-wrench fa-fw"></i> 
                             <%= __('ADMIN_LEFTMENU_LABEL_SETTINGS') %></a></li>
                         <li><a href="#"><i class="fa fa-bell-o fa-fw"></i> 
-                            <%= __('ADMIN_LEFTMENU_LABEL_LOGS') %></a></li>
+                            <%= __('ADMIN_LEFTMENU_LABEL_LOGS') %></a></li> -->
                     </ul>
                 </div>
             </nav>
