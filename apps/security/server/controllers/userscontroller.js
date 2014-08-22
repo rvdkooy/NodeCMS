@@ -1,4 +1,4 @@
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt-nodejs');
 
 // This is the users controller responsible for all http user actions like
 // returning views and doing api calls

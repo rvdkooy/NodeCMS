@@ -7,7 +7,7 @@
     "test": "node node_modules/mocha/bin/mocha apps/**/specs/**/*.js --reporter list"
   },
   "dependencies": {
-    "bcrypt": "^0.8.0",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.0.0",
     "connect-nedb-session": "0.0.3",
     "cookie-parser": "~1.0.1",
