@@ -13,8 +13,8 @@ describe('Admin home controller specs:', function(){
 		});
 
 		it('It should render the index with the standard layout', function(){
-			assert.equal(responseObject.view, 'system/views/admin/home/index');
-			assert.equal(responseObject.options.layout, 'system/views/admin/shared/layout');
+			assert.equal(responseObject.view, 'system/views/home/index');
+			assert.equal(responseObject.options.layout, 'system/views/shared/layout');
 		});
 	});
 });
