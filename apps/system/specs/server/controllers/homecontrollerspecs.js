@@ -3,7 +3,7 @@ var ResponseObject = require("../mocks/mockedResponseObject");
 
 describe('Admin home controller specs:', function(){
 
-	var controller = require('../../../controllers/admin/homecontroller.js');
+	var controller = require('../../../controllers/homecontroller.js');
 	var responseObject = new ResponseObject();
 	
 	describe('When requesting the index,', function(){

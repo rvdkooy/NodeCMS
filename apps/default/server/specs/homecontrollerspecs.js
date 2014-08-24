@@ -2,7 +2,7 @@ var assert = require("assert");
 
 describe('Default home controller specs:', function(){
 
-	var controller = require('../../../controllers/default/homecontroller.js');
+	var controller = require('../controllers/homecontroller.js');
 	var responseObject = {
 		render: function(view, options){
 			this.view = view;
