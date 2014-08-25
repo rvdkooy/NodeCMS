@@ -61,5 +61,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
 
   grunt.registerTask('test', ['servertests', 'watch']);
-  grunt.registerTask('build', ['servertests', 'concat:dist']);
+  grunt.registerTask('build', ['concat:dist']);
 };
