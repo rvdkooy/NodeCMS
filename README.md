@@ -11,8 +11,12 @@ $ git clone https://github.com/rvdkooy/NodeCMS.git
 Install all node dependencies:
 ```bash
 $ npm install
-```   
+``` 
 
+Build all artifacts by running:  
+```bash
+$ grunt build
+``` 
 
 Now you can run the application by typing:
 
@@ -23,7 +27,7 @@ $ npm start
 To run the tests:
 
 ```bash
-$ npm test
+$ grunt test
 ```
 
 [![Build Status](https://travis-ci.org/rvdkooy/NodeCMS.svg?branch=master)](https://travis-ci.org/rvdkooy/NodeCMS) 
