@@ -20,5 +20,5 @@ function initAdminArea(app){
 };
 
 exports.config = {
-	adminMenu: [ { key: 'DASHBOARD' , url: '/admin'} ]
+	adminMenu: [ { key: 'DASHBOARD' , css: 'fa-dashboard', url: '/admin'} ]
 };

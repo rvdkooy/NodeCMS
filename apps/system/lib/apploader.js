@@ -33,13 +33,16 @@ function loopTroughApps(method, mainApp){
 	  		if(method === 'config' && subApp.config){
 	  			console.log('extending the config from the ' + dir + ' app');
 
-	  			var existingConfig = mainApp.get('NODECMS_CONFIG');
-	  			if(!existingConfig){
-	  				mainApp.set('NODECMS_CONFIG', subApp.config );
+	  			var existingConfig = mainApp.get('NODECMS_CONFIG') || { adminMenu: [] };
+	  			
+	  			if(subApp.config.adminMenu){
+	  				for (var i = subApp.config.adminMenu.length - 1; i >= 0; i--) {
+		  				existingConfig.adminMenu.push(subApp.config.adminMenu[i]);
+		  			};
 	  			}
-	  			else{
-	  				mainApp.set('NODECMS_CONFIG', _.extend( existingConfig, subApp.config  ));
-	  			}
+
+  				mainApp.set('NODECMS_CONFIG', existingConfig);
+  				console.log(mainApp.get('NODECMS_CONFIG'));
 	  		}
 		}
 	});
