@@ -25,21 +25,21 @@
                     <tbody>
                         <tr ng-repeat="user in users">
                             <td style="text-align: left">
-                                <a href="#/edituser/{{ user._id }}"><h4>{{ user.UserName }}</h4></a>
+                                <a href="#/edituser/{{ user._id }}"><h4>{{ user.username }}</h4></a>
                             </td>
                             <td style="text-align: left">
-                                <span>{{ user.FullName }}</span>
+                                <span>{{ user.fullname }}</span>
                             </td>
                             <td style="text-align: left">
-                                <span>{{ user.LastLoginDateTime }}</span>
+                                <span>{{ user.Lastlogin }}</span>
                             </td>
                             <td style="text-align: center; width: 50px;">
-                                <i ng-show="user.Active" class="fa fa-check-circle fa-lg fa-green"></i>
-                                <i ng-show="!user.Active" class="fa fa-ban fa-lg fa-red"></i>                             
+                                <i ng-show="user.active" class="fa fa-check-circle fa-lg fa-green"></i>
+                                <i ng-show="!user.active" class="fa fa-ban fa-lg fa-red"></i>                             
                             </td>
                             <td style="text-align: center; width: 50px;">
                                 <a href="#" ng-click="deleteUser($index)" 
-                                title="<%= __('ADMIN_USERS_LABEL_DELETEUSER', '{{ user.UserName }}') %>">
+                                title="<%= __('ADMIN_USERS_LABEL_DELETEUSER', '{{ user.username }}') %>">
                                 <i class="fa fa-trash-o fa-fw fa-lg"></i></a>
                             </td>
                         </tr>

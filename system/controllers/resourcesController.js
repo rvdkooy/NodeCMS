@@ -1,8 +1,9 @@
 var fs = require('fs');
+var path = require('path');
 
 exports.getResources = function(req, res){
 
-	fs.readFile(__dirname + '/../../../locales/en.js', 'utf8', function (err,data) {
+	fs.readFile(path.join(__ROOTDIR,'locales/en.js'), 'utf8', function (err,data) {
 		if (err) {
 			return console.log(err);
 		}

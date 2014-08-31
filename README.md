@@ -1,31 +1,29 @@
 NodeCMS
 =======
 
-An awesome Content Management System build in NodeJs.
+A zero friction Content Management System build in NodeJs.
 
 Clone the repository::
 ```bash
 $ git clone https://github.com/rvdkooy/NodeCMS.git
 ```   
 
-Install all node dependencies:
+Install all node dependencies by running the following command:
 ```bash
 $ npm install
 ``` 
 
-Build all artifacts by running:  
+Build all artifacts:  
 ```bash
 $ grunt build
 ``` 
 
-Now you can run the application by typing:
-
+Now run the application by:
 ```bash
 $ npm start
 ```
 
 To run the tests:
-
 ```bash
 $ grunt test
 ```
