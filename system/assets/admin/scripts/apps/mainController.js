@@ -1,8 +1,11 @@
-﻿mainController.$inject = ["$scope", 'authenticationService', "$window"];
-function mainController($scope, authenticationService, $window) {
+﻿function mainController($scope, $http, $window) {
     $scope.logout = function () {
-        authenticationService.logout().then(function() {
-            $window.location.href = '/admin';
-        });
+        
+    	$http({ method: 'POST',
+                url: '/admin/api/logout'
+            })
+    		.then(function() {
+            	$window.location.href = '/admin';
+        	});
     }
 }

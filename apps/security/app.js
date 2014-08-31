@@ -1,7 +1,7 @@
 
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
-var LoginController = require('./server/controllers/logincontroller');
+var AuthController = require('./server/controllers/authenticationcontroller');
 var UsersController = require('./server/controllers/userscontroller');
 var UsersRepository = require('./server/lib/usersrepository');
 var express = require('express');
@@ -44,9 +44,10 @@ exports.register = function(mainApp) {
 	mainApp.use('/assets/security', express.static(path.join(__dirname, 'public')));	
 
 	// Loginroutes
-	var logincontroller = new LoginController();
-	mainApp.get('/admin/login', logincontroller.index);
-	mainApp.post('/public/api/authentication/authenticate', passport.authenticate('local'), logincontroller.apiLogin);
+	var authcontroller = new AuthController();
+	mainApp.get('/admin/login', authcontroller.index);
+	mainApp.post('/public/api/login', passport.authenticate('local'), authcontroller.apiLogin);
+	mainApp.post('/admin/api/logout', authcontroller.apiLogout);
 
 	// Users App
 	var userscontroller = new UsersController(new UsersRepository());

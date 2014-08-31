@@ -6,10 +6,10 @@ _.extend = extendify({ arrays: 'concat' });
 
 
 exports.loadApps = function(mainApp){
-	loadSystemApp(mainApp);
 	loopTroughApps('config', mainApp);
 	loopTroughApps('init', mainApp);
-	loopTroughApps('register', mainApp);	
+	loopTroughApps('register', mainApp);
+	loadSystemApp(mainApp);	
 };
 
 function loadSystemApp(mainApp){
