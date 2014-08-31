@@ -1,4 +1,4 @@
-var baseRepo = new require(__ROOTDIR + '/apps/system/repos/repository');
+var baseRepo = new require(__ROOTDIR + '/system/repos/repository');
 var usersRepo = function(){
 	
 };

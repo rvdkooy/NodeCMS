@@ -5,6 +5,8 @@ node_js:
 after_success:
 - grunt build
 deploy:
+  on:
+    branch: master
   provider: heroku
   app: rvdkooij-nodecms
   skip_cleanup: true

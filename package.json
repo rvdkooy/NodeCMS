@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./server.js",
-    "test": "node node_modules/mocha/bin/mocha apps/**/specs/**/*.js --reporter list"
+    "postinstall": "node ./install/postinstall.js",
+    "test": "node node_modules/mocha/bin/mocha apps/**/specs/**/*.js --reporter dot"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
@@ -20,9 +21,9 @@
     "less-middleware": "1.0.x",
     "morgan": "~1.0.0",
     "nedb": "~0.10.6",
-    "passport": "^0.2.0",
-    "passport-local": "^1.0.0",
     "static-favicon": "~1.0.0",
+    "chalk": "~0.5.1",
+    "npm": "~2.0.0-beta.0",
     "extendify": "~0.1.0",
     "underscore": "~1.6.0"
   },
@@ -34,6 +35,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "mocha": "x",
     "should": "~4.0.4",
-    "sinon": "^1.10.3"
+    "sinon": "^1.10.3",
+    "proxyquire": "~1.0.1"
   }
 }

@@ -3,7 +3,7 @@ var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var LoginController = require('./server/controllers/logincontroller');
 var UsersController = require('./server/controllers/userscontroller');
-var UsersRepository = require('./server/lib/usersRepository');
+var UsersRepository = require('./server/lib/usersrepository');
 var express = require('express');
 var path = require('path');
 

@@ -6,10 +6,17 @@ _.extend = extendify({ arrays: 'concat' });
 
 
 exports.loadApps = function(mainApp){
+	loadSystemApp(mainApp);
 	loopTroughApps('config', mainApp);
 	loopTroughApps('init', mainApp);
 	loopTroughApps('register', mainApp);	
 };
+
+function loadSystemApp(mainApp){
+	var system = require(path.join(__ROOTDIR, 'system/app.js'));
+	extendConfig(system.config, mainApp);
+	system.register(mainApp);
+}
 
 function loopTroughApps(method, mainApp){
 	var appDirectories = fs.readdirSync(path.join(__ROOTDIR, 'apps'));
@@ -33,17 +40,19 @@ function loopTroughApps(method, mainApp){
 	  		if(method === 'config' && subApp.config){
 	  			console.log('extending the config from the ' + dir + ' app');
 
-	  			var existingConfig = mainApp.get('NODECMS_CONFIG') || { adminMenu: [] };
-	  			
-	  			if(subApp.config.adminMenu){
-	  				for (var i = subApp.config.adminMenu.length - 1; i >= 0; i--) {
-		  				existingConfig.adminMenu.push(subApp.config.adminMenu[i]);
-		  			};
-	  			}
-
-  				mainApp.set('NODECMS_CONFIG', existingConfig);
-  				console.log(mainApp.get('NODECMS_CONFIG'));
+	  			extendConfig(subApp.config, mainApp);
 	  		}
 		}
 	});
+}
+
+function extendConfig(config, mainApp){
+	var existingConfig = mainApp.get('NODECMS_CONFIG') || { adminMenu: [] };
+	if(config.adminMenu){
+		for (var i = config.adminMenu.length - 1; i >= 0; i--) {
+			existingConfig.adminMenu.push(config.adminMenu[i]);
+		};
+	}
+	mainApp.set('NODECMS_CONFIG', existingConfig);
+	console.log(mainApp.get('NODECMS_CONFIG'));
 }

@@ -3,7 +3,6 @@ var Datastore = require('nedb');
 
 var repository = function(collectionName, path){
 	path = (path) ? path + collectionName + '.db' : null;
-	console.log('Initializing collection: ' + collectionName);
 
 	this.db = new Datastore( { 
 		filename: path, 

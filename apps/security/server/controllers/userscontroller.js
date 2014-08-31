@@ -1,4 +1,4 @@
-var bcrypt = require('bcrypt-nodejs');
+var userFactory = require('../lib/userfactory');
 
 // This is the users controller responsible for all http user actions like
 // returning views and doing api calls
@@ -6,7 +6,7 @@ module.exports = function(userRepository){
 
 	// VIEWS
 	this.index = function(req, res){
-		res.render('security/server/views/users/index', {
+		res.render('apps/security/server/views/users/index', {
 			layout: 'system/views/shared/layout'
 		});
 	};
@@ -32,17 +32,13 @@ module.exports = function(userRepository){
 
 			if(result.length === 0){
 
-				var passwordHash = bcrypt.hashSync(req.body.Password, bcrypt.genSaltSync());
+				var user = userFactory.create(req.body.userName, 
+									req.body.password, 
+									req.body.fullname,
+									req.body.active);
 
-				userRepository.add(
-				{
-					UserName: req.body.UserName,
-					FullName: req.body.FullName,
-					Password: passwordHash,
-					LastLoginDateTime: 'N/A',
-					Active: req.body.Active
-				},
-				function(){
+
+				userRepository.add(user, function(){
 					res.status(200).send();
 				}) ;
 			}
@@ -58,11 +54,10 @@ module.exports = function(userRepository){
 
 	this.ApiUpdateUser = function(req, res){
 
-		var hashedPassword = bcrypt.hashSync(req.body.Password, bcrypt.genSaltSync());
 		userRepository.update(
 			{ _id: req.params.id },
 			{ $set: {
-				Password: hashedPassword,
+				Password: userFactory.hashPassword(req.body.password),
 				FullName: req.body.FullName,
 				Active: req.body.Active
 				}
