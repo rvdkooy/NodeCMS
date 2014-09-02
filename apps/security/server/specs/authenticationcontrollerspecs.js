@@ -1,5 +1,5 @@
 var assert = require("assert");
-var ResponseObject = require("./mockedResponseObject");
+var ResponseObject = require("./mockedresponseobject");
 var AuthenticationController = require('../controllers/authenticationcontroller.js');
 
 describe('Authentication controller specs:', function(){

@@ -12,18 +12,19 @@ module.exports = function(_mainApp, _usersRepository){
         	
 			_usersRepository.findByUsername(username, function(result){
 				if(result){
-					console.log('user found with password: ' + result.password);
-					console.log(password);
+					
 					if(userManager.comparePasswords(password, result.password)){
-						return done(null, { username: username, password: password } );
+						if(result.active){
+							return done(null, { username: username, password: password } );
+						}
+						return done(null, false, { message: 'User is not active' });
 					}
 					else{
 						return done(null, false, { message: 'Invalid username password combination' });
 					}
 				}
-				else{
-					return done(null, false, { message: 'Invalid username password combination' });
-				}
+				
+				return done(null, false, { message: 'Invalid username password combination' });
 			});
 	  	}));
 
