@@ -1,4 +1,4 @@
-var userFactory = require('../lib/userfactory');
+var userManager = require('../lib/usermanager');
 
 // This is the users controller responsible for all http user actions like
 // returning views and doing api calls
@@ -32,7 +32,7 @@ module.exports = function(userRepository){
 
 			if(result.length === 0){
 
-				var user = userFactory.create(req.body.userName, 
+				var user = userManager.create(req.body.userName, 
 									req.body.password, 
 									req.body.fullname,
 									req.body.active);
@@ -57,7 +57,7 @@ module.exports = function(userRepository){
 		userRepository.update(
 			{ _id: req.params.id },
 			{ $set: {
-				Password: userFactory.hashPassword(req.body.password),
+				Password: userManager.hashPassword(req.body.password),
 				FullName: req.body.FullName,
 				Active: req.body.Active
 				}

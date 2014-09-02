@@ -10,10 +10,14 @@ var User = function(_username_, _password_, _fullname_, _active_){
 };
 
 var hashPassword = function(password){
-	return bcrypt.hashSync(password, bcrypt.genSaltSync());
+	return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 };
 
 exports.hashPassword = hashPassword;
+
+exports.comparePasswords = function(password, hashedPassword){
+	return bcrypt.compareSync(password, hashedPassword);
+}
 
 exports.create = function(username, password, fullname, active){
 

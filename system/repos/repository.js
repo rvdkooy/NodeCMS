@@ -1,18 +1,21 @@
 var path = require('path'); 
 var Datastore = require('nedb');
 
-var repository = function(collectionName, path){
-	path = (path) ? path + collectionName + '.db' : null;
+var repository = function(){
+	
+	this.init = function(collectionName, path){
+		path = (path) ? path + collectionName + '.db' : null;
 
-	this.db = new Datastore( { 
-		filename: path, 
-		autoload: true 
-	}, function(err){
-		if(err){
-			console.log(err);
-			throw err;
-		}	
-	});
+		this.db = new Datastore( { 
+			filename: path, 
+			autoload: true 
+		}, function(err){
+			if(err){
+				console.log(err);
+				throw err;
+			}	
+		});
+	}
 };;
 
 module.exports = repository;

@@ -1,34 +1,16 @@
-
-var passport = require('passport');
-var localStrategy = require('passport-local').Strategy;
+var Authenticator = require('./server/lib/authenticator');
 var AuthController = require('./server/controllers/authenticationcontroller');
 var UsersController = require('./server/controllers/userscontroller');
 var UsersRepository = require('./server/lib/usersrepository');
 var express = require('express');
 var path = require('path');
+var passportConfig;
+var usersRepository = new UsersRepository();
 
 exports.init = function(mainApp){
 	
-	passport.use(new localStrategy(function(username, password, done) {
-        
-  		if(username == 'admin' && password == 'password'){
-      		return done(null, { username: username, password: password } );
-		}
-  		else{
-      		return done(null, false, { message: 'Invalid username password combination' });
-  		}
-  	}));
-
-	passport.serializeUser(function(user, done) {
-	  done(null, user);
-	});
-
-	passport.deserializeUser(function(user, done) {
-	  done(null, user);
-	});
-
-	mainApp.use(passport.initialize());
-	mainApp.use(passport.session());
+	authenticator = new Authenticator(mainApp, usersRepository);
+	authenticator.configure();
 
   	mainApp.all('/admin/*', function(req, res, next){
   		if (req.isAuthenticated() || req.url === '/admin/login') { 
@@ -46,11 +28,11 @@ exports.register = function(mainApp) {
 	// Loginroutes
 	var authcontroller = new AuthController();
 	mainApp.get('/admin/login', authcontroller.index);
-	mainApp.post('/public/api/login', passport.authenticate('local'), authcontroller.apiLogin);
+	mainApp.post('/public/api/login', authenticator.authenticate , authcontroller.apiLogin);
 	mainApp.post('/admin/api/logout', authcontroller.apiLogout);
 
 	// Users App
-	var userscontroller = new UsersController(new UsersRepository());
+	var userscontroller = new UsersController(usersRepository);
 	mainApp.get('/admin/users', userscontroller.index);
 	mainApp.get('/admin/api/users', userscontroller.ApiUsers);
 	mainApp.get('/admin/api/users/:id', userscontroller.ApiGetUser);
