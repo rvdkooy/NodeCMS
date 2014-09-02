@@ -10,17 +10,30 @@ module.exports = function(_mainApp, _usersRepository){
 	this.configure=function(){
 		passport.use(new localStrategy(function(username, password, done) {
         	
-			_usersRepository.findByUsername(username, function(result){
-				if(result){
+			_usersRepository.findByUsername(username, function(userResult){
+				if(userResult){
 					
-					if(userManager.comparePasswords(password, result.password)){
-						if(result.active){
+					if(userManager.comparePasswords(password, userResult.password)){
+						if(userResult.active){
 							return done(null, { username: username, password: password } );
 						}
 						return done(null, false, { message: 'User is not active' });
 					}
 					else{
-						return done(null, false, { message: 'Invalid username password combination' });
+						
+						if(userResult.gracelogins >= 4){
+							userResult.active = false;
+						}
+
+						_usersRepository.update(
+							{ _id: userResult._id }, 
+							{ $set: { 
+								gracelogins: userResult.gracelogins+1, 
+								active: userResult.active } 
+							}, function(){
+								
+								return done(null, false, { message: 'Invalid username password combination' });
+							})
 					}
 				}
 				

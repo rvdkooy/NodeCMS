@@ -2,7 +2,8 @@
     function ($scope, authenticationService, notificationService, $window) {
 
         setLanguageBasedOnCookie();
-
+        $scope.username = '';
+        $scope.password = '';
         $scope.unauthorizedLogin = false;
 
         $scope.login = function() {
@@ -22,6 +23,7 @@
                     notificationService.addErrorMessage(data.data);
                 }
                 $scope.unauthorizedLogin = true;
+                $scope.password = '';
             }
         }
 
