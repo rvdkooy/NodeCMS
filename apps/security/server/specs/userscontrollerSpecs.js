@@ -1,5 +1,5 @@
 var assert = require("assert");
-var ResponseObject = require("./mockedResponseObject");
+var ResponseObject = require("./mockedresponseobject");
 var UsersController = require('../controllers/userscontroller.js');
 var sinon = require('sinon');
 

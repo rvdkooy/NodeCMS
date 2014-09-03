@@ -11,6 +11,9 @@ describe('Install specs:', function(){
 		var fsStub = { existsSync: function(){ return false; } };
 		
 		var userRepositoryStub = function(){
+			this.find = function(query, callback){
+				return callback([]);
+			},
 			this.add = function(user, callback){
 				usersAdded.push(user);
 				callback(user);

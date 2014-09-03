@@ -1,5 +1,5 @@
 var assert = require("assert");
-var ResponseObject = require("../mocks/mockedResponseObject");
+var ResponseObject = require("../mocks/mockedresponseobject");
 var HomeController = require('../../../controllers/homecontroller.js');
 
 describe('Admin home controller specs:', function(){

@@ -1,11 +1,11 @@
 var assert = require('assert');
-var factory = require('../lib/userfactory');
+var userManager = require('../lib/usermanager');
 
-describe('User factory specs:', function(){
+describe('User manager specs:', function(){
 	
 	describe('When creating a user,', function(){
 
-		var newUser = factory.create('admin', 'password', 'Ronald', true);
+		var newUser = userManager.create('admin', 'password', 'Ronald', true);
 
 		it('It should be valid', function(){
 			assert.equal(newUser.username, 'admin');
@@ -18,7 +18,7 @@ describe('User factory specs:', function(){
 	describe('When hashing a password,', function(){
 
 		var password = "password";
-		var hashedPassword = factory.hashPassword(password);
+		var hashedPassword = userManager.hashPassword(password);
 
 		it('It should be hashed', function(){
 			assert.notEqual(hashedPassword, null);

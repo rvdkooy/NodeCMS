@@ -12,4 +12,9 @@ module.exports = function(){
 
 		res.json({ success: true });
 	};
+
+	this.apiLogout = function(req, res){
+		req.logout();
+  		res.json({ success: true });
+	};
 }

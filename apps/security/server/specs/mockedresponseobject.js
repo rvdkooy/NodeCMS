@@ -19,4 +19,7 @@ module.exports = function(){
 	this.send = function(){
 		this.isSend = true;
 	}
+	this.end = function(){
+		this.ended = true;
+	}
 };
