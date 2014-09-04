@@ -1,5 +1,4 @@
-
-module.exports = function(){
+module.exports = function(logger){
 	
 	this.index = function(req, res){
 		res.render('apps/security/server/views/login/index', { layout: false });
@@ -14,6 +13,7 @@ module.exports = function(){
 	};
 
 	this.apiLogout = function(req, res){
+		logger.info('Logging out of the system');
 		req.logout();
   		res.json({ success: true });
 	};

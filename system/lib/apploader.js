@@ -3,9 +3,17 @@ var path = require('path');
 var extendify = require('extendify');
 var _ = require('underscore');
 _.extend = extendify({ arrays: 'concat' });
+var ioc = require('tiny-ioc');
 
+ioc.registerAsSingleton('loggingrepository', 
+	require('../repositories/loggingrepository'), 
+	{ ignoreSubDependencies: true });
+var Logger = require('./logger');
+ioc.register('logger', Logger);
+var logger = ioc.resolve('logger');
 
 exports.loadApps = function(mainApp){
+
 	loopTroughApps('config', mainApp);
 	loopTroughApps('init', mainApp);
 	loopTroughApps('register', mainApp);
@@ -28,18 +36,21 @@ function loopTroughApps(method, mainApp){
 	  		var subApp = require(subApp);
 
 	  		if(method === 'init' && subApp.init){
+	  			
+	  			logger.info('init the ' + dir + ' app');
 	  			console.log('init the ' + dir + ' app');
 	  			subApp.init(mainApp);
 	  		}
 	  		
 	  		if(method === 'register' && subApp.register){
 	  			console.log('registering the ' + dir + ' app');
+	  			logger.info('registering the ' + dir + ' app');
 	  			subApp.register(mainApp);
 	  		}
 	  		
 	  		if(method === 'config' && subApp.config){
 	  			console.log('extending the config from the ' + dir + ' app');
-
+	  			logger.info('extending the config from the ' + dir + ' app');
 	  			extendConfig(subApp.config, mainApp);
 	  		}
 		}
@@ -54,5 +65,5 @@ function extendConfig(config, mainApp){
 		};
 	}
 	mainApp.set('NODECMS_CONFIG', existingConfig);
-	console.log(mainApp.get('NODECMS_CONFIG'));
+	//console.log(mainApp.get('NODECMS_CONFIG'));
 }

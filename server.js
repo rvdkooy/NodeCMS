@@ -1,3 +1,5 @@
+global.__ROOTDIR = __dirname + '/';
+
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -11,8 +13,6 @@ var session = require('express-session');
 var NedbStore = require('connect-nedb-session')(session);
 var config = require('./config/config.js').config;
 var appLoader = require('./system/lib/apploader');
-
-global.__ROOTDIR = __dirname + '/';
 
 var app = express();
 

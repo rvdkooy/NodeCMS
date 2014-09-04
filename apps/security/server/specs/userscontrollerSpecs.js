@@ -2,6 +2,7 @@ var assert = require("assert");
 var ResponseObject = require("./mockedresponseobject");
 var UsersController = require('../controllers/userscontroller.js');
 var sinon = require('sinon');
+var fakelogger = { info: function(){}, warn: function(){} }
 
 describe('User controller specs:', function(){
 	
@@ -22,7 +23,7 @@ describe('User controller specs:', function(){
 
 		var responseObject = new ResponseObject();
 		
-		var users = [ { id: 1, userName: 'ronald' } ];
+		var users = [ { id: 1, username: 'ronald' } ];
 
 		var repository = {
 			find: function(query, callBack){
@@ -30,7 +31,7 @@ describe('User controller specs:', function(){
 			}
 		};
 
-		var controller = new UsersController(repository);
+		var controller = new UsersController(repository, fakelogger);
 		controller.ApiUsers(null, responseObject);
 
 		it('It should return all the users', function(){
@@ -43,7 +44,7 @@ describe('User controller specs:', function(){
 
 		var responseObject = new ResponseObject();
 		var requestObject = { params: { id: 1 } }
-		var user = { id: 1, userName: 'ronald' };
+		var user = { id: 1, username: 'ronald' };
 
 		var repository = {
 			findOne: function(id, callback){
@@ -53,7 +54,7 @@ describe('User controller specs:', function(){
 			}
 		};
 
-		var controller = new UsersController(repository);
+		var controller = new UsersController(repository, fakelogger);
 		controller.ApiGetUser(requestObject, responseObject);
 
 		it('It should return that user', function(){
@@ -86,7 +87,7 @@ describe('User controller specs:', function(){
 
 		var repoAddMethod = sinon.spy(repository, 'add');
 
-		var controller = new UsersController(repository);
+		var controller = new UsersController(repository, fakelogger);
 		controller.ApiAddUser(requestObject, responseObject);
 
 		it('It should add the user', function(){
@@ -120,7 +121,7 @@ describe('User controller specs:', function(){
 
 		var spy = sinon.stub(repository, 'add');
 		
-		var controller = new UsersController(repository);
+		var controller = new UsersController(repository, fakelogger);
 		controller.ApiAddUser(requestObject, responseObject);
 
 		it('It should not add the user', function(){
@@ -160,7 +161,7 @@ describe('User controller specs:', function(){
 		};
 
 		var repoUpdateMethod = sinon.spy(repository, 'update');
-		var controller = new UsersController(repository);
+		var controller = new UsersController(repository, fakelogger);
 		controller.ApiUpdateUser(requestObject, responseObject);
 
 		it('It should update the user', function(){
@@ -190,7 +191,7 @@ describe('User controller specs:', function(){
 		};
 
 		var repoRemoveMethod = sinon.spy(repository, 'remove');
-		var controller = new UsersController(repository);
+		var controller = new UsersController(repository, fakelogger);
 		controller.ApiDeleteUser(requestObject, responseObject);
 
 		it('It should delete the user', function(){
@@ -217,13 +218,13 @@ describe('User controller specs:', function(){
 			remove: function(query, options, callback){ },
 			findOne: function(id, callback){
 				if(id === requestObject.params.id) {
-					callback( { id: id, UserName: 'AdMiN' });
+					callback( { id: id, username: 'AdMiN' });
 				}
 			}
 		};
 
 		var repoRemoveMethod = sinon.spy(repository, 'remove');
-		var controller = new UsersController(repository);
+		var controller = new UsersController(repository, fakelogger);
 		controller.ApiDeleteUser(requestObject, responseObject);
 
 		it('It should not delete the user', function(){

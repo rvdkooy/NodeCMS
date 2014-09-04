@@ -3,6 +3,7 @@ var Authenticator = require('../lib/authenticator');
 var sinon = require('sinon');
 var MockedResponseObject = require('./mockedresponseobject');
 var userManager = require('../lib/usermanager');
+var fakelogger = {info: function(){}}
 
 describe('Authenticator specs:', function(){
 	
@@ -29,7 +30,7 @@ describe('Authenticator specs:', function(){
 
 		var next = sinon.spy();
 
-		var authenticator = new Authenticator(fakeApp, usersRepo);
+		var authenticator = new Authenticator(fakeApp, usersRepo, fakelogger);
 		authenticator.configure();
 		authenticator.authenticate(request, response, next);
 
@@ -65,7 +66,7 @@ describe('Authenticator specs:', function(){
 
 		var next = sinon.spy();
 
-		var authenticator = new Authenticator(fakeApp, usersRepo);
+		var authenticator = new Authenticator(fakeApp, usersRepo, fakelogger);
 		authenticator.configure();
 		authenticator.authenticate(request, response, next);
 
@@ -107,7 +108,7 @@ describe('Authenticator specs:', function(){
 
 		var next = sinon.spy();
 
-		var authenticator = new Authenticator(fakeApp, usersRepo);
+		var authenticator = new Authenticator(fakeApp, usersRepo, fakelogger);
 		authenticator.configure();
 		authenticator.authenticate(request, response, next);
 
@@ -144,7 +145,7 @@ describe('Authenticator specs:', function(){
 
 		var next = sinon.spy();
 
-		var authenticator = new Authenticator(fakeApp, usersRepo);
+		var authenticator = new Authenticator(fakeApp, usersRepo, fakelogger);
 		authenticator.configure();
 		authenticator.authenticate(request, response, next);
 

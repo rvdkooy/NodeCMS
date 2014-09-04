@@ -8,11 +8,11 @@ module.exports = function(grunt) {
         },
         dist: {
           src: ['system/assets/admin/scripts/vendor/jquery-1.10.2.js', 
-              'system/assets/admin/scripts/vendor/angular.min.js', 
-              'system/assets/admin/scripts/vendor/angular-resource.min.js', 
+              //'system/assets/admin/scripts/vendor/angular.min.js', 
+              //'system/assets/admin/scripts/vendor/angular-resource.min.js', 
               'system/assets/admin/scripts/vendor/jquery-ui.min.js',
               'system/assets/admin/scripts/vendor/jquery.ui.nestedSortable.js',
-              'system/assets/admin/scripts/vendor/ui-bootstrap-0.10.0.min.js',
+              //'system/assets/admin/scripts/vendor/ui-bootstrap-0.10.0.min.js',
               'system/assets/admin/scripts/vendor/underscore-min.js',      
               'system/assets/admin/scripts/vendor/jquery.shake.js',
               'system/assets/admin/scripts/vendor/jquery.cookie.js',
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
       //   tasks: ['default'],
       // },
       servertests: {
-        files: ['apps/**/server/**/*.js','system/**/server/**/*.js'],
+        files: ['apps/**/server/**/*.js','system/specs/server/**/*.js'],
         tasks: ['servertests'],
       }
     }

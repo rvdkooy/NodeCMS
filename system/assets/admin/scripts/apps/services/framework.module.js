@@ -1,8 +1,5 @@
-﻿cms = window.cms || {};
-
-cms.cmsframework = angular.module('cmsframework', []);
-
-cms.cmsframework.factory('notificationService', ['$rootScope', function($rootScope) {
+﻿angular.module('cmsframework', [])
+.factory('notificationService', ['$rootScope', function($rootScope) {
     var listeners = [];
 
     $rootScope.$on("$routeChangeStart", function() {
@@ -32,29 +29,3 @@ cms.cmsframework.factory('notificationService', ['$rootScope', function($rootSco
         }
     };
 }]);
-
-cms.cmsframework.factory('httpInterceptor', ['$q', 'notificationService', function($q, notificationService) {
-    return function(promise) {
-        
-        return promise.then(function (response) {
-            return response;
-        },
-        function(response) {
-
-            if (response.data.UnhandledExceptionMessage) {
-
-                notificationService.addErrorMessage(response.data.UnhandledExceptionMessage);
-            }
-
-            if (response.data.RuleViolationExceptions) {
-
-                for (var i = 0; i < response.data.RuleViolationExceptions.length; i++) {
-                    notificationService.addErrorMessage(response.data.RuleViolationExceptions[i]);
-                }
-            }
-            return $q.reject(response);
-        });
-    };
-}]);
-
-
