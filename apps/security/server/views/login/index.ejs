@@ -43,10 +43,8 @@
                                 <div class="form-group">
                                     <label><%= __('ADMIN_LOGON_LABEL_LANGUAGE') %></label>
 
-                                    <select class="form-control" ng-model="language">
-                                        <option value="en">EN</option>
-                                        <option value="nl">NL</option>
-                                    </select>
+                                    <select class="form-control" ng-model="language"
+                                        ng-options="lang as lang for lang in availableLanguages"></select>
 
                                 </div>
                                 <div>

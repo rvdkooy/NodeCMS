@@ -1,10 +1,11 @@
 ﻿cms.loginApp.controller('loginController', ['$scope', 'authenticationService', 'notificationService', '$window',
     function ($scope, authenticationService, notificationService, $window) {
 
-        setLanguageBasedOnCookie();
+        $scope.availableLanguages = ['en', 'nl'];
         $scope.username = '';
         $scope.password = '';
         $scope.unauthorizedLogin = false;
+        setLanguageBasedOnCookieOrBrowser();
 
         $scope.login = function() {
             $scope.unauthorizedLogin = false;
@@ -13,6 +14,8 @@
         };
 
         function onSuccessLogin() {
+            
+            $.cookie("lang", $scope.language)
             $window.location.href = '/admin';
         }
 
@@ -27,14 +30,25 @@
             }
         }
 
-        function setLanguageBasedOnCookie() {
-            var languageCookie = $.cookie("cmslanguage");
+        function setLanguageBasedOnCookieOrBrowser() {
+            var langaugeToSet = $.cookie("lang");
 
-            if (!languageCookie) {
-                languageCookie = 'en';
+            if (!langaugeToSet) {
+
+                var browserLanguage = window.navigator.userLanguage || window.navigator.language;
+
+                for (var i = 0; i < $scope.availableLanguages.length; i++) {
+                    if($scope.availableLanguages[i] === browserLanguage){
+                        langaugeToSet = browserLanguage;
+                        break;
+                    }
+                };
+                if(!langaugeToSet){
+                    langaugeToSet = 'en';
+                }
             }
 
-            $scope.language = languageCookie;
+            $scope.language = langaugeToSet;
         }
     }]);
 

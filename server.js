@@ -36,7 +36,7 @@ app.use(session(
 
 I18n.expressBind(app, { locales: ['en', 'nl'] });
 app.use(function(req, res, next) {
-    req.i18n.setLocale('en');
+    req.i18n.setLocaleFromCookie();
     next();
 });
 
@@ -46,8 +46,6 @@ app.use(function(req, res, next){
 });
 
 appLoader.loadApps(app);
-
-
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
