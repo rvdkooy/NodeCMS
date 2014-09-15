@@ -2,7 +2,7 @@ var userManager = require('../lib/usermanager');
 
 // This is the users controller responsible for all http user actions like
 // returning views and doing api calls
-module.exports = function(userRepository){
+module.exports = function(usersrepository, logger){
 
 	// VIEWS
 	this.index = function(req, res){
@@ -14,31 +14,32 @@ module.exports = function(userRepository){
 	// API
 	this.ApiUsers = function(req, res){
 
-		userRepository.find({}, function(results){
+		usersrepository.find({}, function(results){
 			res.json(results);
 		});
 	}
 
 	this.ApiGetUser = function(req, res){
 
-		userRepository.findOne( req.params.id, function(result){
+		usersrepository.findOne( req.params.id, function(result){
 			res.json(result);
 		});
 	}
 
 	this.ApiAddUser = function(req, res){
 
-		userRepository.find( { UserName: req.body.UserName }, function(result){
+		usersrepository.find( { username: req.body.username }, function(result){
 
 			if(result.length === 0){
 
-				var user = userManager.create(req.body.userName, 
+				var user = userManager.create(req.body.username, 
 									req.body.password, 
 									req.body.fullname,
 									req.body.active);
 
+				logger.info('Adding a new user with username: %s', user.username);
 
-				userRepository.add(user, function(){
+				usersrepository.add(user, function(){
 					res.status(200).send();
 				}) ;
 			}
@@ -53,8 +54,9 @@ module.exports = function(userRepository){
 	}
 
 	this.ApiUpdateUser = function(req, res){
+		logger.info('Updating the user with id: %s', req.params.id);
 
-		userRepository.update(
+		usersrepository.update(
 			{ _id: req.params.id },
 			{ $set: {
 				Password: userManager.hashPassword(req.body.password),
@@ -69,9 +71,10 @@ module.exports = function(userRepository){
 
 	this.ApiDeleteUser = function(req, res){
 
-		userRepository.findOne(req.params.id, function(result){
+		usersrepository.findOne(req.params.id, function(result){
 
-			if(result && result.UserName.toLowerCase() === req.user.username.toLowerCase()){
+			if(result && result.username.toLowerCase() === req.user.username.toLowerCase()){
+				logger.warn('Cannot delete the currently loggin in user', req.params.id);
 				res.status(400)
 					.json( {
 						'RuleViolationExceptions': ['Cannot delete the currently loggin in user']
@@ -79,7 +82,9 @@ module.exports = function(userRepository){
 					.send();
 			}
 			else{
-				userRepository.remove({ _id: req.params.id }, { multi: false }, function(){
+				
+				logger.info('Removing the user with id: %s', req.params.id);
+				usersrepository.remove({ _id: req.params.id }, { multi: false }, function(){
 					res.status(200).send();
 				})
 			}

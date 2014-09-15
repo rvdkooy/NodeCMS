@@ -1,6 +1,7 @@
 var assert = require("assert");
 var ResponseObject = require("./mockedresponseobject");
 var AuthenticationController = require('../controllers/authenticationcontroller.js');
+var fakelogger = { info: function(){} }
 
 describe('Authentication controller specs:', function(){
 	
@@ -9,7 +10,7 @@ describe('Authentication controller specs:', function(){
 	describe('When requesting the index,', function(){
 		
 		var responseObject = new ResponseObject();
-		var controller = new AuthenticationController();
+		var controller = new AuthenticationController(fakelogger);
 
 		controller.index(null, responseObject);
 
@@ -25,7 +26,7 @@ describe('Authentication controller specs:', function(){
 			session: { cookie: {} }
 		};
 		var responseObject = new ResponseObject();
-		var controller = new AuthenticationController();
+		var controller = new AuthenticationController(fakelogger);
 
 		controller.apiLogin(requestObject, responseObject);
 
@@ -50,7 +51,7 @@ describe('Authentication controller specs:', function(){
 		};
 		var responseObject = new ResponseObject();
 		
-		var controller = new AuthenticationController();
+		var controller = new AuthenticationController(fakelogger);
 
 		controller.apiLogout(requestObject, responseObject);
 

@@ -7,9 +7,13 @@
         <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
        
         <script type="text/javascript" src="/js/globalresources.js"> </script>
-        <script type="text/javascript" src="/assets/admin/scripts/apps/mainController.js"> </script>
         <script type="text/javascript" src="/assets/admin/dist/vendorscripts.js"> </script>
-        
+        <script type="text/javascript" src="/assets/admin/scripts/vendor/angular.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/vendor/angular-resource.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/vendor/angular-route.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/vendor/ui-bootstrap-0.10.0.min.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/apps/sharedmodule.js"> </script>
+
         <link href="/assets/admin/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
         <link href="/assets/admin/css/sb-admin.css" media="screen" rel="stylesheet" type="text/css" />
         <link href="/assets/admin/css/shared.css" media="screen" rel="stylesheet" type="text/css" />
@@ -23,7 +27,7 @@
         </script>
     </head>
     <body >
-        <div id="wrapper" ng-controller="mainController"> 
+        <div id="wrapper" ng-controller="maincontroller"> 
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
@@ -57,12 +61,6 @@
             <nav class="navbar-default navbar-static-side" role="navigation">
                 <div class="sidebar-collapse">
                     <ul class="nav" id="side-menu">
-                        <!-- <li>
-                            <a href="/admin"><i class="fa fa-dashboard fa-fw"></i> 
-                            <%= __('ADMIN_LEFTMENU_LABEL_DASHBOARD') %></a>
-                        </li> -->
-
-
                         <% 
                         var adminMenu = NODECMS_CONFIG.adminMenu;
                         for(var i=0; i< adminMenu.length; i++) {%>
@@ -86,46 +84,6 @@
                                 <% } %>
                             </li>   
                         <% } %>
-
-
-                        <!-- <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> 
-                            <%= __('ADMIN_LEFTMENU_LABEL_CONTENT') %><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-file-text-o fa-fw"></i> 
-                                        <%= __('ADMIN_LEFTMENU_LABEL_PAGES') %>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-list fa-fw"></i> 
-                                        <%= __('ADMIN_LEFTMENU_LABEL_MENUS') %>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-cloud-upload fa-fw"></i> 
-                                <%= __('ADMIN_LEFTMENU_LABEL_UPLOADS') %>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-lock fa-fw"></i> 
-                                <%= __('ADMIN_LEFTMENU_LABEL_SECURITY') %><span class="fa arrow"></span>
-                            </a>
-
-                            <ul class="nav nav-second-level">
-                                <li><a href="/admin/users"><i class="fa fa-user fa-fw"></i> 
-                                <%= __('ADMIN_LEFTMENU_LABEL_USERS') %></a></li>
-                            </ul>
-                        <li><a href="#"><i class="fa fa-wrench fa-fw"></i> 
-                            <%= __('ADMIN_LEFTMENU_LABEL_SETTINGS') %></a></li>
-                        <li><a href="#"><i class="fa fa-bell-o fa-fw"></i> 
-                            <%= __('ADMIN_LEFTMENU_LABEL_LOGS') %></a></li> -->
                     </ul>
                 </div>
             </nav>

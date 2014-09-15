@@ -1,12 +1,12 @@
 describe('Repository specs:', function(){
 
-	var repository = require('../../../repos/repository');
+	var Repository = require('../../../repos/repository');
 	var should = require('should');
 	var path = require('path'); 
 
 	// create an inmemory repository that will be used by all the specs in this file
-	var usersRepository = new repository("REPOSITORYSPECS");
-		
+	var usersRepository = new Repository("REPOSITORYSPECS");
+	usersRepository.init();	
 	describe('When adding an object to the repository,', function(){
 
 		it('It should persist', function(done){

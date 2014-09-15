@@ -1,5 +1,6 @@
-﻿function mainController($scope, $http, $window) {
-    $scope.logout = function () {
+﻿angular.module('sharedmodule', [])
+.controller("maincontroller", function($scope, $http, $window){
+	$scope.logout = function () {
         
     	$http({ method: 'POST',
                 url: '/admin/api/logout'
@@ -8,4 +9,4 @@
             	$window.location.href = '/admin';
         	});
     }
-}
+});

@@ -5,11 +5,12 @@
   "scripts": {
     "start": "node ./server.js",
     "postinstall": "node ./install/postinstall.js",
-    "test": "node node_modules/mocha/bin/mocha apps/**/specs/**/*.js --reporter dot"
+    "test": "node node_modules/mocha/bin/mocha apps/**/specs/**/*.js system/specs/server/**/*.js --reporter dot"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.0.0",
+    "chalk": "~0.5.1",
     "connect-nedb-session": "0.0.3",
     "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
@@ -17,15 +18,16 @@
     "express": "~4.2.0",
     "express-ejs-layouts": "1.1.x",
     "express-session": "~1.6.5",
+    "extendify": "~0.1.0",
     "i18n-2": "0.4.x",
     "less-middleware": "1.0.x",
     "morgan": "~1.0.0",
     "nedb": "~0.10.6",
-    "static-favicon": "~1.0.0",
-    "chalk": "~0.5.1",
     "npm": "~2.0.0-beta.0",
-    "extendify": "~0.1.0",
-    "underscore": "~1.6.0"
+    "static-favicon": "~1.0.0",
+    "underscore": "~1.6.0",
+    "winston": "^0.7.3",
+    "tiny-ioc": "0.1.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

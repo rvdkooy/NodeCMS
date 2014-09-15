@@ -20,7 +20,7 @@
 
 <div ng-controller="dashboardController">
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fa fa-bar-chart-o fa-fw"></i> 
@@ -36,9 +36,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fa fa-bar-chart-o fa-fw"></i> 
@@ -58,10 +58,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="row">
-        <div class="col-lg-6">
+        <!-- <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fa fa-file-text-o fa-fw"></i> 
                 <%= __('ADMIN_DASHBOARD_LABEL_LATESTCHANGES') %></div>
@@ -80,13 +80,13 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6">
+        </div> -->
+        <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="fa fa-bell fa-fw"></i> <%= __('ADMIN_DASHBOARD_LABEL_LATESTLOGS') %>
                     <div class="pull-right">
-                        <a href="#" class="btn btn-primary btn-xs"><%= __('ADMIN_DASHBOARD_LABEL_ALLLOGS') %><i class="fa fa-arrow-right fa-fw"></i></a>
+                        <a href="/admin/logs" class="btn btn-primary btn-xs"><%= __('ADMIN_DASHBOARD_LABEL_ALLLOGS') %><i class="fa fa-arrow-right fa-fw"></i></a>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -95,8 +95,10 @@
                         
                         <ul class="list-group">
                            <li class="list-group-item" ng-repeat="logMessage in latestLogMessages">
-                                <span class="label" ng-class="logMessage.IconClass">{{ logMessage.IconText }}</span>
-                                <span class="text-muted small" ng-bind-html-unsafe="logMessage.Message"></span>
+                                <span class="label" ng-class="logMessage.iconclass">{{ logMessage.icontext }}</span>
+                                <span class="text-muted small">
+                                    {{ logMessage.message }}
+                                </span>
                             </li>
                         </ul>
                     </div>
@@ -113,8 +115,7 @@
 <script type="text/javascript" src="/assets/admin/scripts/apps/dashboard/cms.home.js"> </script>
 <script type="text/javascript" src="/assets/admin/scripts/apps/dashboard/cms.analytics_api_v3_auth.js"> </script>
 <script type="text/javascript" src="/assets/admin/scripts/apps/dashboard/dashboardApp.js"> </script>
-<script type="text/javascript" src="/assets/admin/scripts/apps/services/dashboardService.js"> </script>
-<script type="text/javascript" src="/assets/admin/scripts/apps/dashboard/dashboardController.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/services/logsService.js"> </script>
 
 
 <!-- @section endOfBody
