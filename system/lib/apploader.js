@@ -17,7 +17,15 @@ exports.loadApps = function(mainApp){
 	loopTroughApps('config', mainApp);
 	loopTroughApps('init', mainApp);
 	loopTroughApps('register', mainApp);
-	loadSystemApp(mainApp);	
+	loadSystemApp(mainApp);
+
+	var sortedAdminMenu = _.sortBy(mainApp.get('NODECMS_CONFIG').adminMenu, function(menuItem) { 
+		return Math.sin(menuItem.order); 
+	});
+
+	mainApp.get('NODECMS_CONFIG').adminMenu = sortedAdminMenu;
+
+	console.log(mainApp.get('NODECMS_CONFIG'));
 };
 
 function loadSystemApp(mainApp){
@@ -60,10 +68,16 @@ function loopTroughApps(method, mainApp){
 function extendConfig(config, mainApp){
 	var existingConfig = mainApp.get('NODECMS_CONFIG') || { adminMenu: [] };
 	if(config.adminMenu){
+		
 		for (var i = config.adminMenu.length - 1; i >= 0; i--) {
+			
+			if(!config.adminMenu[i].order){
+				config.adminMenu[i].order = 50;
+			}
+
 			existingConfig.adminMenu.push(config.adminMenu[i]);
 		};
 	}
 	mainApp.set('NODECMS_CONFIG', existingConfig);
-	//console.log(mainApp.get('NODECMS_CONFIG'));
+	
 }

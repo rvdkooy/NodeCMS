@@ -23,6 +23,6 @@ exports.register = function(mainApp) {
 };
 
 exports.config = {
-	adminMenu: [ { key: 'DASHBOARD' , css: 'fa-dashboard', url: '/admin'},
-				{ key: 'LOGS' , css: 'fa-dashboard', url: '/admin/logs'} ]
+	adminMenu: [ { key: 'DASHBOARD' , css: 'fa-dashboard', url: '/admin', order: 10},
+				{ key: 'LOGS' , css: 'fa-bell', url: '/admin/logs', order: 90} ]
 };

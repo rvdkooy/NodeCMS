@@ -46,5 +46,5 @@ exports.register = function(mainApp) {
 
 exports.config = {
 	//adminMenu: [ { key: 'SECURITY', url: '#' } ]
-	adminMenu: [ { key: 'SECURITY', url: '#', css: 'fa-user', menuItems: [ { key: 'USERS', url: '/admin/users' } ] } ]
+	adminMenu: [ { key: 'SECURITY', url: '#', css: 'fa-lock', menuItems: [ { key: 'USERS', url: '/admin/users', css: 'fa-user' } ] } ]
 };
