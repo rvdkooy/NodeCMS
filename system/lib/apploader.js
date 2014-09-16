@@ -25,7 +25,7 @@ exports.loadApps = function(mainApp){
 
 	mainApp.get('NODECMS_CONFIG').adminMenu = sortedAdminMenu;
 
-	console.log(mainApp.get('NODECMS_CONFIG'));
+	//console.log(mainApp.get('NODECMS_CONFIG'));
 };
 
 function loadSystemApp(mainApp){
