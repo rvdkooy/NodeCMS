@@ -13,11 +13,11 @@ exports.register = function(mainApp) {
 	// Contentpages App
 	var pagescontroller = ioc.resolve(PagesController);
 	mainApp.get('/admin/contentpages', pagescontroller.index);
-	// mainApp.get('/admin/api/contentpages', pagescontroller.Apicontentpages);
-	// mainApp.get('/admin/api/contentpages/:id', pagescontroller.ApiGetUser);
-	// mainApp.post('/admin/api/contentpages', pagescontroller.ApiAddUser);
-	// mainApp.put('/admin/api/contentpages/:id', pagescontroller.ApiUpdateUser);
-	// mainApp.delete('/admin/api/contentpages/:id', pagescontroller.ApiDeleteUser);	
+	mainApp.get('/admin/api/contentpages', pagescontroller.ApiContentPages);
+	mainApp.get('/admin/api/contentpages/:id', pagescontroller.ApiGetContentPage);
+	mainApp.post('/admin/api/contentpages', pagescontroller.ApiAddContentPage);
+	mainApp.put('/admin/api/contentpages/:id', pagescontroller.ApiUpdateContentPage);
+	mainApp.delete('/admin/api/contentpages/:id', pagescontroller.ApiDeleteContentPage);	
 };
 
 exports.config = {

@@ -30,7 +30,13 @@ module.exports = function(contentpagesrepository, logger){
 
 				var page = { 
 					name: req.body.name,
-					url: req.body.url
+					url: req.body.url,
+					published: req.body.published,
+					content: req.body.content,
+					selectedTemplate: req.body.selectedTemplate,
+					published: req.body.published,
+					keywords: req.body.keywords,
+					description: req.body.description
 				};
 
 				logger.info('Adding a new page with name: %s', page.name);
@@ -60,7 +66,12 @@ module.exports = function(contentpagesrepository, logger){
 					{ _id: req.params.id },
 					{ $set: {
 						name: req.body.name,
-						url: req.body.url
+						url: req.body.url,
+						content: req.body.content,
+						selectedTemplate: req.body.selectedTemplate,
+						published: req.body.published,
+						keywords: req.body.keywords,
+						description: req.body.description
 						}
 					},
 					function(){
