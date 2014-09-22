@@ -1,6 +1,5 @@
 module.exports = function(contentpagesrepository, logger){
 
-	// VIEWS
 	this.index = function(req, res){
 		res.render('apps/content/server/views/contentpages/index', {
 			layout: 'system/views/shared/layout'
@@ -59,7 +58,7 @@ module.exports = function(contentpagesrepository, logger){
 		
 		contentpagesrepository.findByUrl( req.body.url, function(result){
 
-			if(!result){
+			if(!result || result._id === req.params.id){
 				logger.info('Updating the page with id: %s', req.params.id);
 
 				contentpagesrepository.update(

@@ -37,13 +37,13 @@ var tinyMceConfig = {
     language: $.cookie("cmslanguage")
 };
 
-var app = angular.module('contentPagesApp', ['ui.tinymce', 'cms.growlers', 'cms.ichecker', 
+var app = angular.module('contentPagesApp', ['ui.tinymce', 'ui.bootstrap', 'cms.growlers', 'cms.ichecker', 
     'cmsframework', 'sharedmodule', 'ngResource', 'ngRoute', 'httpRequestInterceptors']).
     config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
         $routeProvider
-            .when('/pages', { templateUrl: '/admin/contentpages/listcontentpages', controller: 'pagesController' })
-            .when('/addpage', { templateUrl: '/admin/contentpages/addcontentpage', controller: 'addPageController' })
-            .when('/editpage/:pageId', {
+            .when('/all', { templateUrl: '/admin/contentpages/listcontentpages', controller: 'pagesController' })
+            .when('/add', { templateUrl: '/admin/contentpages/addcontentpage', controller: 'addPageController' })
+            .when('/edit/:pageId', {
                 templateUrl: '/admin/contentpages/editcontentpage',
                 controller: 'editPageController',
                 resolve: {
@@ -60,12 +60,12 @@ var app = angular.module('contentPagesApp', ['ui.tinymce', 'cms.growlers', 'cms.
                     }]
                 }
             })
-            .otherwise({ redirectTo: '/pages' });
+            .otherwise({ redirectTo: '/all' });
     }]);
 
 
 app.factory('pagesService', ['$resource', function ($resource) {
-    return $resource('/admin/api/contentpages/:pageid', { pageid: '@Id' },
+    return $resource('/admin/api/contentpages/:pageid', { pageid: '@_id' },
         {
             update: { method: 'PUT' },
             //clearCache: { method: 'POST', params: { clearcache: 'true' } },
@@ -82,11 +82,11 @@ app.controller('pagesController', ['$scope', 'pagesService', 'notificationServic
 
             var page = $scope.pages[index];
 
-            var pageName = page.Name;
-            if (confirm(cms.adminResources.get("PAGES_NOTIFY_DELETEPAGE", pageName))) {
+            var pageName = page.name;
+            if (confirm(cms.adminResources.get("ADMIN_PAGES_NOTIFY_DELETEPAGE", pageName))) {
                 page.$delete(function () {
 
-                    notificationService.addSuccessMessage(cms.adminResources.get('PAGES_NOTIFY_PAGEDELETED', pageName));
+                    notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEDELETED', pageName));
 
                     loadPages();
                 });
@@ -99,7 +99,7 @@ app.controller('pagesController', ['$scope', 'pagesService', 'notificationServic
                 method: 'POST',
                 url: '/admin/api/pages/clearcache'
             }).success(function () {
-                notificationService.addSuccessMessage(cms.adminResources.get('PAGES_NOTIFY_ALLCACHECLEARED'));
+                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_ALLCACHECLEARED'));
             });
         };
 
@@ -119,9 +119,9 @@ app.controller('addPageController', ['$scope', 'pagesService', '$location', 'not
 
             pagesService.save($scope.page, function () {
 
-                notificationService.addSuccessMessage(cms.adminResources.get('PAGES_NOTIFY_PAGEADDED', $scope.page.Name));
+                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEADDED', $scope.page.name));
 
-                $location.path('#/pages');
+                $location.path('#/contentpages');
             });
         };
     }]);
@@ -145,10 +145,10 @@ app.controller('editPageController', ['$scope', 'page', '$location', 'notificati
 
             $http({
                 method: 'POST',
-                url: '/admin/api/pages/clearcacheforpage/' + $scope.page.Id
+                url: '/admin/api/pages/clearcacheforpage/' + $scope.page._id
             }).success(function () {
 
-                notificationService.addSuccessMessage(cms.adminResources.get('PAGES_NOTIFY_PAGECACHECLEARED', $scope.page.Name));
+                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGECACHECLEARED', $scope.page.name));
             });
         };
 
@@ -156,10 +156,10 @@ app.controller('editPageController', ['$scope', 'page', '$location', 'notificati
 
             $scope.page.$update(function () {
 
-                notificationService.addSuccessMessage(cms.adminResources.get('PAGES_NOTIFY_PAGEUPDATED', $scope.page.Name));
+                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEUPDATED', $scope.page.name));
 
                 if (closePage) {
-                    $location.path('#/pages');
+                    $location.path('#/contentpages');
                 }
             });
         }
