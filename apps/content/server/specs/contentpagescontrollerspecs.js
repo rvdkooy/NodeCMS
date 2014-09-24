@@ -19,6 +19,60 @@ describe('Content pages controller specs:', function(){
 		});
 	});
 
+	describe('When requesting the root url (/),', function(){
+
+		var responseObject = new ResponseObject();
+		var requestObject = { url: '/' };
+
+		var controller = new ContentPagesController({}, fakelogger);
+		
+		controller.findContentPage(requestObject, responseObject);
+
+		it('It should for now render the default home page', function(){
+
+			assert.equal(responseObject.view, 'apps/default/server/views/home/index');
+		});
+	});
+
+	describe('When requesting an url that matches a content page,', function(){
+
+		var responseObject = new ResponseObject();
+		var requestObject = { url: '/requestedUrl' };
+		
+		var repository = {
+			findByUrl: function(query, callBack){
+				callBack({ name: 'somepage', url: '/requestedUrl' });
+			}
+		};
+
+		var controller = new ContentPagesController(repository, fakelogger);
+		
+		controller.findContentPage(requestObject, responseObject);
+
+		it('It should render the content page', function(){
+
+			assert.equal(responseObject.view, 'apps/default/server/views/home/index');
+		});
+	});
+
+	describe('When requesting an url that does not match a content page,', function(){
+
+		var repository = {
+			findByUrl: function(query, callBack){
+				callBack(null);
+			}
+		};
+		var next = sinon.spy();
+		
+		var controller = new ContentPagesController(repository, fakelogger);
+		controller.findContentPage({ url: '/requestedUrl' }, null, next);
+
+		it('It should call the next middleware component', function(){
+
+			assert(next.called);
+		});
+	});
+
 	describe('When getting contentpages,', function(){
 
 		var responseObject = new ResponseObject();

@@ -14,9 +14,10 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label><%= __("ADMIN_PAGES_LABEL_TEMPLATE") %></label>
-                    <select class="form-control" ng-model="page.selectedTemplate">
+                    <select class="form-control" ng-model="page.template">
+                        <!-- this should come from a main template -->
                         <option value="Normal">Normal</option>
-                        <option value="HomeScreen">HomeScreen</option>
+                        <option value="Home">Home</option>
                     </select>
                 </div>
                 <div class="form-group">

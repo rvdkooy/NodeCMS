@@ -1,11 +1,37 @@
 module.exports = function(contentpagesrepository, logger){
 
+	this.findContentPage = function(req, res, next){
+		
+		var mainTemplate = 'default'; // This should come from some config setting
+
+		if(req.url === '/'){
+			// for now just render the default home page!!!
+			res.render('apps/'+ mainTemplate +'/server/views/home/index', { 
+				layout: 'apps/'+ mainTemplate +'/server/views/layout.ejs',
+				model: { name: 'home' } }); 
+		}
+		else{
+			contentpagesrepository.findByUrl( req.url, function(result){
+				if(result){
+					
+					result.template = result.template || 'home';
+
+					res.render('apps/'+ mainTemplate +'/server/views/' + result.template.toLowerCase() + '/index', { 
+						layout: 'apps/'+ mainTemplate +'/server/views/layout.ejs',
+						model: result }); 
+				}
+				else{
+					next();
+				}
+			});
+		}
+	};
+
 	this.index = function(req, res){
 		res.render('apps/content/server/views/contentpages/index', {
 			layout: 'system/views/shared/layout'
 		});
 	};
-
 	
 	this.ApiContentPages = function(req, res){
 
@@ -32,7 +58,7 @@ module.exports = function(contentpagesrepository, logger){
 					url: req.body.url,
 					published: req.body.published,
 					content: req.body.content,
-					selectedTemplate: req.body.selectedTemplate,
+					template: req.body.template,
 					published: req.body.published,
 					keywords: req.body.keywords,
 					description: req.body.description
@@ -67,7 +93,7 @@ module.exports = function(contentpagesrepository, logger){
 						name: req.body.name,
 						url: req.body.url,
 						content: req.body.content,
-						selectedTemplate: req.body.selectedTemplate,
+						template: req.body.template,
 						published: req.body.published,
 						keywords: req.body.keywords,
 						description: req.body.description

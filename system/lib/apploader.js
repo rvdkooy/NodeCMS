@@ -12,10 +12,10 @@ var Logger = require('./logger');
 ioc.register('logger', Logger);
 var logger = ioc.resolve('logger');
 
-exports.loadApps = function(mainApp){
+exports.loadApps = function(mainApp, eventEmitter){
 
 	loopTroughApps('config', mainApp);
-	loopTroughApps('init', mainApp);
+	loopTroughApps('init', mainApp, eventEmitter);
 	loopTroughApps('register', mainApp);
 	loadSystemApp(mainApp);
 
@@ -34,7 +34,7 @@ function loadSystemApp(mainApp){
 	system.register(mainApp);
 }
 
-function loopTroughApps(method, mainApp){
+function loopTroughApps(method, mainApp, eventEmitter){
 	var appDirectories = fs.readdirSync(path.join(__ROOTDIR, 'apps'));
 	
 	appDirectories.forEach(function(dir){
@@ -47,7 +47,7 @@ function loopTroughApps(method, mainApp){
 	  			
 	  			logger.info('init the ' + dir + ' app');
 	  			console.log('init the ' + dir + ' app');
-	  			subApp.init(mainApp);
+	  			subApp.init(mainApp, eventEmitter);
 	  		}
 	  		
 	  		if(method === 'register' && subApp.register){
