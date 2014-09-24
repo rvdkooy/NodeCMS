@@ -28,9 +28,9 @@ describe('Content pages controller specs:', function(){
 		
 		controller.findContentPage(requestObject, responseObject);
 
-		it('It should for now render the default home page', function(){
+		it('It should for now render the default frontend home page', function(){
 
-			assert.equal(responseObject.view, 'apps/default/server/views/home/index');
+			assert.equal(responseObject.view, 'apps/frontend/server/views/home/index');
 		});
 	});
 
@@ -51,7 +51,7 @@ describe('Content pages controller specs:', function(){
 
 		it('It should render the content page', function(){
 
-			assert.equal(responseObject.view, 'apps/default/server/views/home/index');
+			assert.equal(responseObject.view, 'apps/frontend/server/views/home/index');
 		});
 	});
 

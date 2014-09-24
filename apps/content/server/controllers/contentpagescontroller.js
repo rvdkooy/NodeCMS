@@ -2,7 +2,7 @@ module.exports = function(contentpagesrepository, logger){
 
 	this.findContentPage = function(req, res, next){
 		
-		var mainTemplate = 'default'; // This should come from some config setting
+		var mainTemplate = 'frontend'; // This should come from some config setting
 
 		if(req.url === '/'){
 			// for now just render the default home page!!!
