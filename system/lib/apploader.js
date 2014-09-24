@@ -66,7 +66,10 @@ function loopTroughApps(method, mainApp, eventEmitter){
 }
 
 function extendConfig(config, mainApp){
-	var existingConfig = mainApp.get('NODECMS_CONFIG') || { adminMenu: [] };
+	
+	var defaultConfig = { adminMenu: [], adminWidgets: [], adminStats: [] };
+	var existingConfig = mainApp.get('NODECMS_CONFIG') || defaultConfig;
+	
 	if(config.adminMenu){
 		
 		for (var i = config.adminMenu.length - 1; i >= 0; i--) {
@@ -77,6 +80,12 @@ function extendConfig(config, mainApp){
 
 			existingConfig.adminMenu.push(config.adminMenu[i]);
 		};
+	}
+	if(config.adminWidgets){
+		[].push.apply(existingConfig.adminWidgets, config.adminWidgets);
+	}
+	if(config.adminStats){
+		[].push.apply(existingConfig.adminStats, config.adminStats); 
 	}
 	mainApp.set('NODECMS_CONFIG', existingConfig);
 	
