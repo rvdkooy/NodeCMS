@@ -67,29 +67,23 @@
             </div>
         </div>
     </div> -->
-
     <div class="row">
-        <!-- <div class="col-lg-6">
-            <div class="panel panel-default">
-                <div class="panel-heading"><i class="fa fa-file-text-o fa-fw"></i> 
-                <%= __('ADMIN_DASHBOARD_LABEL_LATESTCHANGES') %></div>
-                <div class="panel-body">
-                    <div class="busy" ng-show="showLatestChangedContentPagesLoader"></div>
-                    <div id="latestChangedContainer" ng-cloak>
-                        <h5><%= __('ADMIN_DASHBOARD_LABEL_CONTENTPAGESCHANGES') %></h5>
-                        <div class="list-group">
-                            <a ng-href="#" class="list-group-item" ng-repeat="latestpage in LatestChangedContentPages">
-                                <i class="fa fa-file-text-o fa-fw"></i> {{ latestpage.PageName }}
-                                <span class="pull-right text-muted small">
-                                    <em>{{ latestpage.LastChanged }}</em>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
+        <% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ 
+            for(var j = 0; j < NODECMS_CONFIG.adminWidgets[i].widgets.length; j++){ %>
+            
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <<%=NODECMS_CONFIG.adminWidgets[i].widgets[j] %> />
                 </div>
-            </div>
-        </div> -->
-        <div class="col-lg-12">
+            </div> 
+
+        <% } } %>
+
+    </div>
+    <div class="row">
+        
+        <!-- -->
+        <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="fa fa-bell fa-fw"></i> <%= __('ADMIN_DASHBOARD_LABEL_LATESTLOGS') %>
@@ -119,12 +113,14 @@
 
 <%- contentFor('bodyend') %>
 
-
 <script type="text/javascript" src="/assets/admin/scripts/apps/dashboard/cms.home.js"> </script>
 <script type="text/javascript" src="/assets/admin/scripts/apps/dashboard/cms.analytics_api_v3_auth.js"> </script>
 <script type="text/javascript" src="/assets/admin/scripts/apps/dashboard/dashboardApp.js"> </script>
 <script type="text/javascript" src="/assets/admin/scripts/apps/services/logsService.js"> </script>
 
+<% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ %>
+    <script type="text/javascript" src="<%= NODECMS_CONFIG.adminWidgets[i].file %>"> </script>
+<% } %>
 
 <!-- @section endOfBody
 {

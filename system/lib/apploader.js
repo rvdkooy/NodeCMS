@@ -82,7 +82,7 @@ function extendConfig(config, mainApp){
 		};
 	}
 	if(config.adminWidgets){
-		[].push.apply(existingConfig.adminWidgets, config.adminWidgets);
+		existingConfig.adminWidgets.push(config.adminWidgets);
 	}
 	if(config.adminStats){
 		[].push.apply(existingConfig.adminStats, config.adminStats); 

@@ -1,4 +1,4 @@
-﻿angular.module('dashboardApp', ['sharedmodule', 'services'])
+﻿angular.module('dashboardApp', ['sharedmodule', 'services', 'contentwidgets'])
 .factory('dashboardService', function ($http) {
     return {
         

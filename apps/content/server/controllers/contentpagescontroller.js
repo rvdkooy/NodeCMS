@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 module.exports = function(contentpagesrepository, logger){
 
 	this.findContentPage = function(req, res, next){
@@ -119,5 +121,14 @@ module.exports = function(contentpagesrepository, logger){
 		contentpagesrepository.remove({ _id: req.params.id }, { multi: false }, function(){
 			res.status(200).send();
 		});		
+	}
+
+	this.ApiLatestChanged = function(req, res){
+
+		contentpagesrepository.find( {}, function(results){
+			console.log(results);
+			var mappedResult = _.map(results, function(page){ return { name: page.name }; });
+			res.json(mappedResult);
+		});			
 	}
 };
