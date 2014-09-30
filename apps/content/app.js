@@ -31,7 +31,7 @@ exports.register = function(mainApp) {
 };
 
 exports.config = {
-	adminMenu: [ { key: 'CONTENT', url: '#', css: 'fa-lock', menuItems: [ { key: 'PAGES', url: '/admin/contentpages', css: 'fa-user' } ] } ],
+	adminMenu: [ { key: 'CONTENT', url: '#', css: 'fa-sitemap', menuItems: [ { key: 'PAGES', url: '/admin/contentpages', css: 'fa-file-text-o' } ] } ],
 	adminWidgets: { file: '/assets/content/scripts/contentpages/widgets.js', moduleName: 'contentwidgets', widgets: ['latestupdates' ] },
 	adminStats: [ '/admin/api/contentpages/numberofpublishedcontentpages', 
 					'/admin/api/contentpages/numberofnonpublishedcontentpages']

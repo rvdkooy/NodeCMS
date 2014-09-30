@@ -23,6 +23,21 @@ var contentPagesRepo = function(inMemoryStore){
 			}
 		});
 	};
+
+	this.findLatestChanged = function(limit, resultCallback){
+
+		this.db.find({ }).sort({ changed: -1 }).limit(limit).exec(function(err, result){
+			
+			if(err){
+				console.log(err);
+				throw err;
+			}	
+			
+			if(resultCallback) {
+				resultCallback(result);
+			}
+		});
+	};
 };
 
 contentPagesRepo.prototype = new baseRepo();

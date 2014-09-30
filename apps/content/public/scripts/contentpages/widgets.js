@@ -14,7 +14,13 @@ widgetsModule.directive('latestupdates', function(){
                     'Latest Changed Pages' +
                 '</div>' +
                 '<div class="panel-body">' +
-                    '<div ng-repeat="page in latestContentPages">{{ page.name }}</div>' +
+                    '<ul class="list-group">' +
+                      '<li class="list-group-item" ng-repeat="page in latestContentPages">' +
+                        '<i class="fa fa-file-text-o fa-fw"></i>' +
+                        '<a href="/admin/contentpages#/edit/{{ page._id }}">{{ page.name }}</a>' +
+                        '<span class="pull-right">{{ page.changed }}</span>' +
+                        '</li>' +
+                    '</ul>' +
                 '</div>'      
     };
 });

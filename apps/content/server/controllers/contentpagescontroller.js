@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var moment = require('moment');
 
 module.exports = function(contentpagesrepository, logger){
 
@@ -61,9 +62,9 @@ module.exports = function(contentpagesrepository, logger){
 					published: req.body.published,
 					content: req.body.content,
 					template: req.body.template,
-					published: req.body.published,
 					keywords: req.body.keywords,
-					description: req.body.description
+					description: req.body.description,
+					changed: new Date()
 				};
 
 				logger.info('Adding a new page with name: %s', page.name);
@@ -98,7 +99,8 @@ module.exports = function(contentpagesrepository, logger){
 						template: req.body.template,
 						published: req.body.published,
 						keywords: req.body.keywords,
-						description: req.body.description
+						description: req.body.description,
+						changed: new Date()
 						}
 					},
 					function(){
@@ -125,9 +127,13 @@ module.exports = function(contentpagesrepository, logger){
 
 	this.ApiLatestChanged = function(req, res){
 
-		contentpagesrepository.find( {}, function(results){
-			console.log(results);
-			var mappedResult = _.map(results, function(page){ return { name: page.name }; });
+		contentpagesrepository.findLatestChanged(5, function(results){
+			var mappedResult = _.map(results, function(page){ 
+				return { 
+					_id: page._id,
+					name: page.name,
+					changed: moment(page.changed).format('MMM Do YYYY, HH:mm') }; 
+			});
 			res.json(mappedResult);
 		});			
 	}

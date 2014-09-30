@@ -291,4 +291,30 @@ describe('Content pages controller specs:', function(){
 			assert.equal(responseObject.isSend, true);
 		});
 	});
+
+	describe('When getting the latest 5 changed pages,', function(){
+
+		var responseObject = new ResponseObject();
+		var requestObject = { params: { id: 1 } } ;
+
+		var repository = {
+			findLatestChanged: function(limit, callback){
+				var results = [];
+
+				for (var i = 0; i < 5; i++) {
+					results.push({ name: 'name' + i });	
+				};
+
+				callback(results);
+			}
+		};
+
+		var controller = new ContentPagesController(repository, fakelogger);
+		controller.ApiLatestChanged(requestObject, responseObject);
+
+		it('It should return them', function(){
+
+			assert.equal(responseObject.jsonData.length, 5);
+		});
+	});
 });
