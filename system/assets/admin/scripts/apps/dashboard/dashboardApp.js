@@ -69,6 +69,25 @@
             //     $scope.showLatestChangedContentPagesLoader = false;
             //     $scope.LatestChangedContentPages = data;
             // });
+        })
+        .directive('contentStats', function(){
+            return {
+              restrict: 'E',
+              controller: function($scope, $http){
+                
+                $scope.showBusyIndicator = true;
+
+                $http.get('/admin/api/dashboard/getcontentstats').then(function(result){
+                    $scope.showBusyIndicator = false;
+                    $scope.contentstats = result.data;
+                });
+              },
+              template: '<div class="busy" ng-show="showBusyIndicator"></div>' +
+                        '<div>' +
+                            '<h5 ng-repeat="stat in contentstats"><span class="label label-primary">{{ stat.count }}</span>' +
+                            '{{ stat.text }}</h5>' +
+                        '</div>'      
+            };
         });
     };
 

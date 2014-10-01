@@ -19,9 +19,7 @@
 <div class='row'>
     <div class='col-lg-12'>
         <ol class='breadcrumb'>
-            <li>
-                <a href="/admin"><i class='fa fa-dashboard'></i> Home</a>                                              
-            </li>
+            <li><a href="/admin"><i class='fa fa-dashboard'></i> Home</a></li>
         </ol>
     </div>
 </div>
@@ -46,27 +44,17 @@
         </div>
     </div> -->
 
-    <!-- <div class="row">
+    <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fa fa-bar-chart-o fa-fw"></i> 
                     <%= __('ADMIN_DASHBOARD_LABEL_CONTENTSTATISTICS') %></div>
                 <div class="panel-body">
-                    <div class="busy" ng-show="showContentStatisticsLoader"></div>
-                    <div id="statisticsContainer">
-                        <p><%= __('ADMIN_DASHBOARD_LABEL_CURRENTLY') %></p>
-                        <h5><span class="label label-primary">{{ contentStatistics.NumberOfContentPages }}</span> <%= __('ADMIN_DASHBOARD_LABEL_CONTENTPAGESSTATS') %></h5>
-                        <h5><span class="label label-primary">{{ contentStatistics.NumberOfMenus }}</span> 
-                            <%= __('ADMIN_DASHBOARD_LABEL_MENUSSTATS') %></h5>
-                        <h5><span class="label label-primary">{{ contentStatistics.NumberOfUsers }}</span> 
-                            <%= __('ADMIN_DASHBOARD_LABEL_USERSTATS') %></h5>
-                        <h5><span class="label label-primary">{{ contentStatistics.NumberOfUploadedFiles }}</span> 
-                            <%= __('ADMIN_DASHBOARD_LABEL_UPLOADSTATS') %></h5>
-                    </div>
+                    <content-Stats />
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
     <div class="row">
         <% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ 
             for(var j = 0; j < NODECMS_CONFIG.adminWidgets[i].widgets.length; j++){ %>
@@ -121,6 +109,7 @@
 <% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ %>
     <script type="text/javascript" src="<%= NODECMS_CONFIG.adminWidgets[i].file %>"> </script>
 <% } %>
+
 <script type="text/javascript">
     var modules = [];
 
