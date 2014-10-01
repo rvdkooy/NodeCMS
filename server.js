@@ -13,6 +13,8 @@ var session = require('express-session');
 var NedbStore = require('connect-nedb-session')(session);
 var config = require('./config/config.js').config;
 var appLoader = require('./system/lib/apploader');
+var events = require('events');
+var eventEmitter = new events.EventEmitter();
 
 var app = express();
 
@@ -45,7 +47,13 @@ app.use(function(req, res, next){
   next();
 });
 
-appLoader.loadApps(app);
+appLoader.loadApps(app, eventEmitter);
+
+app.get('*', function(req, res, next){
+  if(!eventEmitter.emit('unknownurlrequested', req, res, next)){
+    next()
+  }
+});
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

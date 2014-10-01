@@ -21,13 +21,15 @@
     "extendify": "~0.1.0",
     "i18n-2": "0.4.x",
     "less-middleware": "1.0.x",
+    "moment": "~2.8.3",
     "morgan": "~1.0.0",
     "nedb": "~0.10.6",
     "npm": "~2.0.0-beta.0",
+    "q": "^1.0.1",
     "static-favicon": "~1.0.0",
+    "tiny-ioc": "0.1.0",
     "underscore": "~1.6.0",
-    "winston": "^0.7.3",
-    "tiny-ioc": "0.1.0"
+    "winston": "^0.7.3"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

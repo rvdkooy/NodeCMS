@@ -12,10 +12,10 @@ var Logger = require('./logger');
 ioc.register('logger', Logger);
 var logger = ioc.resolve('logger');
 
-exports.loadApps = function(mainApp){
+exports.loadApps = function(mainApp, eventEmitter){
 
 	loopTroughApps('config', mainApp);
-	loopTroughApps('init', mainApp);
+	loopTroughApps('init', mainApp, eventEmitter);
 	loopTroughApps('register', mainApp);
 	loadSystemApp(mainApp);
 
@@ -25,7 +25,7 @@ exports.loadApps = function(mainApp){
 
 	mainApp.get('NODECMS_CONFIG').adminMenu = sortedAdminMenu;
 
-	console.log(mainApp.get('NODECMS_CONFIG'));
+	//console.log(mainApp.get('NODECMS_CONFIG'));
 };
 
 function loadSystemApp(mainApp){
@@ -34,7 +34,7 @@ function loadSystemApp(mainApp){
 	system.register(mainApp);
 }
 
-function loopTroughApps(method, mainApp){
+function loopTroughApps(method, mainApp, eventEmitter){
 	var appDirectories = fs.readdirSync(path.join(__ROOTDIR, 'apps'));
 	
 	appDirectories.forEach(function(dir){
@@ -47,7 +47,7 @@ function loopTroughApps(method, mainApp){
 	  			
 	  			logger.info('init the ' + dir + ' app');
 	  			console.log('init the ' + dir + ' app');
-	  			subApp.init(mainApp);
+	  			subApp.init(mainApp, eventEmitter);
 	  		}
 	  		
 	  		if(method === 'register' && subApp.register){
@@ -66,7 +66,10 @@ function loopTroughApps(method, mainApp){
 }
 
 function extendConfig(config, mainApp){
-	var existingConfig = mainApp.get('NODECMS_CONFIG') || { adminMenu: [] };
+	
+	var defaultConfig = { adminMenu: [], adminWidgets: [], adminStats: [] };
+	var existingConfig = mainApp.get('NODECMS_CONFIG') || defaultConfig;
+	
 	if(config.adminMenu){
 		
 		for (var i = config.adminMenu.length - 1; i >= 0; i--) {
@@ -77,6 +80,12 @@ function extendConfig(config, mainApp){
 
 			existingConfig.adminMenu.push(config.adminMenu[i]);
 		};
+	}
+	if(config.adminWidgets){
+		existingConfig.adminWidgets.push(config.adminWidgets);
+	}
+	if(config.adminStats){
+		existingConfig.adminStats.push(config.adminStats); 
 	}
 	mainApp.set('NODECMS_CONFIG', existingConfig);
 	

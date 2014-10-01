@@ -6,7 +6,7 @@ describe('User Repository specs:', function(){
 	var UsersRepository = require('../lib/usersrepository');
 	var usersRepository = new UsersRepository(true);
 		
-	describe('When finding a user by its usename,', function(){
+	describe('When finding a user by its username,', function(){
 
 		it('It should find it', function(done){
 

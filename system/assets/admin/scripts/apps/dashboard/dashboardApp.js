@@ -1,65 +1,39 @@
-﻿angular.module('dashboardApp', ['sharedmodule', 'services'])
-.factory('dashboardService', function ($http) {
-    return {
-        
-        getContentStatistics: function() {
-            return {
-                    success: function(f){
-                        f( {
-                            NumberOfContentPages: 10,
-                            NumberOfMenus: 11,
-                            NumberOfUsers: 12,
-                            NumberOfUploadedFiles: 13
-                        } );
-                    }
-                }
-           
-        },
-        getLatestChangedContentPages: function() {
-            return {
-                    success: function(f){
-                        f( [ { PageName: 'Page One', LastChanged: 'NVT' },
-                        { PageName: 'Page Two', LastChanged: 'NVT' },
-                        { PageName: 'Page Three', LastChanged: 'NVT' } ] );
-                    }
-                }
-         
-        }
-        
-        // getContentStatistics: function() {
-        //     return $http({
-        //         method: 'GET',
-        //         url: '/admin/dashboard/getcontentstatistics',
-        //         params: { number: 3 }
-        //     });
-        // },
-        // getLatestChangedContentPages: function() {
-        //     return $http({
-        //         method: 'GET',
-        //         url: '/admin/dashboard/getlatestchangedcontentpages',
-        //         params: { number: 3 }
-        //     });
-        // }
+﻿(function(cms, angular){
+
+    cms.home.init = function(widgetModules){
+
+        var modules = ['sharedmodule', 'services', 'filters'].concat(widgetModules);
+
+        angular.module('dashboardApp', modules)
+            .controller('dashboardController', function($scope, logsService){
+                $scope.showLogMessagesLoader = true;
+                
+                logsService.query({ limit: 5 }).$promise.then(function(data){
+                    $scope.latestLogMessages = data;
+                    $scope.showLogMessagesLoader = false;
+                });
+            })
+            .directive('contentStats', function(){
+                return {
+                  restrict: 'E',
+                  controller: function($scope, $http){
+                    
+                    $scope.showBusyIndicator = true;
+
+                    $http.get('/admin/api/dashboard/getcontentstats').then(function(result){
+                        $scope.showBusyIndicator = false;
+                        $scope.contentstats = result.data;
+                    });
+                  },
+                  template: '<div class="busy" ng-show="showBusyIndicator"></div>' +
+                            '<div class="contentstats">' +
+                                '<h5 ng-repeat="stat in contentstats"><span class="label label-primary">{{ stat.count }}</span>' +
+                                '<a href="{{ stat.url }}">{{ stat.resourcekey | __  }}</a></h5>' +
+                            '</div>'      
+                };
+            });
     };
-})
-.controller('dashboardController', function($scope, dashboardService, logsService){
-	$scope.showLogMessagesLoader = true;
-    //$scope.showContentStatisticsLoader = true;
-    //$scope.showLatestChangedContentPagesLoader = true;
-    
-    logsService.query({ limit: 5 }).$promise.then(function(data){
-        $scope.latestLogMessages = data;
-        $scope.showLogMessagesLoader = false;
-    });
-    
-    
-    // dashboardService.getContentStatistics().success(function (data) {
-    //     $scope.showContentStatisticsLoader = false;
-    //     $scope.contentStatistics = data;
-    // });
-    
-    // dashboardService.getLatestChangedContentPages().success(function (data) {
-    //     $scope.showLatestChangedContentPagesLoader = false;
-    //     $scope.LatestChangedContentPages = data;
-    // });
-});
+
+})(window.cms = window.cms || {}, window.angular)
+
+

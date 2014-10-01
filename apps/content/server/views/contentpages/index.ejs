@@ -1,0 +1,31 @@
+<% appName = "contentPagesApp" %>
+
+<%- contentFor('title') %>
+<h3><i class="fa fa-file-text-o fa-fw"></i> <%= __('ADMIN_PAGES_LABEL_MAINHEADER') %></h3>
+
+<!-- BODY CONTENT -->
+<%- contentFor('body') %>
+
+<script type="text/ng-template" id="/admin/contentpages/listcontentpages">
+  <%- include listcontentpages.ejs %>
+</script>
+<script type="text/ng-template" id="/admin/contentpages/addcontentpage">
+  <%- include addcontentpage.ejs %>
+</script>
+<script type="text/ng-template" id="/admin/contentpages/editcontentpage">
+  <%- include editcontentpage.ejs %>
+</script>
+
+<div ui-growler></div>
+
+<div ng-view></div>
+
+<%- contentFor('bodyend') %>
+<script type="text/javascript" src="/assets/admin/scripts/vendor/tinymce/tinymce.min.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/shared/common.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/services/framework.module.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/directives/cms.growlers.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/directives/cms.ichecker.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/directives/cms.tinymce.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/services/httpinterceptors.js"> </script>
+<script type="text/javascript" src="/assets/content/scripts/contentpages/contentpagesapp.js"> </script>

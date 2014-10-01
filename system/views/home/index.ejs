@@ -19,9 +19,7 @@
 <div class='row'>
     <div class='col-lg-12'>
         <ol class='breadcrumb'>
-            <li>
-                <a href="/admin"><i class='fa fa-dashboard'></i> Home</a>                                              
-            </li>
+            <li><a href="/admin"><i class='fa fa-dashboard'></i> Home</a></li>
         </ol>
     </div>
 </div>
@@ -46,50 +44,34 @@
         </div>
     </div> -->
 
-    <!-- <div class="row">
+    <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fa fa-bar-chart-o fa-fw"></i> 
                     <%= __('ADMIN_DASHBOARD_LABEL_CONTENTSTATISTICS') %></div>
                 <div class="panel-body">
-                    <div class="busy" ng-show="showContentStatisticsLoader"></div>
-                    <div id="statisticsContainer">
-                        <p><%= __('ADMIN_DASHBOARD_LABEL_CURRENTLY') %></p>
-                        <h5><span class="label label-primary">{{ contentStatistics.NumberOfContentPages }}</span> <%= __('ADMIN_DASHBOARD_LABEL_CONTENTPAGESSTATS') %></h5>
-                        <h5><span class="label label-primary">{{ contentStatistics.NumberOfMenus }}</span> 
-                            <%= __('ADMIN_DASHBOARD_LABEL_MENUSSTATS') %></h5>
-                        <h5><span class="label label-primary">{{ contentStatistics.NumberOfUsers }}</span> 
-                            <%= __('ADMIN_DASHBOARD_LABEL_USERSTATS') %></h5>
-                        <h5><span class="label label-primary">{{ contentStatistics.NumberOfUploadedFiles }}</span> 
-                            <%= __('ADMIN_DASHBOARD_LABEL_UPLOADSTATS') %></h5>
-                    </div>
+                    <content-Stats />
                 </div>
             </div>
         </div>
-    </div> -->
-
+    </div>
     <div class="row">
-        <!-- <div class="col-lg-6">
-            <div class="panel panel-default">
-                <div class="panel-heading"><i class="fa fa-file-text-o fa-fw"></i> 
-                <%= __('ADMIN_DASHBOARD_LABEL_LATESTCHANGES') %></div>
-                <div class="panel-body">
-                    <div class="busy" ng-show="showLatestChangedContentPagesLoader"></div>
-                    <div id="latestChangedContainer" ng-cloak>
-                        <h5><%= __('ADMIN_DASHBOARD_LABEL_CONTENTPAGESCHANGES') %></h5>
-                        <div class="list-group">
-                            <a ng-href="#" class="list-group-item" ng-repeat="latestpage in LatestChangedContentPages">
-                                <i class="fa fa-file-text-o fa-fw"></i> {{ latestpage.PageName }}
-                                <span class="pull-right text-muted small">
-                                    <em>{{ latestpage.LastChanged }}</em>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
+        <% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ 
+            for(var j = 0; j < NODECMS_CONFIG.adminWidgets[i].widgets.length; j++){ %>
+            
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <<%=NODECMS_CONFIG.adminWidgets[i].widgets[j] %> />
                 </div>
-            </div>
-        </div> -->
-        <div class="col-lg-12">
+            </div> 
+
+        <% } } %>
+
+    </div>
+    <div class="row">
+        
+        <!-- -->
+        <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="fa fa-bell fa-fw"></i> <%= __('ADMIN_DASHBOARD_LABEL_LATESTLOGS') %>
@@ -119,13 +101,24 @@
 
 <%- contentFor('bodyend') %>
 
-
 <script type="text/javascript" src="/assets/admin/scripts/apps/dashboard/cms.home.js"> </script>
 <script type="text/javascript" src="/assets/admin/scripts/apps/dashboard/cms.analytics_api_v3_auth.js"> </script>
 <script type="text/javascript" src="/assets/admin/scripts/apps/dashboard/dashboardApp.js"> </script>
 <script type="text/javascript" src="/assets/admin/scripts/apps/services/logsService.js"> </script>
 
+<% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ %>
+    <script type="text/javascript" src="<%= NODECMS_CONFIG.adminWidgets[i].file %>"> </script>
+<% } %>
 
+<script type="text/javascript">
+    var modules = [];
+
+    <% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ %>
+        modules.push('<%= NODECMS_CONFIG.adminWidgets[i].moduleName %>');
+    <% } %>
+
+    cms.home.init(modules);
+</script>
 <!-- @section endOfBody
 {
     <script type="text/javascript">
