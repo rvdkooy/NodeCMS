@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 var resourceController = require('./controllers/resourcesController');
-var HomeController = require('./controllers/homecontroller');
+var DashboardController = require('./controllers/dashboardcontroller');
 var LogsController = require('./controllers/logscontroller');
 var ioc = require('tiny-ioc');
 
@@ -10,12 +10,12 @@ exports.register = function(mainApp) {
 	mainApp.use('/assets/admin', express.static(path.join(__dirname, 'assets/admin')));	
 	
 	// default admin route
-	var homeController = new HomeController();
+	var dashboardcontroller = new DashboardController(mainApp);
 	var logsController = ioc.resolve(LogsController);
 
 	mainApp.get('/admin', function(req, res){ res.redirect('/admin/dashboard'); });
-	mainApp.get('/admin/dashboard', homeController.index);
-	mainApp.get('/admin/api/dashboard/getcontentstats', homeController.getcontentstats);
+	mainApp.get('/admin/dashboard', dashboardcontroller.index);
+	mainApp.get('/admin/api/dashboard/getcontentstats', dashboardcontroller.getcontentstats);
 	mainApp.get('/admin/logs', logsController.index);
 	mainApp.get('/admin/api/logs', logsController.apiGetLogs);
 

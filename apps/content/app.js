@@ -1,3 +1,4 @@
+var q = require('q');
 var express = require('express');
 var path = require('path');
 var ioc = require('tiny-ioc');
@@ -30,9 +31,26 @@ exports.register = function(mainApp) {
 	mainApp.get('/admin/api/contentpages/latestchanged/:number', pagescontroller.ApiLatestChanged);
 };
 
+var getContentStats = function(){
+	
+	var deferred = q.defer();
+
+	var stats = [];
+
+	var repo = ioc.resolve('contentpagesrepository');
+	
+	repo.find({}, function(results){
+		
+		stats.push({ count: results.length, resourcekey: 'ADMIN_DASHBOARD_LABEL_CONTENTPAGESSTATS', url: '/admin/contentpages'});
+		deferred.resolve(stats);
+	});
+
+	return deferred.promise;
+};
+
 exports.config = {
 	adminMenu: [ { key: 'CONTENT', url: '#', css: 'fa-sitemap', menuItems: [ { key: 'PAGES', url: '/admin/contentpages', css: 'fa-file-text-o' } ] } ],
 	adminWidgets: { file: '/assets/content/scripts/contentpages/widgets.js', moduleName: 'contentwidgets', widgets: ['latestupdates' ] },
-	adminStats: [ '/admin/api/contentpages/numberofpublishedcontentpages', 
-					'/admin/api/contentpages/numberofnonpublishedcontentpages']
+	adminStats: getContentStats
 };
+

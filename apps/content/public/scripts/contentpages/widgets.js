@@ -11,7 +11,7 @@ widgetsModule.directive('latestupdates', function(){
       	});
       },
       template: '<div class="panel-heading">' +
-                    'Latest Changed Pages' +
+                    cms.adminResources.get('ADMIN_DASHBOARD_LABEL_LATESTCHANGEDPAGES') +
                 '</div>' +
                 '<div class="panel-body">' +
                     '<ul class="list-group">' +

@@ -85,7 +85,7 @@ function extendConfig(config, mainApp){
 		existingConfig.adminWidgets.push(config.adminWidgets);
 	}
 	if(config.adminStats){
-		[].push.apply(existingConfig.adminStats, config.adminStats); 
+		existingConfig.adminStats.push(config.adminStats); 
 	}
 	mainApp.set('NODECMS_CONFIG', existingConfig);
 	
