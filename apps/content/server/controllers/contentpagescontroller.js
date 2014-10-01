@@ -11,7 +11,7 @@ module.exports = function(contentpagesrepository, logger){
 			// for now just render the default home page!!!
 			res.render('apps/'+ mainTemplate +'/server/views/home/index', { 
 				layout: 'apps/'+ mainTemplate +'/server/views/layout.ejs',
-				model: { name: 'home' } }); 
+				model: { name: 'home', content: 'So lonely here...' } }); 
 		}
 		else{
 			contentpagesrepository.findByUrl( req.url, function(result){
