@@ -1,14 +1,25 @@
 <%- contentFor('body') %>
 
-<div class="row">
-    <div class="span12">
-        <%= model.name %>
-    </div>
-</div>
+<div class="site-wrapper-inner-content">
 
-<hr/>
-<div class="row">
-    <div class="span12">
-        <%- model.content %>
+<div class="cover-container">
+
+  <div class="masthead clearfix">
+    <div class="inner">
+      <h3 class="masthead-brand">NodeCMS</h3>
+      <ul class="nav masthead-nav">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
     </div>
+  </div>
+  <div class="inner normalcover">
+	<p><%- model.content %></p>
+	</div>
+  <div class="mastfoot">
+    <div class="inner">
+      <p>&copy; Company 2014</p>
+    </div>
+  </div>
+</div>
 </div>
