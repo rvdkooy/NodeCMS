@@ -6,7 +6,9 @@ var ContentPagesRepository = require('./server/lib/contentpagesrepository');
 ioc.registerAsSingleton('contentpagesrepository', ContentPagesRepository, 
 	{ ignoreSubDependencies: true });
 var PagesController = require('./server/controllers/contentpagescontroller');
+var MenusController = require('./server/controllers/menuscontroller');
 var pagescontroller = ioc.resolve(PagesController);
+var menuscontroller = ioc.resolve(MenusController);
 
 
 exports.init = function(mainApp, eventEmitter){
@@ -21,7 +23,7 @@ exports.register = function(mainApp) {
 
 	mainApp.use('/assets/content', express.static(path.join(__dirname, 'public')));	
 
-	// Contentpages App
+	// Contentpages
 	mainApp.get('/admin/contentpages', pagescontroller.index);
 	mainApp.get('/admin/api/contentpages', pagescontroller.ApiContentPages);
 	mainApp.get('/admin/api/contentpages/:id', pagescontroller.ApiGetContentPage);
@@ -29,6 +31,9 @@ exports.register = function(mainApp) {
 	mainApp.put('/admin/api/contentpages/:id', pagescontroller.ApiUpdateContentPage);
 	mainApp.delete('/admin/api/contentpages/:id', pagescontroller.ApiDeleteContentPage);
 	mainApp.get('/admin/api/contentpages/latestchanged/:number', pagescontroller.ApiLatestChanged);
+
+	//Menus
+	mainApp.get('/admin/menus', menuscontroller.index);
 };
 
 var getContentStats = function(){
@@ -49,7 +54,8 @@ var getContentStats = function(){
 };
 
 exports.config = {
-	adminMenu: [ { key: 'CONTENT', url: '#', css: 'fa-sitemap', menuItems: [ { key: 'PAGES', url: '/admin/contentpages', css: 'fa-file-text-o' } ] } ],
+	adminMenu: [ { key: 'CONTENT', url: '#', css: 'fa-sitemap', 
+		menuItems: [ { key: 'PAGES', url: '/admin/contentpages', css: 'fa-file-text-o' }, { key: 'MENUS', url: '/admin/menus', css:'fa-file-text-o' }  ] } ],
 	adminWidgets: { file: '/assets/content/scripts/contentpages/widgets.js', moduleName: 'contentwidgets', widgets: ['latestupdates' ] },
 	adminStats: getContentStats
 };

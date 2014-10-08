@@ -5,14 +5,14 @@ module.exports = function(mainApp){
 		res.status(status);
 		// production error handler
 		// no stacktraces leaked to user
-		
+		console.log(mainApp.get('env'));
 		if (mainApp.get('env') === 'production') {
 
 			if(status >= 400 && status < 500){
 				res.render('apps/frontend/server/views/4xx', { layout: false });
 			}
 			else{
-				res.render('apps/frontend/server/views/5xx', { layout: false });
+				res.render('apps/frontend/server/views/5xx', { layout: false, error: '' });
 			}	
 		}
 		// development error handler
