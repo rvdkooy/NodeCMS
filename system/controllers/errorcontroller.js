@@ -5,7 +5,6 @@ module.exports = function(mainApp){
 		res.status(status);
 		// production error handler
 		// no stacktraces leaked to user
-		console.log(mainApp.get('env'));
 		if (mainApp.get('env') === 'production') {
 
 			if(status >= 400 && status < 500){
