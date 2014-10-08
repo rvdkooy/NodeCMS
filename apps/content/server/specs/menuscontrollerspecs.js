@@ -131,6 +131,40 @@ describe('Menus controller specs:', function(){
 		});
 	});
 
+	describe('When updating an existing menu,', function(){
+
+		var existingMenu = { 
+			name: 'topMenu'
+		};	
+
+		var responseObject = new ResponseObject();
+		var requestObject = { 
+			params: { id: 1 },
+			body: { name: 'topMenu', children: [ { name: 'child1', url: '/child1' } ] } 
+		}	
+
+		var repository = {
+			update: function(query, options, callback){
+				callback();
+			}
+		};
+
+		var repoUpdateMethod = sinon.spy(repository, 'update');
+		var controller = new MenusController(repository, fakelogger);
+		controller.ApiUpdateMenu(requestObject, responseObject);
+
+		it('It should update the menu', function(){
+
+			assert(repoUpdateMethod.called);
+		});
+
+		it('It should return a success result', function(){
+
+			assert.equal(responseObject.currentStatus, 200);
+			assert.equal(responseObject.isSend, true);
+		});
+	});
+
 	describe('When deleting a menu,', function(){
 
 		var responseObject = new ResponseObject();

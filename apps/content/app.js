@@ -39,6 +39,7 @@ exports.register = function(mainApp) {
 	mainApp.get('/admin/api/menus', menuscontroller.ApiMenus);
 	mainApp.get('/admin/api/menus/:id', menuscontroller.ApiGetMenu);
 	mainApp.post('/admin/api/menus', menuscontroller.ApiAddMenu);
+	mainApp.put('/admin/api/menus/:id', menuscontroller.ApiUpdateMenu);
 	mainApp.delete('/admin/api/menus/:id', menuscontroller.ApiDeleteMenu);
 };
 

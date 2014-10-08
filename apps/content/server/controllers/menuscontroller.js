@@ -47,6 +47,21 @@ module.exports = function(menusrepository, logger){
 		});
 	};
 
+	this.ApiUpdateMenu = function(req, res){
+		
+		logger.info('Updating the menu with name: %s', req.params.name);
+
+		menusrepository.update(
+			{ _id: req.params.id },
+			{ 
+				$set: { children: req.body.children }
+			},
+			function(){
+				res.status(200).send();
+			});
+		
+	}
+
 	this.ApiDeleteMenu = function(req, res){
 		logger.info('Removing the menu with id: %s', req.params.id);
 		menusrepository.remove({ _id: req.params.id }, { multi: false }, function(){
