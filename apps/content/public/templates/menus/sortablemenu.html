@@ -23,8 +23,9 @@
             </div>
         </div>
     </div>
-    <ol ng-if="level.children != 0">
-        <li id="list_{{ level.id }}" class='listitem' ng-repeat="level in level.children" ng-include="'listitem'"></li>           
+    <ol ng-if="level.children.length > 0">
+        <li id="list_{{ level.id }}" class='listitem' ng-repeat="level in level.children" 
+            ng-include="'listitem'"></li>           
     </ol>
 </script>
 
@@ -53,5 +54,6 @@
 </script>
 
 <ol id="nestedMenu">
-    <li class='listitem' id="list_{{ level.id }}" ng-repeat="level in menu.children" ng-include="'listitem'"></li>
+    <li class='listitem' id="list_{{ level.id }}" ng-repeat="level in menu.children" 
+        ng-include="'listitem'"></li>
 </ol>

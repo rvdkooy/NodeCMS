@@ -2,13 +2,7 @@ angular.module('cms.sortableMenu', [])
 
     .directive('sortableMenu', function ($rootScope, $modal) {
 
-        // var expandText = cms.adminResources.get('ADMIN_MENUS_LABEL_EXPAND');
-        // var collapseText = cms.adminResources.get('ADMIN_MENUS_LABEL_COLLAPSE');
-        // var optionsText = cms.adminResources.get('ADMIN_MENUS_LABEL_OPTIONS');
-        // var placeholderNameText = cms.adminResources.get('ADMIN_MENUS_LABEL_PLACEHOLDER_NAME');
-        // var placeholderUrlText = cms.adminResources.get('ADMIN_MENUS_LABEL_PLACEHOLDER_URL');
-        // var removeText = cms.adminResources.get('ADMIN_MENUS_LABEL_REMOVE');
-        var _scope;
+        var _scope, firstrun = true, menu;
 
         function findArray(array, item){
             for (var i = 0; i < array.length; i++) {
@@ -16,16 +10,17 @@ angular.module('cms.sortableMenu', [])
                     return array;
                 }
                 if(item.children){
-                    return findArray(item.children, item);
+                    var result = findArray(item.children, item);
+                    if(result){
+                        return result;
+                    }
                 }
             }
         }
 
         function rebuildMenuHierarchy(){
-            var hierarchy = $('#nestedMenu').nestedSortable('toHierarchy');
-            
-            $('#nestedMenu').sortable("destroy");
-
+            var hierarchy = menu.nestedSortable('toHierarchy');
+            menu.nestedSortable("destroy");
             var newChildren = [];
 
             for (var i = 0; i < hierarchy.length; i++) {
@@ -37,47 +32,59 @@ angular.module('cms.sortableMenu', [])
               _scope.$apply();
             }
 
-            $('#nestedMenu').sortable();
+            initNestedSortable();
         }
 
         function buildupNewChildren(hierarchyItem, originalMenu, newChildren){
             
-            var originalItem = findInOriginalMenu(originalMenu, hierarchyItem.id);
+            var originalItem = searchInOriginalMenu(originalMenu, hierarchyItem.id);
+            
             if(originalItem){
-                originalItem.children = null;
-                newChildren.push(originalItem);
-            }
-            if(hierarchyItem.children){
                 
-                originalItem.children = [];
-                for (var i = 0; i < hierarchyItem.children.length; i++) {
-                    buildupNewChildren(hierarchyItem.children[i], originalMenu, originalItem.children);
-                };
+                var newItem = angular.copy(originalItem);
+                newItem.children = [];
+                newChildren.push(newItem);
+
+                if(hierarchyItem.children){
+                
+                    for (var i = 0; i < hierarchyItem.children.length; i++) {
+                        buildupNewChildren(hierarchyItem.children[i], originalMenu, newItem.children);
+                    };
+                }
             }
         }
 
-        function searchRecursiveInChildren(item, id){
+        function searchInOriginalMenu(children, id){
                         
-            if(item.id === id){
-                return item;
-            }   
-            else{
-                if(item.children){
-                    for (var i = 0; i < item.children.length; i++) {
-                        return searchRecursiveInChildren(item.children[i], id);
+            for (var i = 0; i < children.length; i++) {
+                
+                if(children[i].id === id){
+                    return children[i];
+                } 
+                if(children[i].children){
+                    var result = searchInOriginalMenu(children[i].children, id);
+                    if(result){
+                        return result;
                     }
-                }
+                } 
             }
         }
 
-        function findInOriginalMenu(children, id){
-           for (var i = 0; i < children.length; i++) {
-                
-                var searchResult = searchRecursiveInChildren(children[i], id);
-                if(searchResult){
-                    return searchResult;
-                }
-            };
+        function initNestedSortable(){
+
+            setTimeout(function() {
+                menu.nestedSortable({
+                    forcePlaceholderSize: true,
+                    helper: 'clone',
+                    items: 'li.listitem',
+                    maxLevels: 3,
+                    opacity: .6,
+                    revert: 250,
+                    update: function(){
+                        rebuildMenuHierarchy();
+                    }
+                }).disableSelection();
+            });
         }
 
         return {
@@ -91,9 +98,9 @@ angular.module('cms.sortableMenu', [])
                 };
 
                  _scope.remove = function(item){
-                        var array = findArray(_scope.menu.children,item);
+                        var array = findArray(_scope.menu.children, item);
                         if(array){
-                            array.splice(array.indexOf(item), 1);
+                        array.splice(array.indexOf(item), 1);
                     };
                 };
 
@@ -124,20 +131,10 @@ angular.module('cms.sortableMenu', [])
                         }
                     });
                 });
-
-                setTimeout(function() {
-                    $('#nestedMenu').nestedSortable({
-                    forcePlaceholderSize: true,
-                    helper: 'clone',
-                    items: 'li.listitem',
-                    maxLevels: 3,
-                    opacity: .6,
-                    revert: 250,
-                    update: function(){
-                        rebuildMenuHierarchy();
-                    }
-                    }).disableSelection();
-                });
+                
+                menu = $('#nestedMenu')
+                
+                initNestedSortable();
             }
         };
     });
