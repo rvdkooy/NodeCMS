@@ -26,7 +26,7 @@
 
                     <h2>{{ menu.name }}</h2>
 
-                    <ol id="nestedMenu" sortable-menu="" ng-model="menu"></ol>
+                    <sortable-menu ng-model="menu"></sortable-menu>
 
                     <button class="btn btn-primary" ng-click="saveButtonClicked()">
                         <%= __("ADMIN_COMMON_BUTTON_SAVE") %>
@@ -34,36 +34,8 @@
                     <button class="btn btn-primary" ng-click="saveAndCloseButtonClicked()">
                         <%= __("ADMIN_COMMON_BUTTON_SAVEANDCLOSE") %>
                     </button>
-
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-<script type="text/ng-template" id="newMenuItemTemplate.html">
-
-    <div ng-form="createmenuitemform">
-
-        <div class="modal-header">
-            <button type="button" class="close" ng-click="closeModal()" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel"><%= __("ADMIN_MENUS_LABEL_ADDMENUITEM") %></h4>
-        </div>
-        <div class="modal-body">
-            <div class='form-group'>
-                <input class='form-control' type='text' name='name' ng-model="name" 
-                       placeholder='<%= __("ADMIN_MENUS_LABEL_PLACEHOLDER_NAME") %>' required="" />
-            </div>
-            <div class='form-group'>
-                <input class='form-control' type='text' name='url' ng-model="url"
-                       placeholder='<%= __("ADMIN_MENUS_LABEL_PLACEHOLDER_URL") %>' required="" />
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" ng-click="closeModal()"><%= __("ADMIN_COMMON_BUTTON_CLOSE") %></button>
-            <button type="button" class="btn btn-primary" ng-disabled="!createmenuitemform.$valid" ng-click="saveAndClose(name, url)">
-                <%= __("ADMIN_COMMON_BUTTON_OK") %>
-            </button>
-        </div>
-    </div>
-</script>

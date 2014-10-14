@@ -1,127 +1,143 @@
 angular.module('cms.sortableMenu', [])
-    //
-    // This directive is needed to to show the sortable menu
-    //
-    .directive('sortableMenu', function () {
 
-        var expandText = cms.adminResources.get('ADMIN_MENUS_LABEL_EXPAND');
-        var collapseText = cms.adminResources.get('ADMIN_MENUS_LABEL_COLLAPSE');
-        var optionsText = cms.adminResources.get('ADMIN_MENUS_LABEL_OPTIONS');
-        var placeholderNameText = cms.adminResources.get('ADMIN_MENUS_LABEL_PLACEHOLDER_NAME');
-        var placeholderUrlText = cms.adminResources.get('ADMIN_MENUS_LABEL_PLACEHOLDER_URL');
-        var removeText = cms.adminResources.get('ADMIN_MENUS_LABEL_REMOVE');
+    .directive('sortableMenu', function ($rootScope, $modal) {
 
-        var template = "<div class='panel panel-default'>" +
-                            "<div class='panel-heading'>" +
-                                "<span class='title'>{1}</span>" +
-                                "<div class='pull-right'>" +
-                                "<div class='btn-group'>" +
-                                    "<button type='button' class='btn btn-default btn-xs dropdown-toggle' " +
-                                    "data-toggle='dropdown'>" + optionsText + "<span class='caret'></span></button>" +
-                                    "<ul class='dropdown-menu pull-right' role='menu'>" +
-                                        "<li class='expandbutton'><a href='#'>" + expandText + "</a></li>" +
-                                        "<li class='collapsebutton hidden'><a href='#'>" + collapseText + "</a></li>" +
-                                        "<li class='deletebutton'><a href='#'>" + removeText + "</a></li>" +
-                                    "</ul>" +
-                                "</div>" +
-                            "</div>" +
-                            "</div>" +
-                            "<div style='display:none' class='panel-body'>" +
-                                "<div class='form-group'>" +
-                                    "<input class='form-control' type='text' name='name_{0}' value='{1}' placeholder='" + placeholderNameText + "' />" +
-                                "</div>" +
-                                "<div class='form-group'>" +
-                                    "<input class='form-control' type='text' name='url_{0}' value='{2}' placeholder='" + placeholderUrlText + "' />" +
-                                "</div>" +
-                            "</div>" +
-                        "</div>";
+        // var expandText = cms.adminResources.get('ADMIN_MENUS_LABEL_EXPAND');
+        // var collapseText = cms.adminResources.get('ADMIN_MENUS_LABEL_COLLAPSE');
+        // var optionsText = cms.adminResources.get('ADMIN_MENUS_LABEL_OPTIONS');
+        // var placeholderNameText = cms.adminResources.get('ADMIN_MENUS_LABEL_PLACEHOLDER_NAME');
+        // var placeholderUrlText = cms.adminResources.get('ADMIN_MENUS_LABEL_PLACEHOLDER_URL');
+        // var removeText = cms.adminResources.get('ADMIN_MENUS_LABEL_REMOVE');
+        var _scope;
 
-
-        function toggleClassOnElement(element, className) {
-            if (element.hasClass(className)) {
-                element.removeClass(className);
-            } else {
-                element.addClass(className);
+        function findArray(array, item){
+            for (var i = 0; i < array.length; i++) {
+                if(array[i] === item){
+                    return array;
+                }
+                if(item.children){
+                    return findArray(item.children, item);
+                }
             }
         }
 
-        function initToggleButtons(elm) {
+        function rebuildMenuHierarchy(){
+            var hierarchy = $('#nestedMenu').nestedSortable('toHierarchy');
+            
+            $('#nestedMenu').sortable("destroy");
 
-            $(elm).find('.expandbutton a, .collapsebutton a').on("click", function () {
+            var newChildren = [];
 
-                $(this).closest('.panel').find('.panel-body').slideToggle();
+            for (var i = 0; i < hierarchy.length; i++) {
+                buildupNewChildren(hierarchy[i], _scope.menu.children, newChildren);
+            };
+            _scope.menu.children = newChildren;
 
-                toggleClassOnElement($(this).closest('.panel-heading').find('li.collapsebutton'), 'hidden');
-                toggleClassOnElement($(this).closest('.panel-heading').find('li.expandbutton'), 'hidden');
-                toggleClassOnElement($(this).closest('.btn-group'), 'open');
+            if (!_scope.$$phase) {
+              _scope.$apply();
+            }
+
+            $('#nestedMenu').sortable();
+        }
+
+        function buildupNewChildren(hierarchyItem, originalMenu, newChildren){
+            
+            var originalItem = findInOriginalMenu(originalMenu, hierarchyItem.id);
+            if(originalItem){
+                originalItem.children = null;
+                newChildren.push(originalItem);
+            }
+            if(hierarchyItem.children){
                 
-                return false;
-            });
-
-            $(elm).find('.deletebutton').on('click', function () {
-                $(this).closest('li.listitem').remove();
-                return false;
-            });
+                originalItem.children = [];
+                for (var i = 0; i < hierarchyItem.children.length; i++) {
+                    buildupNewChildren(hierarchyItem.children[i], originalMenu, originalItem.children);
+                };
+            }
         }
-        
 
-
-        function addListItemsToNode(node, children) {
-            for (var i = 0; i < children.length; i++) {
-                var child = children[i];
-
-                if(!child.id){
-                    child.id = Math.floor((Math.random() * 1000000) + 1).toString();
-                }
-
-                var li = $("<li class='listitem' id='list_" + child.id + "'>");
-
-                var replacedTemplate = template.format(child.id, child.name, child.url);
-
-                li.html(replacedTemplate);
-                node.append(li);
-
-                initToggleButtons(li);
-
-                if (child.children && child.children.length > 0) {
-
-                    var orderedList = $("<ol>");
-                    li.append(orderedList);
-
-                    addListItemsToNode(orderedList, child.children);
+        function searchRecursiveInChildren(item, id){
+                        
+            if(item.id === id){
+                return item;
+            }   
+            else{
+                if(item.children){
+                    for (var i = 0; i < item.children.length; i++) {
+                        return searchRecursiveInChildren(item.children[i], id);
+                    }
                 }
             }
+        }
+
+        function findInOriginalMenu(children, id){
+           for (var i = 0; i < children.length; i++) {
+                
+                var searchResult = searchRecursiveInChildren(children[i], id);
+                if(searchResult){
+                    return searchResult;
+                }
+            };
         }
 
         return {
-            restrict: 'A',
+            restrict: 'E',
+            templateUrl: '/assets/content/templates/menus/sortablemenu.html',
             link: function (scope, elm) {
+                _scope = scope;
 
-                var childrenInMenu = [];
-                
-                scope.$watch('menu.children', function (newChildren, oldChildren) {
-                    updateMenu(newChildren);
-                }, true);
+                _scope.toggle = function(el){
+                    $(el.target).closest('.panel').find('.panel-body').slideToggle();
+                };
 
-                function updateMenu(children) {
+                 _scope.remove = function(item){
+                        var array = findArray(_scope.menu.children,item);
+                        if(array){
+                            array.splice(array.indexOf(item), 1);
+                    };
+                };
 
-                    var childrenToAddToMenu = _.difference(children, childrenInMenu);
-                    
-                    for (var i = 0; i < childrenToAddToMenu.length; i++) {
-                        childrenInMenu.push(childrenToAddToMenu[i]);
-                    }
+                $rootScope.$on('createNewMenuItem', function (event, data) {
+                  var modalInstance = $modal.open({
+                        templateUrl: 'newMenuItem',
+                        controller: function($scope, $modalInstance) {
 
-                    addListItemsToNode(elm, childrenToAddToMenu);
-                }
-                
-                $(elm).nestedSortable({
+                            $scope.saveAndClose = function (name, url) {
+                                $modalInstance.close({name: name, url: url});
+                            };
+
+                            $scope.closeModal = function() {
+                                $modalInstance.close();
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function(data) {
+
+                        if (data) {
+                            _scope.menu.children.push({ 
+                                id: Math.floor((Math.random() * 1000000) + 1).toString(),
+                                name: data.name, 
+                                url: data.url,
+                                children: [] 
+                            });
+                        }
+                    });
+                });
+
+                setTimeout(function() {
+                    $('#nestedMenu').nestedSortable({
                     forcePlaceholderSize: true,
                     helper: 'clone',
                     items: 'li.listitem',
-                    maxLevels: 4,
+                    maxLevels: 3,
                     opacity: .6,
-                    revert: 250
-                }).disableSelection();
+                    revert: 250,
+                    update: function(){
+                        rebuildMenuHierarchy();
+                    }
+                    }).disableSelection();
+                });
             }
         };
     });

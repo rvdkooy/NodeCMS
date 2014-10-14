@@ -73,25 +73,13 @@ app.controller('addMenuController',
     });
 
 app.controller('editMenuController', 
-    function ($scope, menu, $location, notificationService, menusService, $http, $modal) {
+    function ($rootScope, $scope, menu, $location, notificationService, menusService, $http) {
 
         menu.children = menu.children || [];
         $scope.menu = menu;
-
-        $scope.addMenuItem = function() {
-            var modalInstance = $modal.open({
-                templateUrl: 'newMenuItemTemplate.html',
-                controller: 'AddMenuItemController'
-            });
-
-            modalInstance.result.then(function(data) {
-
-                if (data) {
-                    $scope.menu.children.push({ name: data.name, url: data.url });
-                }
-            });
+        $scope.addMenuItem = function(){
+            $rootScope.$broadcast('createNewMenuItem');
         };
-
         $scope.saveButtonClicked = function () {
             updateMenu(false);
         };
@@ -102,19 +90,7 @@ app.controller('editMenuController',
         
         function updateMenu(close) {
 
-            var hierarchy = $('#nestedMenu').nestedSortable('toHierarchy');
-            
-            var newMenu = {
-                _id: $scope.menu._id,
-                name: $scope.menu.name,
-                children: hierarchy
-            }
-
-            for (var i = 0; i < newMenu.children.length; i++) {
-                rebuildMenu(newMenu.children[i], $scope.menu.children);
-            };
-
-            menusService.update(newMenu, function(){
+            menusService.update($scope.menu, function(){
                 notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_MENUS_NOTIFY_MENUUPDATED', $scope.menu.name));
 
                 if (close) {
@@ -122,55 +98,4 @@ app.controller('editMenuController',
                 }
             });
         }
-
-        function rebuildMenu(hierarchyItem, originalMenu){
-            
-            var originalItem = findInOriginalMenu(originalMenu, hierarchyItem.id);
-            if(originalItem){
-                hierarchyItem.name = originalItem.name;
-                hierarchyItem.url = originalItem.url;
-            }
-            if(hierarchyItem.children){
-                for (var i = 0; i < hierarchyItem.children.length; i++) {
-                    rebuildMenu(hierarchyItem.children[i], originalMenu);
-                };
-            }
-        }
-        function search(item, id){
-                        
-            if(item.id === id){
-                return item;
-            }   
-            else{
-                if(item.children){
-                    for (var i = 0; i < item.children.length; i++) {
-                        var searchResult = search(item.children[i], id);
-                        if(searchResult){
-                            return searchResult;
-                        }
-                    }
-                }
-            }
-        }
-        function findInOriginalMenu(children, id){
-           for (var i = 0; i < children.length; i++) {
-                
-                var searchResult = search(children[i], id);
-                if(searchResult){
-                    return searchResult;
-                }
-            };
-        }
     });
-
-app.controller('AddMenuItemController', function($scope, $modalInstance) {
-
-        $scope.saveAndClose = function (name, url) {
-            $modalInstance.close({name: name, url: url});
-        };
-
-        $scope.closeModal = function() {
-            $modalInstance.close();
-        }
-    }
-);
