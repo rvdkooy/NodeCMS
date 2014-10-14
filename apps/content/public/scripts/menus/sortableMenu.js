@@ -11,8 +11,8 @@ angular.module('cms.sortableMenu', [])
                 if(array[i] === item){
                     return array;
                 }
-                if(item.children){
-                    var result = findArray(item.children, item);
+                if(array[i].children){
+                    var result = findArray(array[i].children, item);
                     if(result){
                         return result;
                     }
@@ -102,7 +102,12 @@ angular.module('cms.sortableMenu', [])
                 _scope = scope;
 
                 _scope.toggle = function(el){
+                    
                     $(el.target).closest('.panel').find('.panel-body').slideToggle();
+                    var togglebuttons = $(el.target).closest('.btn-group').find('button.togglebuttons');
+                    togglebuttons.toggle();
+
+                    return false;
                 };
 
                  _scope.remove = function(item){
@@ -110,6 +115,8 @@ angular.module('cms.sortableMenu', [])
                     if(array){
                         array.splice(array.indexOf(item), 1);
                     };
+
+                    return false;
                 };
 
                 menu = $('#nestedMenu')

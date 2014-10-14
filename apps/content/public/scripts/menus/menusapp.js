@@ -98,7 +98,7 @@ app.controller('editMenuController',
                     $scope.menu.children.push({ 
                         id: Math.floor((Math.random() * 1000000) + 1).toString(),
                         name: data.name, 
-                        url: data.url,
+                        url: '/' + data.url,
                         children: [] 
                     });
                 }

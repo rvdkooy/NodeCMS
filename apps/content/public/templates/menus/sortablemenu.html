@@ -3,13 +3,17 @@
         <div class="panel-heading">
             <span class="title">{{ level.name }}</span>
                 <div class="pull-right">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-xs dropdown-toggle"
-                            data-toggle="dropdown">Options<span class="caret"></span></button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                            <li class="expandbutton" ><a ng-click="toggle($event)">Toggle</a></li>
-                            <li class="deletebutton"><a ng-click="remove(level)">Remove</a></li>
-                        </ul>
+                    
+                    <div class="btn-group btn-group-xs">
+                        <button type="button" class="btn btn-default togglebuttons" ng-click="toggle($event)">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+                        <button type="button" class="btn btn-default togglebuttons" ng-click="toggle($event)" style="display:none">
+                            <span class="glyphicon glyphicon-chevron-up"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" ng-click="remove(level)">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -18,7 +22,7 @@
                     <input class="form-control" type="text" ng-model="level.name" placeholder="placeholderNameText" />
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" ng-model="level.url" placeholder="placeholderUrlText" />
+                  <input class="form-control" type="text" ng-model="level.url" placeholder="placeholderUrlText" />
                 </div>
             </div>
         </div>
@@ -38,11 +42,12 @@
         <div class="modal-body">
             <div class='form-group'>
                 <input class='form-control' type='text' ng-model="name" 
-                       placeholder='placeholdername' required="" />
+                       placeholder='Name' required="" />
             </div>
-            <div class='form-group'>
+            <div class="input-group">
+                <span class="input-group-addon">/</span>
                 <input class='form-control' type='text' ng-model="url"
-                       placeholder='placeholderurl' required="" />
+                       placeholder='Url' required="" />
             </div>
         </div>
         <div class="modal-footer">
