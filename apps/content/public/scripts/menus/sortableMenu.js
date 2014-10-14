@@ -1,9 +1,11 @@
 angular.module('cms.sortableMenu', [])
 
-    .directive('sortableMenu', function ($rootScope, $modal) {
+    .directive('sortableMenu', function () {
 
-        var _scope, firstrun = true, menu;
+        var _scope, menu;
 
+        // this method is used to find the original nested array of an item
+        // it can be used to remove the item from that array
         function findArray(array, item){
             for (var i = 0; i < array.length; i++) {
                 if(array[i] === item){
@@ -18,6 +20,9 @@ angular.module('cms.sortableMenu', [])
             }
         }
 
+        // whenever the nested sortable is updated with a drag event
+        // we rebuild the complete hierarchy for angular to draw the nested menu again.
+        // after that we reinit the nested menu again
         function rebuildMenuHierarchy(){
             var hierarchy = menu.nestedSortable('toHierarchy');
             menu.nestedSortable("destroy");
@@ -35,6 +40,8 @@ angular.module('cms.sortableMenu', [])
             initNestedSortable();
         }
 
+        // this method is building up the new children nested array based on the 
+        // hierarchy and the previous values of the menu
         function buildupNewChildren(hierarchyItem, originalMenu, newChildren){
             
             var originalItem = searchInOriginalMenu(originalMenu, hierarchyItem.id);
@@ -54,6 +61,7 @@ angular.module('cms.sortableMenu', [])
             }
         }
 
+        // recursively loop through the previous menu to find an item
         function searchInOriginalMenu(children, id){
                         
             for (var i = 0; i < children.length; i++) {
@@ -98,40 +106,12 @@ angular.module('cms.sortableMenu', [])
                 };
 
                  _scope.remove = function(item){
-                        var array = findArray(_scope.menu.children, item);
-                        if(array){
+                    var array = findArray(_scope.menu.children, item);
+                    if(array){
                         array.splice(array.indexOf(item), 1);
                     };
                 };
 
-                $rootScope.$on('createNewMenuItem', function (event, data) {
-                  var modalInstance = $modal.open({
-                        templateUrl: 'newMenuItem',
-                        controller: function($scope, $modalInstance) {
-
-                            $scope.saveAndClose = function (name, url) {
-                                $modalInstance.close({name: name, url: url});
-                            };
-
-                            $scope.closeModal = function() {
-                                $modalInstance.close();
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function(data) {
-
-                        if (data) {
-                            _scope.menu.children.push({ 
-                                id: Math.floor((Math.random() * 1000000) + 1).toString(),
-                                name: data.name, 
-                                url: data.url,
-                                children: [] 
-                            });
-                        }
-                    });
-                });
-                
                 menu = $('#nestedMenu')
                 
                 initNestedSortable();

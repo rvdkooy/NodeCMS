@@ -73,13 +73,38 @@ app.controller('addMenuController',
     });
 
 app.controller('editMenuController', 
-    function ($rootScope, $scope, menu, $location, notificationService, menusService, $http) {
+    function ($scope, menu, $location, notificationService, menusService, $http, $modal) {
 
         menu.children = menu.children || [];
         $scope.menu = menu;
         $scope.addMenuItem = function(){
-            $rootScope.$broadcast('createNewMenuItem');
+            var modalInstance = $modal.open({
+                templateUrl: 'newMenuItem',
+                controller: function($scope, $modalInstance) {
+
+                    $scope.saveAndClose = function (name, url) {
+                        $modalInstance.close({name: name, url: url});
+                    };
+
+                    $scope.closeModal = function() {
+                        $modalInstance.close();
+                    }
+                }
+            });
+
+            modalInstance.result.then(function(data) {
+
+                if (data) {
+                    $scope.menu.children.push({ 
+                        id: Math.floor((Math.random() * 1000000) + 1).toString(),
+                        name: data.name, 
+                        url: data.url,
+                        children: [] 
+                    });
+                }
+            });
         };
+        
         $scope.saveButtonClicked = function () {
             updateMenu(false);
         };
