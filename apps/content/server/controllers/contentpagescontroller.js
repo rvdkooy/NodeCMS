@@ -1,33 +1,42 @@
 var _ = require('underscore');
 var moment = require('moment');
 
-module.exports = function(contentpagesrepository, logger){
+module.exports = function(contentpagesrepository, menusrepository, logger){
 
 	this.findContentPage = function(req, res, next){
 		
 		var mainTemplate = 'frontend'; // This should come from some config setting
-
-		if(req.url === '/'){
+		var menuItems = [];
+		menusrepository.findByName('topmenu', function(result){
+			if(result){
+				menuItems = result.children;
+			}
+			if(req.url === '/'){
 			// for now just render the default home page!!!
 			res.render('apps/'+ mainTemplate +'/server/views/home/index', { 
 				layout: 'apps/'+ mainTemplate +'/server/views/layout.ejs',
-				model: { name: 'home', content: 'So lonely here...' } }); 
-		}
-		else{
-			contentpagesrepository.findByUrl( req.url, function(result){
-				if(result){
-					
-					result.template = result.template || 'home';
-
-					res.render('apps/'+ mainTemplate +'/server/views/' + result.template.toLowerCase() + '/index', { 
-						layout: 'apps/'+ mainTemplate +'/server/views/layout.ejs',
-						model: result }); 
-				}
-				else{
-					next();
-				}
-			});
-		}
+				model: { 
+					name: 'home', 
+					content: '',
+					topMenuItems: menuItems
+				} }); 
+			}
+			else{
+				contentpagesrepository.findByUrl( req.url, function(result){
+					if(result){
+						
+						result.template = result.template || 'home';
+						result.topMenuItems = menuItems;
+						res.render('apps/'+ mainTemplate +'/server/views/' + result.template.toLowerCase() + '/index', { 
+							layout: 'apps/'+ mainTemplate +'/server/views/layout.ejs',
+							model: result }); 
+					}
+					else{
+						next();
+					}
+				});
+			}
+		}); 
 	};
 
 	this.index = function(req, res){
