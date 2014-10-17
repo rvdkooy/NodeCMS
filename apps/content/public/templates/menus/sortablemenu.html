@@ -19,10 +19,14 @@
             </div>
             <div style="display:none" class="panel-body">
                 <div class="form-group">
-                    <input class="form-control" type="text" ng-model="level.name" placeholder="placeholderNameText" />
+                    <label>{{ 'ADMIN_MENUS_LABEL_PLACEHOLDER_NAME' | __ }}</label>
+                    <input class="form-control" type="text" ng-model="level.name" 
+                        placeholder="{{ 'ADMIN_MENUS_LABEL_PLACEHOLDER_NAME' | __ }}" />
                 </div>
                 <div class="form-group">
-                  <input class="form-control" type="text" ng-model="level.url" placeholder="placeholderUrlText" />
+                  <label>{{ 'ADMIN_MENUS_LABEL_PLACEHOLDER_URL' | __ }}</label>
+                  <input class="form-control" type="text" ng-model="level.url" 
+                        placeholder="{{ 'ADMIN_MENUS_LABEL_PLACEHOLDER_URL' | __ }}" />
                 </div>
             </div>
         </div>
@@ -42,17 +46,19 @@
         <div class="modal-body">
             <div class='form-group'>
                 <input class='form-control' type='text' ng-model="name" 
-                       placeholder='Name' required="" />
+                       placeholder="{{ 'ADMIN_MENUS_LABEL_PLACEHOLDER_NAME' | __ }}" required="" />
             </div>
             <div class="input-group">
                 <span class="input-group-addon">/</span>
                 <input class='form-control' type='text' ng-model="url"
-                       placeholder='Url' required="" />
+                       placeholder="{{ 'ADMIN_MENUS_LABEL_PLACEHOLDER_URL' | __ }}" required="" />
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" ng-click="closeModal()">close</button>
-            <button type="button" class="btn btn-primary" ng-disabled="!createmenuitemform.$valid" ng-click="saveAndClose(name, url)">Ok
+            <button type="button" class="btn btn-default" ng-click="closeModal()">
+                    {{ 'ADMIN_COMMON_BUTTON_CLOSE' | __ }}</button>
+            <button type="button" class="btn btn-primary" ng-disabled="!createmenuitemform.$valid" ng-click="saveAndClose(name, url)">
+                    {{ 'ADMIN_COMMON_BUTTON_OK' | __ }}
             </button>
         </div>
     </div>

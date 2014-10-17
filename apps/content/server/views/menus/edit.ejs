@@ -24,7 +24,8 @@
                 <form id="form">
                     <input type="hidden" name="menuId" value="{{ menu.Id }}" />
 
-                    <h2>{{ menu.name }}</h2>
+                    <h2>{{ menu.name.toUpperCase() }}</h2>
+                    <hr/>
 
                     <sortable-menu ng-model="menu"></sortable-menu>
 

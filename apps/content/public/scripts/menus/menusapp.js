@@ -1,5 +1,5 @@
 var app = angular.module('menusApp', ['ui.bootstrap', 'cms.growlers', 'cmsframework', 'sharedmodule', 'ngResource', 
-    'ngRoute', 'httpRequestInterceptors', 'cms.sortableMenu']).
+    'ngRoute', 'httpRequestInterceptors', 'cms.sortableMenu', 'filters']).
     config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
         $routeProvider
             .when('/all', { templateUrl: '/admin/menus/list', controller: 'menusController' })
@@ -27,33 +27,33 @@ var app = angular.module('menusApp', ['ui.bootstrap', 'cms.growlers', 'cmsframew
 
 app.factory('menusService', ['$resource', function ($resource) {
     return $resource('/admin/api/menus/:menuid', { menuid: '@_id' },
-        {
-            update: { method: 'PUT' },
-        });
+    {
+        update: { method: 'PUT' },
+    });
 }]);
 
 app.controller('menusController',     function ($scope, menusService, notificationService, $http) {
     
-         loadMenus();
+    loadMenus();
 
-        $scope.deleteMenu = function (index) {
+    $scope.deleteMenu = function (index) {
 
-            var menu = $scope.menus[index];
+        var menu = $scope.menus[index];
 
-            var menuName = menu.name;
-            if (confirm(cms.adminResources.get("ADMIN_MENUS_NOTIFY_DELETEMENU", menuName))) {
-                menu.$delete(function () {
+        var menuName = menu.name;
+        if (confirm(cms.adminResources.get("ADMIN_MENUS_NOTIFY_DELETEMENU", menuName))) {
+            menu.$delete(function () {
 
-                    notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_MENUS_NOTIFY_MENUDELETED', menuName));
+                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_MENUS_NOTIFY_MENUDELETED', menuName));
 
-                    loadMenus();
-                });
-            }
-        };
-
-        function loadMenus() {
-            $scope.menus = menusService.query();
+                loadMenus();
+            });
         }
+    };
+
+    function loadMenus() {
+        $scope.menus = menusService.query();
+    }
 });
 
 app.controller('addMenuController', 
