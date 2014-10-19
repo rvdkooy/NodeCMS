@@ -10,9 +10,9 @@
 
       <ul class="nav masthead-nav">
         
-        <% for(var i = 0;i < model.topMenuItems.length; i++) { %>
+        <% for(var i = 0;i < menus["topmenu"].length; i++) { %>
 
-          <li><a href="<%= model.topMenuItems[i].url %>"><%= model.topMenuItems[i].name %></a></li>
+          <li><a href="<%= menus["topmenu"][i].url %>"><%= menus["topmenu"][i].name %></a></li>
         <% } %>
         
       </ul>

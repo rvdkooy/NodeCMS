@@ -23,12 +23,8 @@ describe('Content pages controller specs:', function(){
 
 		var responseObject = new ResponseObject();
 		var requestObject = { url: '/' };
-		var menusRepository = {
-			findByName: function(name, callback){
-				callback();
-			}
-		};
-		var controller = new ContentPagesController({}, menusRepository, fakelogger);
+		
+		var controller = new ContentPagesController({}, fakelogger);
 		
 		controller.findContentPage(requestObject, responseObject);
 
@@ -43,19 +39,14 @@ describe('Content pages controller specs:', function(){
 		var responseObject = new ResponseObject();
 		var requestObject = { url: '/requestedUrl' };
 		var topmenuItems = [{ name: 'ronald', url: '/ronald' }];
-		var menusRepository = {
-			findByName: function(name, callback){
-				callback({ name: 'topmenu', children: topmenuItems });
-			}
-		};
-
+		
 		var pagesRepository = {
 			findByUrl: function(query, callBack){
 				callBack({ name: 'somepage', url: '/requestedUrl' });
 			}
 		};
 
-		var controller = new ContentPagesController(pagesRepository, menusRepository, fakelogger);
+		var controller = new ContentPagesController(pagesRepository, fakelogger);
 		
 		controller.findContentPage(requestObject, responseObject);
 
@@ -63,20 +54,9 @@ describe('Content pages controller specs:', function(){
 
 			assert.equal(responseObject.view, 'apps/frontend/server/views/home/index');
 		});
-
-		it('It should get the topmenu items', function(){
-
-			assert.equal(responseObject.options.model.topMenuItems.length, 1);
-		});
 	});
 
 	describe('When requesting an url that does not match a content page,', function(){
-
-		var menusRepository = {
-			findByName: function(name, callback){
-				callback();
-			}
-		};
 
 		var pagesRepository = {
 			findByUrl: function(query, callBack){
@@ -85,7 +65,7 @@ describe('Content pages controller specs:', function(){
 		};
 		var next = sinon.spy();
 		
-		var controller = new ContentPagesController(pagesRepository, menusRepository, fakelogger);
+		var controller = new ContentPagesController(pagesRepository, fakelogger);
 		controller.findContentPage({ url: '/requestedUrl' }, null, next);
 
 		it('It should call the next middleware component', function(){
@@ -106,7 +86,7 @@ describe('Content pages controller specs:', function(){
 			}
 		};
 
-		var controller = new ContentPagesController(repository, {}, fakelogger);
+		var controller = new ContentPagesController(repository, fakelogger);
 		controller.ApiContentPages(null, responseObject);
 
 		it('It should return all the pages', function(){
@@ -129,7 +109,7 @@ describe('Content pages controller specs:', function(){
 			}
 		};
 
-		var controller = new ContentPagesController(repository, {}, fakelogger);
+		var controller = new ContentPagesController(repository, fakelogger);
 		controller.ApiGetContentPage(requestObject, responseObject);
 
 		it('It should return that page', function(){
@@ -159,7 +139,7 @@ describe('Content pages controller specs:', function(){
 
 		var repoAddMethod = sinon.spy(repository, 'add');
 
-		var controller = new ContentPagesController(repository, {}, fakelogger);
+		var controller = new ContentPagesController(repository, fakelogger);
 		controller.ApiAddContentPage(requestObject, responseObject);
 
 		it('It should add the content page', function(){
@@ -193,7 +173,7 @@ describe('Content pages controller specs:', function(){
 
 		var spy = sinon.stub(repository, 'add');
 		
-		var controller = new ContentPagesController(repository, {}, fakelogger);
+		var controller = new ContentPagesController(repository, fakelogger);
 		controller.ApiAddContentPage(requestObject, responseObject);
 
 		it('It should not add the page', function(){
@@ -231,7 +211,7 @@ describe('Content pages controller specs:', function(){
 		};
 
 		var repoUpdateMethod = sinon.spy(repository, 'update');
-		var controller = new ContentPagesController(repository, {}, fakelogger);
+		var controller = new ContentPagesController(repository, fakelogger);
 		controller.ApiUpdateContentPage(requestObject, responseObject);
 
 		it('It should update the page', function(){
@@ -269,7 +249,7 @@ describe('Content pages controller specs:', function(){
 		};
 
 		var repoUpdateMethod = sinon.spy(repository, 'update');
-		var controller = new ContentPagesController(repository, {}, fakelogger);
+		var controller = new ContentPagesController(repository, fakelogger);
 		controller.ApiUpdateContentPage(requestObject, responseObject);
 
 		it('It should not update the page', function(){
@@ -298,7 +278,7 @@ describe('Content pages controller specs:', function(){
 		};
 
 		var repoRemoveMethod = sinon.spy(repository, 'remove');
-		var controller = new ContentPagesController(repository, {}, fakelogger);
+		var controller = new ContentPagesController(repository, fakelogger);
 		controller.ApiDeleteContentPage(requestObject, responseObject);
 
 		it('It should delete the page', function(){
@@ -330,7 +310,7 @@ describe('Content pages controller specs:', function(){
 			}
 		};
 
-		var controller = new ContentPagesController(repository, {}, fakelogger);
+		var controller = new ContentPagesController(repository, fakelogger);
 		controller.ApiLatestChanged(requestObject, responseObject);
 
 		it('It should return them', function(){

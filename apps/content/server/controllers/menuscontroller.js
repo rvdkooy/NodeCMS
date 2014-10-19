@@ -1,4 +1,4 @@
-module.exports = function(menusrepository, logger){
+module.exports = function(menusrepository, logger, appLocals){
 
 	this.index = function(req, res){
 		res.render('apps/content/server/views/menus/index', 
@@ -67,5 +67,23 @@ module.exports = function(menusrepository, logger){
 		menusrepository.remove({ _id: req.params.id }, { multi: false }, function(){
 			res.status(200).send();
 		});	
+	};
+
+	this.cacheMenus = function(req, res, next){
+		if(!appLocals.menus) {
+			menusrepository.find({}, function(results){
+				
+				appLocals.menus = {};
+
+				for (var i = 0; i < results.length; i++) {
+					appLocals.menus[results[i].name] = results[i].children;
+				};
+
+				next();
+			});
+		}
+		else{
+			next();
+		}
 	};
 };

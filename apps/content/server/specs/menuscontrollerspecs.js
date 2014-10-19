@@ -194,4 +194,29 @@ describe('Menus controller specs:', function(){
 			assert.equal(responseObject.isSend, true);
 		});
 	});
+
+	describe('When caching the menus,', function(){
+
+		var appLocals = {};
+		var next = sinon.spy();
+		var menuResult = { name: 'menu', children: [{ name: 'child1' }] }
+		var menusRepository = {
+			find: function(query, callback){
+				callback([ menuResult ]);
+			}
+		};
+
+		var controller = new MenusController(menusRepository, fakelogger, appLocals);
+		controller.cacheMenus({}, {}, next);
+
+		it('It should should cache them in the applocals', function(){
+
+			assert.equal(appLocals.menus['menu'].length, 1);
+		});
+
+		it('It should call the next middleware component', function(){
+
+			assert(next.called);
+		});
+	});
 });

@@ -41,6 +41,7 @@ exports.register = function(mainApp) {
 	mainApp.post('/admin/api/menus', menuscontroller.ApiAddMenu);
 	mainApp.put('/admin/api/menus/:id', menuscontroller.ApiUpdateMenu);
 	mainApp.delete('/admin/api/menus/:id', menuscontroller.ApiDeleteMenu);
+	mainApp.use(menuscontroller.cacheMenus);
 };
 
 exports.config = {
