@@ -34,8 +34,10 @@ module.exports = function(menusrepository, logger, appLocals){
 				logger.info('Adding a new menu with name: %s', req.body.name);
 
 				menusrepository.add({ name: req.body.name }, function(){
+					clearApplocalsCache();
 					res.status(200).send();
-				}) ;
+				});
+			
 			}
 			else{
 				res.status(400)
@@ -57,6 +59,7 @@ module.exports = function(menusrepository, logger, appLocals){
 				$set: { children: req.body.children }
 			},
 			function(){
+				clearApplocalsCache();
 				res.status(200).send();
 			});
 		
@@ -65,6 +68,7 @@ module.exports = function(menusrepository, logger, appLocals){
 	this.ApiDeleteMenu = function(req, res){
 		logger.info('Removing the menu with id: %s', req.params.id);
 		menusrepository.remove({ _id: req.params.id }, { multi: false }, function(){
+			clearApplocalsCache();
 			res.status(200).send();
 		});	
 	};
@@ -86,4 +90,10 @@ module.exports = function(menusrepository, logger, appLocals){
 			next();
 		}
 	};
+
+	function clearApplocalsCache(){
+		if(appLocals.menus){
+			appLocals.menus = null;
+		}
+	}
 };

@@ -68,7 +68,7 @@ describe('Menus controller specs:', function(){
 		var newMenu = { 
 			name: 'topmenu'
 		};
-
+		var appLocals = { menus: { topmenu: [{ name: 'children'}] } };
 		var responseObject = new ResponseObject();
 		var requestObject = { body: newMenu }	
 
@@ -83,7 +83,7 @@ describe('Menus controller specs:', function(){
 
 		var repoAddMethod = sinon.spy(repository, 'add');
 
-		var controller = new MenusController(repository, fakelogger);
+		var controller = new MenusController(repository, fakelogger, appLocals);
 		controller.ApiAddMenu(requestObject, responseObject);
 
 		it('It should add the menu', function(){
@@ -95,6 +95,11 @@ describe('Menus controller specs:', function(){
 
 			assert.equal(responseObject.currentStatus, 200);
 			assert.equal(responseObject.isSend, true);
+		});
+
+		it('It should clear the applocals menus cache', function(){
+
+			assert.equal(appLocals.menus, null);
 		});
 	});
 
@@ -136,7 +141,7 @@ describe('Menus controller specs:', function(){
 		var existingMenu = { 
 			name: 'topMenu'
 		};	
-
+		var appLocals = { menus: { topmenu: [{ name: 'children'}] } };
 		var responseObject = new ResponseObject();
 		var requestObject = { 
 			params: { id: 1 },
@@ -150,7 +155,7 @@ describe('Menus controller specs:', function(){
 		};
 
 		var repoUpdateMethod = sinon.spy(repository, 'update');
-		var controller = new MenusController(repository, fakelogger);
+		var controller = new MenusController(repository, fakelogger, appLocals);
 		controller.ApiUpdateMenu(requestObject, responseObject);
 
 		it('It should update the menu', function(){
@@ -163,10 +168,15 @@ describe('Menus controller specs:', function(){
 			assert.equal(responseObject.currentStatus, 200);
 			assert.equal(responseObject.isSend, true);
 		});
+
+		it('It should clear the applocals menus cache', function(){
+
+			assert.equal(appLocals.menus, null);
+		});
 	});
 
 	describe('When deleting a menu,', function(){
-
+		var appLocals = { menus: { topmenu: [{ name: 'children'}] } };
 		var responseObject = new ResponseObject();
 		var requestObject = { params: { id: 1 } } ;
 
@@ -180,7 +190,7 @@ describe('Menus controller specs:', function(){
 		};
 
 		var repoRemoveMethod = sinon.spy(repository, 'remove');
-		var controller = new MenusController(repository, fakelogger);
+		var controller = new MenusController(repository, fakelogger, appLocals);
 		controller.ApiDeleteMenu(requestObject, responseObject);
 
 		it('It should delete the menu', function(){
@@ -192,6 +202,11 @@ describe('Menus controller specs:', function(){
 
 			assert.equal(responseObject.currentStatus, 200);
 			assert.equal(responseObject.isSend, true);
+		});
+
+		it('It should clear the applocals menus cache', function(){
+
+			assert.equal(appLocals.menus, null);
 		});
 	});
 
