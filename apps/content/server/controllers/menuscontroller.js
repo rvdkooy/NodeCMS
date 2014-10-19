@@ -11,12 +11,24 @@ module.exports = function(menusrepository, logger, appLocals){
 			var data = [];
 
 			results.forEach(function(item){
-				data.push({ _id: item._id, name: item.name, numberOfItems: 0 });
+				var menuItem = { _id: item._id, name: item.name, numberOfItems: 0 };
+				countMenuItems(item.children, menuItem);
+
+				data.push(menuItem);
 			});
 
 			res.json(data);
 		});
 	};
+
+	function countMenuItems(children, menuItem){
+		for (var i = 0; i < children.length; i++) {
+			menuItem.numberOfItems++;
+			if(children[i].children){
+				countMenuItems(children[i].children, menuItem);
+			}
+		};
+	}
 
 	this.ApiGetMenu = function(req, res){
 

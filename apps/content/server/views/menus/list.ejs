@@ -30,10 +30,13 @@
                         <tr>
                             <td style="text-align: left">
                                 <a href="#/edit/{{ menu._id }}"><h4>{{ menu.name }}</h4></a>
-                                <span><%= __("ADMIN_MENUS_LABEL_NUMBEROFMENUITEMS", "{{ menu.numberOfItems }}") %></span>
+                                <span>
+                                    {{ "ADMIN_MENUS_LABEL_NUMBEROFMENUITEMS" | __:menu.numberOfItems.toString() }}
+                                </span>
                             </td>
                             <td style="text-align: center; width: 50px;">
-                                <a href="#" ng-click="deleteMenu($index)" title="<%= __("ADMIN_MENUS_LABEL_DELETEMENU", "{{ menu.name }}") %>"><i class="fa fa-trash-o fa-fw"></i></a>
+                                <a href="#" ng-click="deleteMenu($index)" 
+                                title="{{ 'ADMIN_MENUS_LABEL_DELETEMENU' | __:menu.name }}"><i class="fa fa-trash-o fa-fw"></i></a>
                             </td>
                         </tr>
                     </tbody>

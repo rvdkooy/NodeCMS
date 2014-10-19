@@ -23,7 +23,7 @@ describe('Menus controller specs:', function(){
 
 		var responseObject = new ResponseObject();
 		
-		var menus = [ { id: 1, name: 'topmenu' } ];
+		var menus = [ { id: 1, name: 'topmenu', children: [] } ];
 
 		var repository = {
 			find: function(query, callBack){
