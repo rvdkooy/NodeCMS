@@ -23,7 +23,7 @@ describe('Content pages controller specs:', function(){
 
 		var responseObject = new ResponseObject();
 		var requestObject = { url: '/' };
-
+		
 		var controller = new ContentPagesController({}, fakelogger);
 		
 		controller.findContentPage(requestObject, responseObject);
@@ -38,14 +38,15 @@ describe('Content pages controller specs:', function(){
 
 		var responseObject = new ResponseObject();
 		var requestObject = { url: '/requestedUrl' };
+		var topmenuItems = [{ name: 'ronald', url: '/ronald' }];
 		
-		var repository = {
+		var pagesRepository = {
 			findByUrl: function(query, callBack){
 				callBack({ name: 'somepage', url: '/requestedUrl' });
 			}
 		};
 
-		var controller = new ContentPagesController(repository, fakelogger);
+		var controller = new ContentPagesController(pagesRepository, fakelogger);
 		
 		controller.findContentPage(requestObject, responseObject);
 
@@ -57,14 +58,14 @@ describe('Content pages controller specs:', function(){
 
 	describe('When requesting an url that does not match a content page,', function(){
 
-		var repository = {
+		var pagesRepository = {
 			findByUrl: function(query, callBack){
 				callBack(null);
 			}
 		};
 		var next = sinon.spy();
 		
-		var controller = new ContentPagesController(repository, fakelogger);
+		var controller = new ContentPagesController(pagesRepository, fakelogger);
 		controller.findContentPage({ url: '/requestedUrl' }, null, next);
 
 		it('It should call the next middleware component', function(){

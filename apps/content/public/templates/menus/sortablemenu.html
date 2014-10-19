@@ -1,0 +1,70 @@
+<script type="text/ng-template" id="listitem">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title">{{ level.name }}</span>
+                <div class="pull-right">
+                    
+                    <div class="btn-group btn-group-xs">
+                        <button type="button" class="btn btn-default togglebuttons" ng-click="toggle($event)">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+                        <button type="button" class="btn btn-default togglebuttons" ng-click="toggle($event)" style="display:none">
+                            <span class="glyphicon glyphicon-chevron-up"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" ng-click="remove(level)">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div style="display:none" class="panel-body">
+                <div class="form-group">
+                    <label>{{ 'ADMIN_MENUS_LABEL_PLACEHOLDER_NAME' | __ }}</label>
+                    <input class="form-control" type="text" ng-model="level.name" 
+                        placeholder="{{ 'ADMIN_MENUS_LABEL_PLACEHOLDER_NAME' | __ }}" />
+                </div>
+                <div class="form-group">
+                  <label>{{ 'ADMIN_MENUS_LABEL_PLACEHOLDER_URL' | __ }}</label>
+                  <input class="form-control" type="text" ng-model="level.url" 
+                        placeholder="{{ 'ADMIN_MENUS_LABEL_PLACEHOLDER_URL' | __ }}" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <ol ng-if="level.children.length > 0">
+        <li id="list_{{ level.id }}" class='listitem' ng-repeat="level in level.children" 
+            ng-include="'listitem'"></li>           
+    </ol>
+</script>
+
+<script type="text/ng-template" id="newMenuItem">
+    <div ng-form="createmenuitemform">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="closeModal()" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Add menu item</h4>
+        </div>
+        <div class="modal-body">
+            <div class='form-group'>
+                <input class='form-control' type='text' ng-model="name" 
+                       placeholder="{{ 'ADMIN_MENUS_LABEL_PLACEHOLDER_NAME' | __ }}" required="" />
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">/</span>
+                <input class='form-control' type='text' ng-model="url"
+                       placeholder="{{ 'ADMIN_MENUS_LABEL_PLACEHOLDER_URL' | __ }}" required="" />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" ng-click="closeModal()">
+                    {{ 'ADMIN_COMMON_BUTTON_CLOSE' | __ }}</button>
+            <button type="button" class="btn btn-primary" ng-disabled="!createmenuitemform.$valid" ng-click="saveAndClose(name, url)">
+                    {{ 'ADMIN_COMMON_BUTTON_OK' | __ }}
+            </button>
+        </div>
+    </div>
+</script>
+
+<ol id="nestedMenu">
+    <li class='listitem' id="list_{{ level.id }}" ng-repeat="level in menu.children" 
+        ng-include="'listitem'"></li>
+</ol>

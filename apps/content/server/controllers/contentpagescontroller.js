@@ -6,19 +6,21 @@ module.exports = function(contentpagesrepository, logger){
 	this.findContentPage = function(req, res, next){
 		
 		var mainTemplate = 'frontend'; // This should come from some config setting
-
+		
 		if(req.url === '/'){
-			// for now just render the default home page!!!
-			res.render('apps/'+ mainTemplate +'/server/views/home/index', { 
-				layout: 'apps/'+ mainTemplate +'/server/views/layout.ejs',
-				model: { name: 'home', content: 'So lonely here...' } }); 
+		// for now just render the default home page!!!
+		res.render('apps/'+ mainTemplate +'/server/views/home/index', { 
+			layout: 'apps/'+ mainTemplate +'/server/views/layout.ejs',
+			model: { 
+				name: 'home', 
+				content: ''
+			} }); 
 		}
 		else{
 			contentpagesrepository.findByUrl( req.url, function(result){
 				if(result){
 					
 					result.template = result.template || 'home';
-
 					res.render('apps/'+ mainTemplate +'/server/views/' + result.template.toLowerCase() + '/index', { 
 						layout: 'apps/'+ mainTemplate +'/server/views/layout.ejs',
 						model: result }); 

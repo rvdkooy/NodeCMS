@@ -1,0 +1,30 @@
+﻿<div ui-growler></div>
+
+<div class='row'>
+    <div class='col-lg-12'>
+        <ol class='breadcrumb'>
+            <li><a href="/admin"><i class='fa fa-dashboard'></i> Home</a></li>
+            <li><a href="/admin/menus"><i class='fa fa-th-list'></i> Menus</a></li>
+            <li>Add menu</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form name='addform'>
+                    <div class="form-group">
+                        <label><%= __("ADMIN_MENUS_LABEL_MENUNAME") %></label>
+                        <input class="form-control" type="text" data-ng-model="menu.name" required />
+                    </div>
+                    
+                    <button class="btn btn-primary" ng-disabled="!addform.$valid" ng-click="saveAndCloseButtonClicked()">
+                        <%= __("ADMIN_COMMON_BUTTON_SAVEANDCLOSE") %>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

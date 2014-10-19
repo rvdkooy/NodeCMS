@@ -36,7 +36,7 @@ describe('Error controller specs running in production mode:', function(){
 		});
 
 		it('It should NOT expose the error to the user', function(){
-			assert.equal(responseObject.options.error, null);
+			assert.equal(responseObject.options.error, '');
 		});
 	});
 });

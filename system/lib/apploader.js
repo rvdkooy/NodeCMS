@@ -14,6 +14,7 @@ var logger = ioc.resolve('logger');
 
 exports.loadApps = function(mainApp, eventEmitter){
 
+	ioc.register('appLocals', mainApp.locals);
 	loopTroughApps('config', mainApp);
 	loopTroughApps('init', mainApp, eventEmitter);
 	loopTroughApps('register', mainApp);
