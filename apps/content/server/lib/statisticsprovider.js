@@ -6,12 +6,25 @@ exports.getContentStats = function(){
 
 	var stats = [];
 
-	var repo = ioc.resolve('contentpagesrepository');
+	var contentpagesRepository = ioc.resolve('contentpagesrepository');
+	var menusRepository = ioc.resolve('menusrepository');
 	
-	repo.find({}, function(results){
+	contentpagesRepository.find({}, function(pages){
 		
-		stats.push({ count: results.length, resourcekey: 'ADMIN_DASHBOARD_LABEL_CONTENTPAGESSTATS', url: '/admin/contentpages'});
-		deferred.resolve(stats);
+		menusRepository.find({}, function(menus){
+
+			var pagesStats = { count: pages.length, 
+							resourcekey: 'ADMIN_DASHBOARD_LABEL_CONTENTPAGESSTATS', 
+							url: '/admin/contentpages'}
+
+			var menusStats = { count: menus.length, 
+								resourcekey: 'ADMIN_DASHBOARD_LABEL_MENUSSTATS', 
+								url: '/admin/menus'}
+
+			stats.push(pagesStats);
+			stats.push(menusStats);
+			deferred.resolve(stats);
+		})
 	});
 
 	return deferred.promise;
