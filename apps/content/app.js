@@ -3,14 +3,17 @@ var path = require('path');
 var ioc = require('tiny-ioc');
 var ContentPagesRepository = require('./server/lib/contentpagesrepository');
 var MenusRepository = require('./server/lib/menusrepository');
+
 ioc.registerAsSingleton('contentpagesrepository', ContentPagesRepository, 
 	{ ignoreSubDependencies: true });
 ioc.registerAsSingleton('menusrepository', MenusRepository, 
 	{ ignoreSubDependencies: true });
 var PagesController = require('./server/controllers/contentpagescontroller');
 var MenusController = require('./server/controllers/menuscontroller');
+var ContentSettingsController = require('./server/controllers/contentsettingscontroller');
 var pagescontroller = ioc.resolve(PagesController);
 var menuscontroller = ioc.resolve(MenusController);
+var contentSettingsController = ioc.resolve(ContentSettingsController);
 var statsProvider = require('./server/lib/statisticsprovider');
 
 exports.init = function(mainApp, eventEmitter){
@@ -42,12 +45,16 @@ exports.register = function(mainApp) {
 	mainApp.put('/admin/api/menus/:id', menuscontroller.ApiUpdateMenu);
 	mainApp.delete('/admin/api/menus/:id', menuscontroller.ApiDeleteMenu);
 	mainApp.use(menuscontroller.cacheMenus);
+
+	//ContentSettings
+	mainApp.get('/admin/contentsettings', contentSettingsController.index);
 };
 
 exports.config = {
 	adminMenu: [ { key: 'CONTENT', url: '#', css: 'fa-sitemap', 
 		menuItems: [ { key: 'PAGES', url: '/admin/contentpages', css: 'fa-file-text-o' }, 
-					{ key: 'MENUS', url: '/admin/menus', css:'fa-th-list' }  ] } ],
+					{ key: 'MENUS', url: '/admin/menus', css:'fa-th-list' },
+					{ key: 'CONTENTSETTINGS', url: '/admin/contentsettings', css:'fa-th-list' } ] } ],
 	adminWidgets: { file: '/assets/content/scripts/contentpages/widgets.js', moduleName: 'contentwidgets', widgets: ['latestupdates' ] },
 	adminStats: statsProvider.getContentStats
 };

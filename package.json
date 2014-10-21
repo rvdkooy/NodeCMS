@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./server.js",
     "postinstall": "node ./install/postinstall.js",
-    "test": "node node_modules/mocha/bin/mocha apps/**/specs/**/*.js system/specs/server/**/*.js --reporter dot"
+    "test": "node node_modules/mocha/bin/mocha apps/**/specs/**/*.js system/specs/server/**/*.js"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",

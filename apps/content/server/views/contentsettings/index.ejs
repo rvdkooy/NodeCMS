@@ -1,0 +1,109 @@
+<% appName = "contentSettingsApp" %>
+
+<%- contentFor('title') %>
+<h3><i class="fa fa-th-list fa-fw"></i> <%= __('ADMIN_CONTENTSETTINGS_LABEL_MAINHEADER') %></h3>
+
+<!-- BODY CONTENT -->
+<%- contentFor('body') %>
+
+
+<div ui-growler></div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default" ng-controller="contentSettingsController">
+            <div class="panel-body">
+                <div ng-form>
+
+                	<tabset vertical="true" type="tabs" justified="true">
+                		<tab heading="<%= __("ADMIN_CONTENTSETTINGS_LABEL_TAB_GENERAL") %>" active="true">
+                			<div class="form-group">
+                                <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_LANDINGPAGE") %></label>
+                                <select class="form-control" ng-model="settings.website_landingpage"
+                                        ng-options="p.Name as p.Name for p in settings.availablePages">
+                                    <option value=""><%= __("ADMIN_CONTENTSETTINGS_LABEL_CHOOSELANDINGPAGE") %></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_MAINWEBSITEURL") %></label>
+                                <input type="text" class="form-control" ng-model="settings.website_mainurl" />
+                            </div>
+                            <div class="form-group">
+                                <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_WEBSITETITLE") %></label>
+                                <input class="form-control" type="text" ng-model="settings.website_title" />
+                            </div>
+                            <div class="form-group">
+                                <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_WEBSITEDESCRIPTION") %></label>
+                                <textarea class="form-control" ng-model="settings.website_description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_WEBSITEKEYWORDS") %></label>
+                                <textarea class="form-control" ng-model="settings.website_keywords"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_EMAILADDRESS") %></label>
+                                <input type="email" class="form-control" ng-model="settings.email_address" />
+                            </div>
+                            <div class="form-group">
+                                <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_ADDRESS") %></label>
+                                <textarea class="form-control" ng-model="settings.mainaddress" ></textarea>
+                            </div>
+
+                		</tab>
+                		<tab heading="<%= __("ADMIN_CONTENTSETTINGS_LABEL_TAB_GOOGLE") %>">
+                			<div class="form-group">
+                                <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_GOOGLEGANR") %></label>
+                                <input class="form-control" type="text" ng-model="settings.google_ganr" />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_GOOGLEAPIKEY") %></label>
+                                <input class="form-control" type="text" ng-model="settings.google_apikey" />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_GOOGLECLIENTID") %></label>
+                                <input class="form-control" type="text" ng-model="settings.google_clientid" />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_GOOGLESTATSHISTORY") %></label>
+                                <select class="form-control" ng-model="settings.google_statshistory" style="width: 150px">
+                                    <option value="7"><%= __("ADMIN_CONTENTSETTINGS_LABEL_GOOGLESTATSHISTORY7DAYS") %></option>
+                                    <option value="14"><%= __("ADMIN_CONTENTSETTINGS_LABEL_GOOGLESTATSHISTORY14DAYS") %></option>
+                                    <option value="28"><%= __("ADMIN_CONTENTSETTINGS_LABEL_GOOGLESTATSHISTORY28DAYS") %></option>
+                                </select>
+                            </div>
+
+                		</tab>
+                		<tab heading="<%= __("ADMIN_CONTENTSETTINGS_LABEL_TAB_GOOGLE") %>">
+                			<div class="form-group">
+                                <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_FACEBOOKURL") %></label>
+                                <input class="form-control" type="text" ng-model="settings.facebook_account" />
+                            </div>
+                            <div class="form-group">
+                                <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_TWITTERURL") %></label>
+                                <input class="form-control" type="text" ng-model="settings.twitter_account" />
+                            </div>
+
+                		</tab>
+                	</tabset>
+
+                    <button class="btn btn-primary" ng-click="saveButtonClicked()">
+                        <%= __("ADMIN_COMMON_BUTTON_SAVE") %>
+                    </button>
+                    <button class="btn btn-primary" ng-click="saveAndCloseButtonClicked()">
+                        <%= __("ADMIN_COMMON_BUTTON_SAVEANDCLOSE") %>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- contentFor('bodyend') %>
+
+<script type="text/javascript" src="/assets/admin/scripts/apps/shared/common.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/services/framework.module.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/directives/cms.growlers.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/services/httpinterceptors.js"> </script>
+<script type="text/javascript" src="/assets/content/scripts/contentsettings/contentsettingsapp.js"> </script>
