@@ -9,12 +9,11 @@
       <h3 class="masthead-brand">NodeCMS</h3>
 
       <ul class="nav masthead-nav">
-        
-        <% for(var i = 0;i < menus["topmenu"].length; i++) { %>
-
-          <li><a href="<%= menus["topmenu"][i].url %>"><%= menus["topmenu"][i].name %></a></li>
-        <% } %>
-        
+        <% 
+        if(menus["default"]){
+          for(var i = 0;i < menus["default"].length; i++) { %>
+            <li><a href="<%= menus["default"][i].url %>"><%= menus["default"][i].name %></a></li>
+        <% } } %>
       </ul>
     </div>
   </div>

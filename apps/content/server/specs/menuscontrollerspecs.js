@@ -234,4 +234,29 @@ describe('Menus controller specs:', function(){
 			assert(next.called);
 		});
 	});
+
+	describe('When caching the menus without the existence of any menus,', function(){
+
+		var appLocals = {};
+		var next = sinon.spy();
+		
+		var menusRepository = {
+			find: function(query, callback){
+				callback([]);
+			}
+		};
+
+		var controller = new MenusController(menusRepository, fakelogger, appLocals);
+		controller.cacheMenus({}, {}, next);
+
+		it('It should should cache an empty array in the applocals', function(){
+
+			assert.notEqual(appLocals.menus, null);
+		});
+
+		it('It should call the next middleware component', function(){
+
+			assert(next.called);
+		});
+	});
 });

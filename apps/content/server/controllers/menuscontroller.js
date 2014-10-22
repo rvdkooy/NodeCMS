@@ -1,3 +1,5 @@
+var Menu = require('../lib/menu');
+
 module.exports = function(menusrepository, logger, appLocals){
 
 	this.index = function(req, res){
@@ -11,24 +13,15 @@ module.exports = function(menusrepository, logger, appLocals){
 			var data = [];
 
 			results.forEach(function(item){
-				var menuItem = { _id: item._id, name: item.name, numberOfItems: 0 };
-				countMenuItems(item.children, menuItem);
-
+				
+				var menu = new Menu(item.name, item.children);
+				var menuItem = { _id: item._id, name: item.name, numberOfItems: menu.numberOfItems() };
 				data.push(menuItem);
 			});
 
 			res.json(data);
 		});
 	};
-
-	function countMenuItems(children, menuItem){
-		for (var i = 0; i < children.length; i++) {
-			menuItem.numberOfItems++;
-			if(children[i].children){
-				countMenuItems(children[i].children, menuItem);
-			}
-		};
-	}
 
 	this.ApiGetMenu = function(req, res){
 
@@ -45,7 +38,7 @@ module.exports = function(menusrepository, logger, appLocals){
 
 				logger.info('Adding a new menu with name: %s', req.body.name);
 
-				menusrepository.add({ name: req.body.name }, function(){
+				menusrepository.add( new Menu(req.body.name), function(){
 					clearApplocalsCache();
 					res.status(200).send();
 				});

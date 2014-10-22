@@ -3,15 +3,15 @@
 <div class="site-wrapper-inner-content">
 
 <div class="cover-container">
-
   <div class="masthead clearfix">
     <div class="inner">
       <h3 class="masthead-brand">NodeCMS</h3>
       <ul class="nav masthead-nav">
-        <% for(var i = 0;i < model.topMenuItems.length; i++) { %>
-
-          <li><a href="<%= model.topMenuItems[i].url %>"><%= model.topMenuItems[i].name %></a></li>
-        <% } %>
+        <% 
+        if(menus["default"]){
+          for(var i = 0;i < menus["default"].length; i++) { %>
+            <li><a href="<%= menus["default"][i].url %>"><%= menus["default"][i].name %></a></li>
+        <% } } %>
       </ul>
     </div>
   </div>
