@@ -23,4 +23,3 @@ module.exports = function(name, children){
 		return counter;
 	}
 }
-

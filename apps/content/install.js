@@ -2,21 +2,31 @@ var path = require('path');
 var chalk = require('chalk');
 global.__ROOTDIR = path.dirname( path.join(require.main.filename, '../'));
 
-//var userManager = require('./server/lib/usermanager');
-
 exports.start = function(){
-	// var UserRepository = require('./server/lib/usersrepository');
-	// var usersRepository = new UserRepository();
+	
+	var MenusRepository = require('./server/lib/menusrepository');
+ 	var PagesRepository = require('./server/lib/contentpagesrepository');
+	var Menu = require('./server/lib/menu');
+	var ContentPage = require('./server/lib/contentpage');
+ 	var menusRepository = new MenusRepository();
+ 	var pagesRepository = new PagesRepository();
 
-	// usersRepository.find({}, function(results){
-	// 	if(!results.length){
-	// 		console.log(chalk.green('Creating a user database with a default admin'));
+ 	pagesRepository.find({}, function(pages){
 
-	// 		var defaultAdmin = userManager.create('admin', 'admin', 'Administrator', true);
-			
-	// 		usersRepository.add(defaultAdmin, function(){
-	// 			console.log(chalk.green('Done creating a default admin (you can now login with admin/admin)'));
-	// 		})
-	// 	}
-	// });
+	 	menusRepository.find({}, function(menus){
+	 		if(pages.length ===0 && menus.length ===0){
+
+	 			var menu = new Menu('default');
+	 			menusRepository.add(menu, function(){
+	 				console.log(chalk.green('Done creating a default menu'));
+	 			});
+
+	 			var contentPage = new ContentPage('home');
+	 			pagesRepository.add(contentPage, function(){
+	 				console.log(chalk.green('Done creating a default contentpage'));
+	 			});
+				
+	 		}
+	 	});
+ 	});
 };

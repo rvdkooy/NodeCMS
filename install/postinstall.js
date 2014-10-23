@@ -24,17 +24,17 @@ function installApps(){
               return console.error(err);
             } else {
               console.log(chalk.green('- Dependencies installed for app: ' + file));
-
-              var installPath = path.join(appsDir, file, 'install.js');
-              if(fs.existsSync(installPath)){
-                
-                console.log(chalk.green('- Installing application: ' + file));
-                var installation = require(installPath);
-                installation.start();
-              } 
             }
           });
         });
+
+        var installPath = path.join(appsDir, file, 'install.js');
+        if(fs.existsSync(installPath)){
+        
+          console.log(chalk.green('- Installing application: ' + file));
+          var installation = require(installPath);
+          installation.start();
+        } 
       });
     });
   });

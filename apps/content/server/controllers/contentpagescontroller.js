@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var moment = require('moment');
+var ContentPage = require('../lib/contentpage');
 
 module.exports = function(contentpagesrepository, logger){
 
@@ -58,16 +59,13 @@ module.exports = function(contentpagesrepository, logger){
 
 			if(!result){
 
-				var page = { 
-					name: req.body.name,
-					url: req.body.url,
-					published: req.body.published,
-					content: req.body.content,
-					template: req.body.template,
-					keywords: req.body.keywords,
-					description: req.body.description,
-					changed: new Date()
-				};
+				var page = new ContentPage(req.body.name,
+					req.body.url, req.body.template)
+
+				page.published = req.body.published,
+				page.content = req.body.content,
+				page.keywords = req.body.keywords,
+				page.description = req.body.description,
 
 				logger.info('Adding a new page with name: %s', page.name);
 
