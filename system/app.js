@@ -3,6 +3,7 @@ var path = require('path');
 var resourceController = require('./controllers/resourcesController');
 var DashboardController = require('./controllers/dashboardcontroller');
 var LogsController = require('./controllers/logscontroller');
+var SettingsController = require('./controllers/settingscontroller');
 var ioc = require('tiny-ioc');
 
 exports.register = function(mainApp) {
@@ -12,12 +13,16 @@ exports.register = function(mainApp) {
 	// default admin route
 	var dashboardcontroller = new DashboardController(mainApp);
 	var logsController = ioc.resolve(LogsController);
+	var settingsController = ioc.resolve(SettingsController);
 
 	mainApp.get('/admin', function(req, res){ res.redirect('/admin/dashboard'); });
 	mainApp.get('/admin/dashboard', dashboardcontroller.index);
 	mainApp.get('/admin/api/dashboard/getcontentstats', dashboardcontroller.getcontentstats);
 	mainApp.get('/admin/logs', logsController.index);
 	mainApp.get('/admin/api/logs', logsController.apiGetLogs);
+
+	mainApp.get('/admin/settings', settingsController.getSettings);
+	mainApp.post('/admin/settings', settingsController.saveSettings);
 
 	// Client side resource provider
 	mainApp.get('/js/globalresources.js', resourceController.getResources);
