@@ -30,5 +30,7 @@ exports.register = function(mainApp) {
 
 exports.config = {
 	adminMenu: [ { key: 'DASHBOARD' , css: 'fa-dashboard', url: '/admin', order: 10},
-				{ key: 'LOGS' , css: 'fa-bell', url: '/admin/logs', order: 90} ]
+				{ key: 'LOGS' , css: 'fa-bell', url: '/admin/logs', order: 90},
+				{ key: 'SETTINGS', url: '#', css: 'fa-cogs', order: 80, menuItems: [
+		 			{ key: 'MAINSETTINGS', url: '/admin/mainsettings', css:'fa-th-list' }] } ]
 };

@@ -1,8 +1,8 @@
-module.exports = function(settingsRepository){
+module.exports = function(settingsrepository){
 	
 	this.getSettings = function(req, res){
 		
-		settingsRepository.findBykeys(req.query.keys, function(results){
+		settingsrepository.findBykeys(req.query.keys, function(results){
 			res.json(results);
 		})
 	};

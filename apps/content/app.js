@@ -51,10 +51,14 @@ exports.register = function(mainApp) {
 };
 
 exports.config = {
-	adminMenu: [ { key: 'CONTENT', url: '#', css: 'fa-sitemap', 
-		menuItems: [ { key: 'PAGES', url: '/admin/contentpages', css: 'fa-file-text-o' }, 
-					{ key: 'MENUS', url: '/admin/menus', css:'fa-th-list' },
-					{ key: 'CONTENTSETTINGS', url: '/admin/contentsettings', css:'fa-th-list' } ] } ],
+	adminMenu: [ 
+		{ key: 'CONTENT', url: '#', css: 'fa-sitemap', menuItems: [ 
+			{ key: 'PAGES', url: '/admin/contentpages', css: 'fa-file-text-o' }, 
+			{ key: 'MENUS', url: '/admin/menus', css:'fa-th-list' }
+		] }, 
+	 	{ key: 'SETTINGS', url: '#', css: 'fa-cogs', menuItems: [
+		 	{ key: 'CONTENTSETTINGS', url: '/admin/contentsettings', css:'fa-th-list' }] }
+	 	],
 	adminWidgets: { file: '/assets/content/scripts/contentpages/widgets.js', moduleName: 'contentwidgets', widgets: ['latestupdates' ] },
 	adminStats: statsProvider.getContentStats
 };

@@ -7,22 +7,22 @@ app.controller('contentSettingsController', function($scope, notificationService
 
 
 	$scope.settings = {
-        availablePages: pagesService.query()
+        //availablePages: pagesService.query()
     };
 
     function retrieveAndBindScopeVariables() {
 
-        settingsService.findByKeys(settingKeys).then(function(result) {
+        // settingsService.findByKeys(settingKeys).then(function(result) {
 
-            for (var i = 0; i < result.data.length; i++) {
+        //     for (var i = 0; i < result.data.length; i++) {
 
-                (function(keyValue) {
+        //         (function(keyValue) {
 
-                    $parse('settings.' + keyValue.Key).assign($scope, keyValue.Value);
+        //             $parse('settings.' + keyValue.Key).assign($scope, keyValue.Value);
 
-                })(result.data[i]);
-            }
-        });
+        //         })(result.data[i]);
+        //     }
+        // });
     }
 
     retrieveAndBindScopeVariables();

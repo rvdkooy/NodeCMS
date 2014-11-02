@@ -1,0 +1,48 @@
+<% appName = "mainSettingsApp" %>
+
+<%- contentFor('title') %>
+<h3><i class="fa fa-th-list fa-fw"></i> <%= __('ADMIN_MAINSETTINGS_LABEL_MAINHEADER') %></h3>
+
+<!-- BODY CONTENT -->
+<%- contentFor('body') %>
+
+<div ui-growler></div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default" ng-controller="mainSettingsController">
+            <div class="panel-body">
+                <div ng-form>
+
+                    <div class="form-group">
+                        <label><%= __("ADMIN_MAINSETTINGS_LABEL_MAINWEBSITEURL") %></label>
+                        <input type="text" class="form-control" ng-model="settings.website_mainurl" />
+                    </div>
+                    <div class="form-group">
+                        <label><%= __("ADMIN_MAINSETTINGS_LABEL_WEBSITETITLE") %></label>
+                        <input class="form-control" type="text" ng-model="settings.website_title" />
+                    </div>
+                    <div class="form-group">
+                        <label><%= __("ADMIN_MAINSETTINGS_LABEL_EMAILADDRESS") %></label>
+                        <input type="email" class="form-control" ng-model="settings.email_address" />
+                    </div>
+                    <div class="form-group">
+                        <label><%= __("ADMIN_MAINSETTINGS_LABEL_ADDRESS") %></label>
+                        <textarea class="form-control" ng-model="settings.mainaddress" ></textarea>
+                    </div>
+
+                    <button class="btn btn-primary" ng-click="saveButtonClicked()">
+                        <%= __("ADMIN_COMMON_BUTTON_SAVE") %>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- contentFor('bodyend') %>
+
+<script type="text/javascript" src="/assets/admin/scripts/apps/shared/common.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/services/framework.module.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/directives/cms.growlers.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/services/httpinterceptors.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/mainsettings/mainsettingsapp.js"> </script>
