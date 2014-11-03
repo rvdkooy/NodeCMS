@@ -1,7 +1,7 @@
-<% appName = "contentSettingsApp" %>
+<% appName = "mainSettingsApp" %>
 
 <%- contentFor('title') %>
-<h3><i class="fa fa-th-list fa-fw"></i> <%= __('ADMIN_CONTENTSETTINGS_LABEL_MAINHEADER') %></h3>
+<h3><i class="fa fa-th-list fa-fw"></i> <%= __('ADMIN_MAINSETTINGS_LABEL_MAINHEADER') %></h3>
 
 <!-- BODY CONTENT -->
 <%- contentFor('body') %>
@@ -11,7 +11,7 @@
         <ol class='breadcrumb'>
             <li><a href="/admin"><i class='fa fa-dashboard'></i> Home</a></li>
             <li><i class='fa fa-cogs'></i> Settings</li>
-            <li><i class='fa fa-file-text-o'></i> Content settings</li>
+            <li><i class='fa fa-file-text-o'></i> Main settings</li>
         </ol>
     </div>
 </div>
@@ -23,17 +23,21 @@
             <div class="panel-body">
                 <div ng-form>
 
-        			<div class="form-group">
-                        <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_LANDINGPAGE") %></label>
-                        <div pages-Selector="settings.website_landingpage"></div>
+                    <div class="form-group">
+                        <label><%= __("ADMIN_MAINSETTINGS_LABEL_MAINWEBSITEURL") %></label>
+                        <input type="text" class="form-control" ng-model="settings.website_mainurl" />
                     </div>
                     <div class="form-group">
-                        <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_WEBSITEDESCRIPTION") %></label>
-                        <textarea class="form-control" ng-model="settings.website_description"></textarea>
+                        <label><%= __("ADMIN_MAINSETTINGS_LABEL_WEBSITETITLE") %></label>
+                        <input class="form-control" type="text" ng-model="settings.website_title" />
                     </div>
                     <div class="form-group">
-                        <label><%= __("ADMIN_CONTENTSETTINGS_LABEL_WEBSITEKEYWORDS") %></label>
-                        <textarea class="form-control" ng-model="settings.website_keywords"></textarea>
+                        <label><%= __("ADMIN_MAINSETTINGS_LABEL_EMAILADDRESS") %></label>
+                        <input type="email" class="form-control" ng-model="settings.email_address" />
+                    </div>
+                    <div class="form-group">
+                        <label><%= __("ADMIN_MAINSETTINGS_LABEL_ADDRESS") %></label>
+                        <textarea class="form-control" ng-model="settings.mainaddress" ></textarea>
                     </div>
 
                     <button class="btn btn-primary" ng-click="saveButtonClicked()">
@@ -51,5 +55,4 @@
 <script type="text/javascript" src="/assets/admin/scripts/apps/directives/cms.growlers.js"> </script>
 <script type="text/javascript" src="/assets/admin/scripts/apps/services/httpinterceptors.js"> </script>
 <script type="text/javascript" src="/assets/admin/scripts/apps/services/services.js"> </script>
-<script type="text/javascript" src="/assets/content/scripts/shared/contentservices.js"> </script>
-<script type="text/javascript" src="/assets/content/scripts/contentsettings/contentsettingsapp.js"></script>
+<script type="text/javascript" src="/assets/admin/scripts/apps/mainsettings/mainsettingsapp.js"></script>

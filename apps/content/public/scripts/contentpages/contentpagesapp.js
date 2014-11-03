@@ -37,8 +37,8 @@ var tinyMceConfig = {
     language: $.cookie("cmslanguage")
 };
 
-var app = angular.module('contentPagesApp', ['ui.tinymce', 'ui.bootstrap', 'cms.growlers', 'cms.ichecker', 
-    'cmsframework', 'sharedmodule', 'ngResource', 'ngRoute', 'httpRequestInterceptors']).
+var app = angular.module('contentPagesApp', ['services', 'contentServices', 'ui.tinymce', 'ui.bootstrap', 'cms.growlers', 'cms.ichecker'
+    , 'sharedmodule', 'ngResource', 'ngRoute', 'httpRequestInterceptors']).
     config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
         $routeProvider
             .when('/all', { templateUrl: '/admin/contentpages/listcontentpages', controller: 'pagesController' })
@@ -62,16 +62,6 @@ var app = angular.module('contentPagesApp', ['ui.tinymce', 'ui.bootstrap', 'cms.
             })
             .otherwise({ redirectTo: '/all' });
     }]);
-
-
-app.factory('pagesService', ['$resource', function ($resource) {
-    return $resource('/admin/api/contentpages/:pageid', { pageid: '@_id' },
-        {
-            update: { method: 'PUT' },
-            //clearCache: { method: 'POST', params: { clearcache: 'true' } },
-            //clearCacheForPage: { method: 'POST', params: { 'clearCacheForPage': '@Id' } }
-        });
-}]);
 
 app.controller('pagesController', ['$scope', 'pagesService', 'notificationService', '$http',
     function ($scope, pagesService, notificationService, $http) {

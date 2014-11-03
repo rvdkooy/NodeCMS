@@ -18,6 +18,26 @@ var settingsRepo = function(inMemoryStore){
 			}
 		});
 	};
+
+	this.findByKeys = function(keys, resultCallback){
+		
+		var filter = [];
+
+		for (var i = 0; i < keys.length; i++) {
+			filter.push({ key: '' + keys[i] + '' });
+		};
+
+		this.db.find({ $or: filter }, function (err, results) {
+		  if(err){
+				console.log(err);
+				throw err;
+			}	
+			
+			if(resultCallback) {
+				resultCallback(results);
+			}
+		});
+	};
 };
 
 settingsRepo.prototype = new baseRepo();

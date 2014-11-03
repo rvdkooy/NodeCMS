@@ -8,6 +8,11 @@ var ioc = require('tiny-ioc');
 ioc.registerAsSingleton('loggingrepository', 
 	require('../repositories/loggingrepository'), 
 	{ ignoreSubDependencies: true });
+
+ioc.registerAsSingleton('settingsrepository', 
+	require('../repositories/settingsrepository'), 
+	{ ignoreSubDependencies: true });
+
 var Logger = require('./logger');
 ioc.register('logger', Logger);
 var logger = ioc.resolve('logger');
@@ -21,7 +26,7 @@ exports.loadApps = function(mainApp, eventEmitter){
 	loadSystemApp(mainApp);
 
 	var sortedAdminMenu = _.sortBy(mainApp.get('NODECMS_CONFIG').adminMenu, function(menuItem) { 
-		return Math.sin(menuItem.order); 
+		return menuItem.order; 
 	});
 
 	mainApp.get('NODECMS_CONFIG').adminMenu = sortedAdminMenu;
@@ -79,7 +84,20 @@ function extendConfig(config, mainApp){
 				config.adminMenu[i].order = 50;
 			}
 
-			existingConfig.adminMenu.push(config.adminMenu[i]);
+			var rootMenu = _.find(existingConfig.adminMenu, function(item){
+				return item.key === config.adminMenu[i].key;
+			});
+
+			if(rootMenu){
+				rootMenu.menuItems = rootMenu.menuItems.concat(config.adminMenu[i].menuItems);
+				
+				if(config.adminMenu[i].order){
+					rootMenu.order = config.adminMenu[i].order;
+				}
+			}
+			else{
+				existingConfig.adminMenu.push(config.adminMenu[i]);
+			}
 		};
 	}
 	if(config.adminWidgets){
@@ -89,5 +107,4 @@ function extendConfig(config, mainApp){
 		existingConfig.adminStats.push(config.adminStats); 
 	}
 	mainApp.set('NODECMS_CONFIG', existingConfig);
-	
 }

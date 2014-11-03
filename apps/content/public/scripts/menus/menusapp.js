@@ -1,4 +1,4 @@
-var app = angular.module('menusApp', ['ui.bootstrap', 'cms.growlers', 'cmsframework', 'sharedmodule', 'ngResource', 
+var app = angular.module('menusApp', ['ui.bootstrap', 'cms.growlers', 'services', 'sharedmodule', 'ngResource', 
     'ngRoute', 'httpRequestInterceptors', 'cms.sortableMenu', 'filters']).
     config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
         $routeProvider
