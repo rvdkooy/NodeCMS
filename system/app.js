@@ -21,8 +21,8 @@ exports.register = function(mainApp) {
 	mainApp.get('/admin/logs', logsController.index);
 	mainApp.get('/admin/api/logs', logsController.apiGetLogs);
 
-	mainApp.get('/admin/settings', settingsController.getSettings);
-	mainApp.post('/admin/settings', settingsController.saveSettings);
+	mainApp.get('/admin/api/settings', settingsController.getSettings);
+	mainApp.post('/admin/api/settings', settingsController.saveSettings);
 
 	// Client side resource provider
 	mainApp.get('/js/globalresources.js', resourceController.getResources);
