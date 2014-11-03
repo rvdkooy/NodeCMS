@@ -5,6 +5,19 @@ var SettingsController = require('../../../controllers/settingscontroller.js');
 
 describe('Settings controller specs:', function(){
 
+	describe('When requesting the mainsettings view,', function(){
+
+		var responseObject = new ResponseObject();
+		var controller = new SettingsController();
+		
+		controller.mainSettings(null, responseObject);
+
+		it('It should render the mainsettings view with the standard layout', function(){
+			assert.equal(responseObject.view, 'system/views/mainsettings/index');
+			assert.equal(responseObject.options.layout, 'system/views/shared/layout');
+		});
+	});
+
 	describe('When requesting settings,', function(){
 		
 		var keys = [ { key: 'a', value: 'a' }, { key: 'b', value: 'b' } ];

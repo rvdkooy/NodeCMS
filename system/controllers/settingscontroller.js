@@ -32,4 +32,10 @@ module.exports = function(settingsrepository){
 
 		res.status(200).send();
 	};
+
+	this.mainSettings = function(req, res){
+		res.render('system/views/mainsettings/index', {
+			layout: 'system/views/shared/layout'
+		});
+	};
 };

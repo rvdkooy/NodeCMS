@@ -4,6 +4,7 @@ var resourceController = require('./controllers/resourcesController');
 var DashboardController = require('./controllers/dashboardcontroller');
 var LogsController = require('./controllers/logscontroller');
 var SettingsController = require('./controllers/settingscontroller');
+
 var ioc = require('tiny-ioc');
 
 exports.register = function(mainApp) {
@@ -21,6 +22,7 @@ exports.register = function(mainApp) {
 	mainApp.get('/admin/logs', logsController.index);
 	mainApp.get('/admin/api/logs', logsController.apiGetLogs);
 
+	mainApp.get('/admin/mainsettings', settingsController.mainSettings);
 	mainApp.get('/admin/api/settings', settingsController.getSettings);
 	mainApp.post('/admin/api/settings', settingsController.saveSettings);
 
