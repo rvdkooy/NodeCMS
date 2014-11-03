@@ -1,13 +1,13 @@
-﻿var app = angular.module('contentSettingsApp', ['cms.growlers', 'ui.bootstrap', 
-	'cmsframework', 'ngResource', 'sharedmodule', 'httpRequestInterceptors']);
+﻿var app = angular.module('contentSettingsApp', ['contentServices', 'services', 'cms.growlers', 
+	'ngResource', 'sharedmodule', 'httpRequestInterceptors']);
 
-app.controller('contentSettingsController', function($scope, notificationService){
+app.controller('contentSettingsController', function($scope, pagesService, notificationService){
 	
 	var settingKeys = ['website_title', 'website_description', 'website_keywords', 'website_landingpage'];
 
 
 	$scope.settings = {
-        //availablePages: pagesService.query()
+        availablePages: pagesService.query()
     };
 
     function retrieveAndBindScopeVariables() {
@@ -39,7 +39,7 @@ app.controller('contentSettingsController', function($scope, notificationService
             }
 
             settingsService.saveSettings(keyValues).then(function(){
-            	 notificationService.addSuccessMessage(cms.adminResources.get("SETTINGS_NOTIFY_SETTINGSSAVED"));
+            	 notificationService.addSuccessMessage(cms.adminResources.get("ADMIN_SETTINGS_NOTIFY_SETTINGSSAVED"));
             });
         };
 });
