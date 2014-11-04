@@ -101,10 +101,10 @@
 
 <%- contentFor('bodyend') %>
 
-<script type="text/javascript" src="/assets/admin/scripts/apps/services/services.js"> </script>
-<script type="text/javascript" src="/assets/admin/scripts/apps/dashboard/cms.home.js"> </script>
-<script type="text/javascript" src="/assets/admin/scripts/apps/dashboard/cms.analytics_api_v3_auth.js"> </script>
-<script type="text/javascript" src="/assets/admin/scripts/apps/dashboard/dashboardApp.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/services/services.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/dashboard/cms.home.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/dashboard/cms.analytics_api_v3_auth.js"> </script>
+<script type="text/javascript" src="/assets/admin/scripts/dashboard/dashboardApp.js"> </script>
 
 <% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ %>
     <script type="text/javascript" src="<%= NODECMS_CONFIG.adminWidgets[i].file %>"> </script>

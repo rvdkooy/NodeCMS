@@ -9,7 +9,7 @@ var ioc = require('tiny-ioc');
 
 exports.register = function(mainApp) {
 
-	mainApp.use('/assets/admin', express.static(path.join(__dirname, 'assets/admin')));	
+	mainApp.use('/assets/admin', express.static(path.join(__dirname, 'public')));	
 	
 	// default admin route
 	var dashboardcontroller = new DashboardController(mainApp);

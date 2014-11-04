@@ -3,8 +3,8 @@ var _ = require('underscore');
 module.exports = function(loggingrepository){
 	
 	this.index = function(req, res){
-		res.render('system/views/logs/index', { 
-			layout: 'system/views/shared/layout'
+		res.render('system/server/views/logs/index', { 
+			layout: 'system/server/views/shared/layout'
 		});
 	};
 
