@@ -15,7 +15,7 @@ describe('User controller specs:', function(){
 
 		it('It should render the index with the standard layout', function(){
 			assert.equal(responseObject.view, 'components/security/server/views/users/index');
-			assert.equal(responseObject.options.layout, 'system/views/shared/layout');
+			assert.equal(responseObject.options.layout, 'system/server/views/shared/layout');
 		});
 	});
 

@@ -13,8 +13,8 @@ describe('Settings controller specs:', function(){
 		controller.mainSettings(null, responseObject);
 
 		it('It should render the mainsettings view with the standard layout', function(){
-			assert.equal(responseObject.view, 'system/views/mainsettings/index');
-			assert.equal(responseObject.options.layout, 'system/views/shared/layout');
+			assert.equal(responseObject.view, 'system/server/views/mainsettings/index');
+			assert.equal(responseObject.options.layout, 'system/server/views/shared/layout');
 		});
 	});
 

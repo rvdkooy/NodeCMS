@@ -10,8 +10,8 @@ describe('Logs controller specs:', function(){
 		controller.index(null, responseObject);
 		
 		it('It should render the index with the standard layout', function(){
-			assert.equal(responseObject.view, 'system/views/logs/index');
-			assert.equal(responseObject.options.layout, 'system/views/shared/layout');
+			assert.equal(responseObject.view, 'system/server/views/logs/index');
+			assert.equal(responseObject.options.layout, 'system/server/views/shared/layout');
 		});
 	});
 

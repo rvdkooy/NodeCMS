@@ -13,8 +13,8 @@ describe('Dashboard controller specs:', function(){
 		controller.index(null, responseObject);
 		
 		it('It should render the index with the standard layout', function(){
-			assert.equal(responseObject.view, 'system/views/home/index');
-			assert.equal(responseObject.options.layout, 'system/views/shared/layout');
+			assert.equal(responseObject.view, 'system/server/views/home/index');
+			assert.equal(responseObject.options.layout, 'system/server/views/shared/layout');
 		});
 	});
 
