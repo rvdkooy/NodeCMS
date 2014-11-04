@@ -13,10 +13,10 @@ var fs = require('fs');
 var session = require('express-session');
 var NedbStore = require('connect-nedb-session')(session);
 var config = require('./config/config.js').config;
-var componentsLoader = require('./system/lib/componentsloader');
+var componentsLoader = require('./system/server/lib/componentsloader');
 var events = require('events');
 var eventEmitter = new events.EventEmitter();
-var ErrorController = require('./system/controllers/errorcontroller');
+var ErrorController = require('./system/server/controllers/errorcontroller');
 
 // Default express middleware
 app.set('views', path.join(__dirname));

@@ -1,4 +1,4 @@
-var baseRepo = new require(__ROOTDIR + '/system/repos/repository');
+var baseRepo = new require('../lib/repository');
 
 var settingsRepo = function(inMemoryStore){
 	

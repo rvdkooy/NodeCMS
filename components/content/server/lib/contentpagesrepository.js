@@ -1,4 +1,4 @@
-var baseRepo = new require(__ROOTDIR + '/system/repos/repository');
+var baseRepo = new require(__ROOTDIR + '/system/server/lib/repository');
 
 var contentPagesRepo = function(inMemoryStore){
 	

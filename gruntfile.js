@@ -7,23 +7,23 @@ module.exports = function(grunt) {
           separator: grunt.util.linefeed + ';' + grunt.util.linefeed
         },
         dist: {
-          src: ['system/assets/admin/scripts/vendor/jquery-1.10.2.js', 
-              //'system/assets/admin/scripts/vendor/angular.min.js', 
-              //'system/assets/admin/scripts/vendor/angular-resource.min.js', 
-              'system/assets/admin/scripts/vendor/jquery-ui.min.js',
-              'system/assets/admin/scripts/vendor/jquery.ui.nestedSortable.js',
-              //'system/assets/admin/scripts/vendor/ui-bootstrap-0.10.0.min.js',
-              'system/assets/admin/scripts/vendor/underscore-min.js',      
-              'system/assets/admin/scripts/vendor/jquery.shake.js',
-              'system/assets/admin/scripts/vendor/jquery.cookie.js',
-              'system/assets/admin/scripts/vendor/metisMenu/jquery.metisMenu.js',
-              'system/assets/admin/scripts/vendor/morris/morris.js',
-              'system/assets/admin/scripts/vendor/dateformat.js',
-              'system/assets/admin/scripts/vendor/sharedFunctions.js',
-              'system/assets/admin/scripts/vendor/bootstrap.js',
-              'system/assets/admin/scripts/vendor/sb-admin.js',  
-              'system/assets/admin/scripts/vendor/growl/jquery.growl.js'],
-          dest: 'system/assets/admin/dist/vendorscripts.js'
+          src: ['system/public/scripts/vendor/jquery-1.10.2.js', 
+              //'system/public/scripts/vendor/angular.min.js', 
+              //'system/public/scripts/vendor/angular-resource.min.js', 
+              'system/public/scripts/vendor/jquery-ui.min.js',
+              'system/public/scripts/vendor/jquery.ui.nestedSortable.js',
+              //'system/public/scripts/vendor/ui-bootstrap-0.10.0.min.js',
+              'system/public/scripts/vendor/underscore-min.js',      
+              'system/public/scripts/vendor/jquery.shake.js',
+              'system/public/scripts/vendor/jquery.cookie.js',
+              'system/public/scripts/vendor/metisMenu/jquery.metisMenu.js',
+              'system/public/scripts/vendor/morris/morris.js',
+              'system/public/scripts/vendor/dateformat.js',
+              'system/public/scripts/vendor/sharedFunctions.js',
+              'system/public/scripts/vendor/bootstrap.js',
+              'system/public/scripts/vendor/sb-admin.js',  
+              'system/public/scripts/vendor/growl/jquery.growl.js'],
+          dest: 'system/public/scripts/dist/vendorscripts.js'
         }
       
     },
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
       //   tasks: ['default'],
       // },
       servertests: {
-        files: ['components/**/server/**/*.js','system/specs/server/**/*.js'],
+        files: ['components/**/server/**/*.js','system/server/specs/server/**/*.js'],
         tasks: ['servertests'],
       }
     }
