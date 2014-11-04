@@ -10,8 +10,8 @@ module.exports = function(contentpagesrepository, logger){
 		
 		if(req.url === '/'){
 		// for now just render the default home page!!!
-		res.render('apps/'+ mainTemplate +'/server/views/home/index', { 
-			layout: 'apps/'+ mainTemplate +'/server/views/layout.ejs',
+		res.render('components/'+ mainTemplate +'/server/views/home/index', { 
+			layout: 'components/'+ mainTemplate +'/server/views/layout.ejs',
 			model: { 
 				name: 'home', 
 				content: ''
@@ -22,8 +22,8 @@ module.exports = function(contentpagesrepository, logger){
 				if(result){
 					
 					result.template = result.template || 'home';
-					res.render('apps/'+ mainTemplate +'/server/views/' + result.template.toLowerCase() + '/index', { 
-						layout: 'apps/'+ mainTemplate +'/server/views/layout.ejs',
+					res.render('components/'+ mainTemplate +'/server/views/' + result.template.toLowerCase() + '/index', { 
+						layout: 'components/'+ mainTemplate +'/server/views/layout.ejs',
 						model: result }); 
 				}
 				else{
@@ -34,7 +34,7 @@ module.exports = function(contentpagesrepository, logger){
 	};
 
 	this.index = function(req, res){
-		res.render('apps/content/server/views/contentpages/index', {
+		res.render('components/content/server/views/contentpages/index', {
 			layout: 'system/views/shared/layout'
 		});
 	};

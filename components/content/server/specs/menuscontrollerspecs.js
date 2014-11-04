@@ -14,7 +14,7 @@ describe('Menus controller specs:', function(){
 		controller.index(null, responseObject);
 
 		it('It should render the index with the standard layout', function(){
-			assert.equal(responseObject.view, 'apps/content/server/views/menus/index');
+			assert.equal(responseObject.view, 'components/content/server/views/menus/index');
 			assert.equal(responseObject.options.layout, 'system/views/shared/layout');
 		});
 	});

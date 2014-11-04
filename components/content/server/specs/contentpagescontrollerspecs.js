@@ -14,7 +14,7 @@ describe('Content pages controller specs:', function(){
 		controller.index(null, responseObject);
 
 		it('It should render the index with the standard layout', function(){
-			assert.equal(responseObject.view, 'apps/content/server/views/contentpages/index');
+			assert.equal(responseObject.view, 'components/content/server/views/contentpages/index');
 			assert.equal(responseObject.options.layout, 'system/views/shared/layout');
 		});
 	});
@@ -30,7 +30,7 @@ describe('Content pages controller specs:', function(){
 
 		it('It should for now render the default frontend home page', function(){
 
-			assert.equal(responseObject.view, 'apps/frontend/server/views/home/index');
+			assert.equal(responseObject.view, 'components/frontend/server/views/home/index');
 		});
 	});
 
@@ -52,7 +52,7 @@ describe('Content pages controller specs:', function(){
 
 		it('It should render the content page', function(){
 
-			assert.equal(responseObject.view, 'apps/frontend/server/views/home/index');
+			assert.equal(responseObject.view, 'components/frontend/server/views/home/index');
 		});
 	});
 

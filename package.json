@@ -5,8 +5,8 @@
   "scripts": {
     "start": "node ./server.js",
     "postinstall": "node ./install/postinstall.js",
-    "test": "node node_modules/mocha/bin/mocha apps/**/specs/**/*.js system/specs/server/**/*.js",
-    "test-debug": "node node_modules/mocha/bin/mocha --debug-brk apps/**/specs/**/*.js system/specs/server/**/*.js"
+    "test": "node node_modules/mocha/bin/mocha components/**/specs/**/*.js system/specs/server/**/*.js",
+    "test-debug": "node node_modules/mocha/bin/mocha --debug-brk components/**/specs/**/*.js system/specs/server/**/*.js"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",

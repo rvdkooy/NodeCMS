@@ -1,7 +1,7 @@
 module.exports = function(logger){
 	
 	this.index = function(req, res){
-		res.render('apps/security/server/views/login/index', { layout: false });
+		res.render('components/security/server/views/login/index', { layout: false });
 	};
 
 	this.apiLogin = function(req, res){

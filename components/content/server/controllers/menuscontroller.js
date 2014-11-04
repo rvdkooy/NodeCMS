@@ -3,7 +3,7 @@ var Menu = require('../lib/menu');
 module.exports = function(menusrepository, logger, appLocals){
 
 	this.index = function(req, res){
-		res.render('apps/content/server/views/menus/index', 
+		res.render('components/content/server/views/menus/index', 
 			{ layout: 'system/views/shared/layout' });
 	};
 

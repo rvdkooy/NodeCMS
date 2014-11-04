@@ -6,7 +6,7 @@ module.exports = function(usersrepository, logger){
 
 	// VIEWS
 	this.index = function(req, res){
-		res.render('apps/security/server/views/users/index', {
+		res.render('components/security/server/views/users/index', {
 			layout: 'system/views/shared/layout'
 		});
 	};

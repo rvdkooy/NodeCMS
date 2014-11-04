@@ -1,4 +1,5 @@
 module.exports = function(mainApp){
+	
 	this.handle = function(err, req, res, next) {
 		
 		var status = err.status || 500
@@ -8,20 +9,20 @@ module.exports = function(mainApp){
 		if (mainApp.get('env') === 'production') {
 
 			if(status >= 400 && status < 500){
-				res.render('apps/frontend/server/views/4xx', { layout: false });
+				res.render(mainApp.get('4xxviewpath'), { layout: false });
 			}
 			else{
-				res.render('apps/frontend/server/views/5xx', { layout: false, error: '' });
+				res.render(mainApp.get('5xxviewpath'), { layout: false, error: '' });
 			}	
 		}
 		// development error handler
 		// will print stacktrace
 		else{
 			if(status >= 400 && status < 500){
-				res.render('apps/frontend/server/views/4xx', { layout: false });
+				res.render(mainApp.get('4xxviewpath'), { layout: false });
 			}
 			else{
-				res.render('apps/frontend/server/views/5xx', { 
+				res.render(mainApp.get('5xxviewpath'), { 
 					layout: false,
 					error: err.message 
 				});

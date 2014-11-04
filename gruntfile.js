@@ -42,7 +42,7 @@ module.exports = function(grunt) {
       //   tasks: ['default'],
       // },
       servertests: {
-        files: ['apps/**/server/**/*.js','system/specs/server/**/*.js'],
+        files: ['components/**/server/**/*.js','system/specs/server/**/*.js'],
         tasks: ['servertests'],
       }
     }

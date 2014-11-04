@@ -13,7 +13,7 @@ var fs = require('fs');
 var session = require('express-session');
 var NedbStore = require('connect-nedb-session')(session);
 var config = require('./config/config.js').config;
-var appLoader = require('./system/lib/apploader');
+var componentsLoader = require('./system/lib/componentsloader');
 var events = require('events');
 var eventEmitter = new events.EventEmitter();
 var ErrorController = require('./system/controllers/errorcontroller');
@@ -52,7 +52,7 @@ app.use(function(req, res, next){
 });
 
 // load all the individual apps from the app folder
-appLoader.loadApps(app, eventEmitter);
+componentsLoader.load(app, eventEmitter);
 
 // request can not be served, maybe an app can handle this request
 app.get('*', function(req, res, next){

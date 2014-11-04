@@ -17,12 +17,12 @@ var Logger = require('./logger');
 ioc.register('logger', Logger);
 var logger = ioc.resolve('logger');
 
-exports.loadApps = function(mainApp, eventEmitter){
+exports.load = function(mainApp, eventEmitter){
 
 	ioc.register('appLocals', mainApp.locals);
-	loopTroughApps('config', mainApp);
-	loopTroughApps('init', mainApp, eventEmitter);
-	loopTroughApps('register', mainApp);
+	runThroughComponents('config', mainApp);
+	runThroughComponents('init', mainApp, eventEmitter);
+	runThroughComponents('register', mainApp);
 	loadSystemApp(mainApp);
 
 	var sortedAdminMenu = _.sortBy(mainApp.get('NODECMS_CONFIG').adminMenu, function(menuItem) { 
@@ -40,12 +40,12 @@ function loadSystemApp(mainApp){
 	system.register(mainApp);
 }
 
-function loopTroughApps(method, mainApp, eventEmitter){
-	var appDirectories = fs.readdirSync(path.join(__ROOTDIR, 'apps'));
+function runThroughComponents(method, mainApp, eventEmitter){
+	var appDirectories = fs.readdirSync(path.join(__ROOTDIR, 'components'));
 	
 	appDirectories.forEach(function(dir){
 		
-		var subApp = path.join(__ROOTDIR, 'apps', dir, 'app.js');
+		var subApp = path.join(__ROOTDIR, 'components', dir, 'app.js');
 		if(fs.existsSync(subApp)) {
 	  		var subApp = require(subApp);
 

@@ -15,7 +15,7 @@ describe('Authentication controller specs:', function(){
 		controller.index(null, responseObject);
 
 		it('It should render the index without a layout', function(){
-			assert.equal(responseObject.view, 'apps/security/server/views/login/index');
+			assert.equal(responseObject.view, 'components/security/server/views/login/index');
 			assert.equal(responseObject.options.layout, false);
 		});
 	});
