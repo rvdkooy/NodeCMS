@@ -23,7 +23,7 @@ function installApps(){
               console.log(chalk.red('Error: npm install failed'));
               return console.error(err);
             } else {
-              console.log(chalk.green('- Dependencies installed for app: ' + file));
+              console.log(chalk.green('- Dependencies installed for component: ' + file));
             }
           });
         });
@@ -41,11 +41,11 @@ function installApps(){
 };
 
 function loopThroughAllApps(callback){
-  var appsDir = path.join(process.cwd(), 'apps');
+  var componentDir = path.join(process.cwd(), 'components');
   
-  fs.readdir(appsDir, function(err, files) {
+  fs.readdir(componentDir, function(err, files) {
     if (!files || !files.length) return;
-    callback(appsDir, files);
+    callback(componentDir, files);
   });
 }
 

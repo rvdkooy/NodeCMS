@@ -1,0 +1,104 @@
+<!doctype html>
+<html ng-app="<%= appName %>">
+    <head>
+        <title><%= __('ADMIN_COMMON_LABEL_ADMINTITLE') %></title>
+        <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
+        <meta charset="utf-8">
+        <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+       
+        <script type="text/javascript" src="/js/globalresources.js"> </script>
+        <script type="text/javascript" src="/assets/admin/dist/vendorscripts.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/vendor/angular.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/vendor/angular-resource.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/vendor/angular-route.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/vendor/ui-bootstrap-tpls-0.11.0.min.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/sharedmodule.js"> </script>
+        <script type="text/javascript" src="/assets/admin/scripts/shared/filters.js"> </script>
+
+        <link href="/assets/admin/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="/assets/admin/css/sb-admin.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="/assets/admin/css/shared.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="/assets/admin/scripts/vendor/growl/jquery.growl.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="/assets/admin/font-awesome/css/font-awesome.css" media="screen" rel="stylesheet" type="text/css" />
+        
+        <script type="text/javascript">
+            $(document).ready(function() {
+                // @RenderSection("InitStartupscripts", false)
+            });
+        </script>
+    </head>
+    <body >
+        <div id="wrapper" ng-controller="maincontroller"> 
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                        <span class="sr-only"><%= __('ADMIN_TOPMENU_LABEL_TOGGLENAV') %></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <img src="/assets/admin/images/nodelogo.svg" class="cmslogo" alt="nodecms">
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-user fa-fw"></i> Username <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a ng-click="logout()">
+                                    <i class="fa fa-sign-out fa-fw"></i>
+                                    <span><%= __('ADMIN_TOPMENU_LABEL_LOGOUT') %></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </nav>
+            <div class="sidebar-background">
+                <div class="primary-sidebar-background"></div>
+            </div>
+            <nav class="navbar-default navbar-static-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <% 
+                        var adminMenu = NODECMS_CONFIG.adminMenu;
+                        for(var i=0; i< adminMenu.length; i++) {%>
+                            <li>
+                                <a href="<%= adminMenu[i].url %>">
+                                    <i class="fa <%= adminMenu[i].css %> fa-fw"></i> 
+                                    <%= __('ADMIN_LEFTMENU_LABEL_' + adminMenu[i].key) %>
+                                    <% if( adminMenu[i].menuItems) { %> <span class="fa arrow"></span> <% } %>
+                                </a>
+
+                                <% if( adminMenu[i].menuItems) { %>
+
+                                    <ul class="nav nav-second-level">
+                                
+                                    <% for(var j=0; j< adminMenu[i].menuItems.length; j++) {%>
+
+                                        <li><a href='<%= adminMenu[i].menuItems[j].url %>'><i class="fa <%= adminMenu[i].menuItems[j].css %> fa-fw"></i> 
+                                        <%= __('ADMIN_LEFTMENU_LABEL_' + adminMenu[i].menuItems[j].key) %></a></li>
+                                    <% } %>
+                                     </ul>
+                                <% } %>
+                            </li>   
+                        <% } %>
+                    </ul>
+                </div>
+            </nav>
+
+            <div id="page-wrapper">
+
+                <div class="row">
+                    <div class="col-lg-12 titlesection">
+                       <%- title %>
+                    </div>
+                </div>
+                <%- body %> 
+            </div>
+        </div>
+         <%- bodyend %>
+    </body>
+</html>

@@ -1,15 +1,15 @@
 var express = require('express');
 var path = require('path');
-var resourceController = require('./controllers/resourcesController');
-var DashboardController = require('./controllers/dashboardcontroller');
-var LogsController = require('./controllers/logscontroller');
-var SettingsController = require('./controllers/settingscontroller');
+var resourceController = require('./server/controllers/resourcesController');
+var DashboardController = require('./server/controllers/dashboardcontroller');
+var LogsController = require('./server/controllers/logscontroller');
+var SettingsController = require('./server/controllers/settingscontroller');
 
 var ioc = require('tiny-ioc');
 
 exports.register = function(mainApp) {
 
-	mainApp.use('/assets/admin', express.static(path.join(__dirname, 'assets/admin')));	
+	mainApp.use('/assets/admin', express.static(path.join(__dirname, 'public')));	
 	
 	// default admin route
 	var dashboardcontroller = new DashboardController(mainApp);
