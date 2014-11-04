@@ -4,7 +4,7 @@ module.exports = function(menusrepository, logger, appLocals){
 
 	this.index = function(req, res){
 		res.render('components/content/server/views/menus/index', 
-			{ layout: 'system/views/shared/layout' });
+			{ layout: 'system/server/views/shared/layout' });
 	};
 
 	this.ApiMenus = function(req, res){

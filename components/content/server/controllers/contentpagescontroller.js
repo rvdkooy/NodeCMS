@@ -35,7 +35,7 @@ module.exports = function(contentpagesrepository, logger){
 
 	this.index = function(req, res){
 		res.render('components/content/server/views/contentpages/index', {
-			layout: 'system/views/shared/layout'
+			layout: 'system/server/views/shared/layout'
 		});
 	};
 	
