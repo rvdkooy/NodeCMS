@@ -1,3 +1,5 @@
+var angular = require('_angular');
+
 angular.module('filters', [])
 	.filter('__', function() {
         return function(input, args) {

@@ -30,7 +30,14 @@
     "static-favicon": "~1.0.0",
     "tiny-ioc": "0.1.0",
     "underscore": "~1.6.0",
-    "winston": "^0.7.3"
+    "winston": "^0.7.3",
+    "jquery": "~2.1.1",
+    "dateformat": "~1.0.8",
+    "jquery-ui": "~1.10.5",
+    "angular": "~1.3.1",
+    "angular-route": "~1.3.1",
+    "angular-resource": "~1.3.1",
+    "bootstrap": "~3.3.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
@@ -41,6 +48,14 @@
     "mocha": "x",
     "should": "~4.0.4",
     "sinon": "^1.10.3",
-    "proxyquire": "~1.0.1"
+    "proxyquire": "~1.0.1",
+    "browserify": "~6.2.0",
+    "grunt-browserify": "~3.2.0"
+  },
+  "browser": {
+    "_angular": "./system/public/vendor/_angular.js",
+    "_angular-route": "./system/public/vendor/_angular-route.js",
+    "_angular-resource": "./system/public/vendor/_angular-resource.js",
+    "ui.bootstrap": "./system/public/vendor/_ui.bootstrap.js"
   }
 }

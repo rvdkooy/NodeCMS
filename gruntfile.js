@@ -1,32 +1,57 @@
 module.exports = function(grunt) {
 
+
+  var libs = ['jquery', 'jquery-ui', '_angular', '_angular-resource', '_angular-route',
+   , 'bootstrap', 'underscore', 'dateformat'];
+
   grunt.initConfig({
-    concat: {
-      
-        options: {
-          separator: grunt.util.linefeed + ';' + grunt.util.linefeed
+    
+    browserify:{
+      libs: {
+        files: {
+          'system/public/dist/vendor.js': ['somefile.js'],
         },
-        dist: {
-          src: ['system/public/scripts/vendor/jquery-1.10.2.js', 
-              //'system/public/scripts/vendor/angular.min.js', 
-              //'system/public/scripts/vendor/angular-resource.min.js', 
-              'system/public/scripts/vendor/jquery-ui.min.js',
-              'system/public/scripts/vendor/jquery.ui.nestedSortable.js',
-              //'system/public/scripts/vendor/ui-bootstrap-0.10.0.min.js',
-              'system/public/scripts/vendor/underscore-min.js',      
-              'system/public/scripts/vendor/jquery.shake.js',
-              'system/public/scripts/vendor/jquery.cookie.js',
-              'system/public/scripts/vendor/metisMenu/jquery.metisMenu.js',
-              'system/public/scripts/vendor/morris/morris.js',
-              'system/public/scripts/vendor/dateformat.js',
-              'system/public/scripts/vendor/sharedFunctions.js',
-              'system/public/scripts/vendor/bootstrap.js',
-              'system/public/scripts/vendor/sb-admin.js',  
-              'system/public/scripts/vendor/growl/jquery.growl.js'],
-          dest: 'system/public/scripts/dist/vendorscripts.js'
+        options: {
+          preBundleCB: function (bundle) {
+            libs.forEach(function (lib) {
+              console.log('adding: "' + lib + '" to the vendor.js');
+              bundle.require(lib)
+            });
+          }
         }
-      
+      },
+      components: {
+        files: {
+          'system/public/dist/components.js': ['system/**/public/scripts/**/*.js'],
+        },
+        options: {
+          preBundleCB: function (bundle) {
+            console.log('Creating the components.js');
+            libs.forEach(function (lib) {
+              bundle.exclude(lib)
+            });
+          }
+        }
+      }
     },
+    // concat: {
+      
+    //     options: {
+    //       separator: grunt.util.linefeed + ';' + grunt.util.linefeed
+    //     },
+    //     dist: {
+    //       src: [ 
+    //           'system/public/scripts/vendor/jquery.ui.nestedSortable.js',
+    //           'system/public/scripts/vendor/jquery.shake.js',
+    //           'system/public/scripts/vendor/metisMenu/jquery.metisMenu.js',
+    //           'system/public/scripts/vendor/morris/morris.js',
+    //           'system/public/scripts/vendor/sharedFunctions.js',
+    //           'system/public/scripts/vendor/sb-admin.js',  
+    //           'system/public/scripts/vendor/growl/jquery.growl.js'],
+    //       dest: 'system/public/scripts/dist/vendorscripts.js'
+    //     }
+      
+    // },
     // uglify: {
     //   dist: {
     //     files: {
@@ -59,7 +84,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
-
+  grunt.loadNpmTasks('grunt-browserify');
   grunt.registerTask('test', ['servertests']);
-  grunt.registerTask('build', ['concat:dist']);
+  grunt.registerTask('build', ['browserify:libs', 'browserify:components']);
 };
