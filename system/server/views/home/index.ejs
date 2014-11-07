@@ -1,15 +1,7 @@
-<% appName = "dashboardApp" %>
-
-<!-- TITLE CONTENT -->
-<%- contentFor('title') %>
 <h3><i class="fa fa-dashboard fa-fw"></i> <%= __('ADMIN_DASHBOARD_LABEL_MAINTITLE') %> 
 <small><%= __('ADMIN_DASHBOARD_LABEL_SUBTITLE') %></small></h3>
-<!-- END OF TITLE CONTENT -->
 
-<!-- BODY CONTENT -->
-<%- contentFor('body') %>
-
-<!-- @section InitStartupScripts
+<!-- @section InitStartupScaaaripts
 {
     cms.home.init();
     cms.googleAnalyticsAuthorisation.init('@Model.GoogleGaAccount', '@Model.GoogleGaHistory', cms.home.googleApiAuthorised);
@@ -24,7 +16,7 @@
     </div>
 </div>
 
-<div ng-controller="dashboardController">
+<div>
 
     <!-- <div class="row">
         <div class="col-lg-12">
@@ -99,23 +91,6 @@
 </div>
 <!-- END OF BODY CONTENT -->
 
-<%- contentFor('bodyend') %>
-
-<% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ %>
-    <script type="text/javascript" src="<%= NODECMS_CONFIG.adminWidgets[i].file %>"> </script>
-<% } %>
-
-<script type="text/javascript">
-
-    var modules = [];
-
-    <% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ %>
-        modules.push('<%= NODECMS_CONFIG.adminWidgets[i].moduleName %>');
-    <% } %>
-
-    cms.init(modules);
-    
-</script>
 <!-- @section endOfBody
 {
     <script type="text/javascript">

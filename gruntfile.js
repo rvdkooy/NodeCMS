@@ -1,9 +1,8 @@
 module.exports = function(grunt) {
 
-
   var libs = ['jquery', 'jquery-ui', '_angular', '_angular-resource', '_angular-route',
    'bootstrap', 'ui-bootstrap', 'underscore', 'dateformat', 'morris', 'nestedsortable', 
-  'jquery.shake', 'jquery.metisMenu', 'jquery.growl'];
+  'jquery.shake', 'jquery.metisMenu', 'jquery.growl', 'sbadmin'];
 
   grunt.initConfig({
     

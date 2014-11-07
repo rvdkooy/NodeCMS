@@ -361,14 +361,29 @@ if (!('some' in Array.prototype)) {
 }(window.cms = window.cms || { }, jQuery));
 },{}],6:[function(require,module,exports){
 var angular = require('_angular');
-var angular = require('_angular-resource');
+var angularResource = require('_angular-resource');
+var angularRoute = require('_angular-route');
+// needs some serious refactoring
+require('bootstrap')
+require('jquery.metisMenu')
+require('sbadmin');
 
 window.cms = window.cms || {}
 
 window.cms.init = function (widgetModules){
-    var modules = ['sharedmodule', 'services', 'filters'].concat(widgetModules);
 
-    angular.module('dashboardApp', modules)
+    var modules = ['sharedmodule', 'services', 'filters', 'ngRoute', 'logsApp'].concat(widgetModules);
+
+    angular.module('adminApp', modules)
+    
+    .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
+        $routeProvider
+            .when('/dashboard', { 
+                templateUrl: '/admin/dashboard', 
+                controller: 'dashboardController' });
+            //.otherwise({ redirectTo: '/dashboard' });
+    }])
+
     .controller('dashboardController', function($scope, logsService){
         $scope.showLogMessagesLoader = true;
         
@@ -377,6 +392,7 @@ window.cms.init = function (widgetModules){
             $scope.showLogMessagesLoader = false;
         });
     })
+
     .directive('contentStats', function(){
         return {
           restrict: 'E',
@@ -397,7 +413,7 @@ window.cms.init = function (widgetModules){
         };
     });
 };    
-},{"_angular":undefined,"_angular-resource":undefined}],7:[function(require,module,exports){
+},{"_angular":undefined,"_angular-resource":undefined,"_angular-route":undefined,"bootstrap":undefined,"jquery.metisMenu":undefined,"sbadmin":undefined}],7:[function(require,module,exports){
 angular.module('cms.focus', [])
     //
     // Directive that registers a focus on an element 
@@ -588,6 +604,14 @@ angular.module('ui.upload', [])
     }]);
 },{}],12:[function(require,module,exports){
 angular.module('logsApp', ['services', 'ngResource', 'sharedmodule'])
+
+.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
+        $routeProvider
+            .when('/logs', { 
+                templateUrl: '/admin/logs', 
+                controller: 'logsController' });
+    }])
+
 .controller('logsController', ['$scope', 'logsService',
     function ($scope, logsService) {
 

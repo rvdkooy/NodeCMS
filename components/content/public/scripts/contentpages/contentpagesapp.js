@@ -41,9 +41,9 @@ var app = angular.module('contentPagesApp', ['services', 'contentServices', 'ui.
     , 'sharedmodule', 'ngResource', 'ngRoute', 'httpRequestInterceptors']).
     config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
         $routeProvider
-            .when('/all', { templateUrl: '/admin/contentpages/listcontentpages', controller: 'pagesController' })
-            .when('/add', { templateUrl: '/admin/contentpages/addcontentpage', controller: 'addPageController' })
-            .when('/edit/:pageId', {
+            .when('/pages', { templateUrl: '/admin/contentpages/listcontentpages', controller: 'pagesController' })
+            .when('/addpage', { templateUrl: '/admin/contentpages/addcontentpage', controller: 'addPageController' })
+            .when('/editpage/:pageId', {
                 templateUrl: '/admin/contentpages/editcontentpage',
                 controller: 'editPageController',
                 resolve: {

@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="<%= appName %>">
+<html ng-app="adminApp">
     <head>
         <title><%= __('ADMIN_COMMON_LABEL_ADMINTITLE') %></title>
         <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
@@ -86,13 +86,28 @@
 
                 <div class="row">
                     <div class="col-lg-12 titlesection">
-                       <%- title %>
+                       TITEL SHOULD COME HERE
                     </div>
                 </div>
-                <%- body %> 
+                <div ng-view=""></div> 
             </div>
         </div>
         <script type="text/javascript" src="/assets/admin/dist/components.js"> </script>
-         <%- bodyend %>   
+
+        <% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ %>
+            <script type="text/javascript" src="<%= NODECMS_CONFIG.adminWidgets[i].file %>"> </script>
+        <% } %>
+
+        <script type="text/javascript">
+
+        var modules = [];
+
+        <% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ %>
+            modules.push('<%= NODECMS_CONFIG.adminWidgets[i].moduleName %>');
+        <% } %>
+
+        cms.init(modules);
+        
+    </script>
     </body>
 </html>

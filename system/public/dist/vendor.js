@@ -56557,6 +56557,26 @@ return jQuery;
 
     $.mjs.nestedSortable.prototype.options = $.extend({}, $.ui.sortable.prototype.options, $.mjs.nestedSortable.prototype.options);
 })(jQuery);
+},{}],"sbadmin":[function(require,module,exports){
+$(function() {
+
+    $('#side-menu').metisMenu();
+
+});
+
+//Loads the correct sidebar on window load,
+//collapses the sidebar on window resize.
+$(function() {
+    $(window).bind("load resize", function() {
+        console.log($(this).width())
+        if ($(this).width() < 768) {
+            $('div.sidebar-collapse').addClass('collapse')
+        } else {
+            $('div.sidebar-collapse').removeClass('collapse')
+        }
+    })
+})
+
 },{}],"ui-bootstrap":[function(require,module,exports){
 /*
  * angular-ui-bootstrap

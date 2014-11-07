@@ -16,8 +16,9 @@ exports.register = function(mainApp) {
 	var logsController = ioc.resolve(LogsController);
 	var settingsController = ioc.resolve(SettingsController);
 
-	mainApp.get('/admin', function(req, res){ res.redirect('/admin/dashboard'); });
-	mainApp.get('/admin/dashboard', dashboardcontroller.index);
+	//mainApp.get('/admin', function(req, res){ res.redirect('/admin/dashboard'); });
+	mainApp.get('/admin', dashboardcontroller.index);
+	mainApp.get('/admin/dashboard', dashboardcontroller.dashboard);
 	mainApp.get('/admin/api/dashboard/getcontentstats', dashboardcontroller.getcontentstats);
 	mainApp.get('/admin/logs', logsController.index);
 	mainApp.get('/admin/api/logs', logsController.apiGetLogs);

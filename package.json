@@ -62,6 +62,7 @@
     "jquery.shake": "./system/public/vendor/jquery.shake.js",
     "jquery.metisMenu": "./system/public/vendor/metisMenu/jquery.metisMenu.js",
     "jquery.growl": "./system/public/vendor/growl/jquery.growl.js",
-    "ui-bootstrap": "./system/public/vendor/ui-bootstrap-tpls-0.11.0.min.js"
+    "ui-bootstrap": "./system/public/vendor/ui-bootstrap-tpls-0.11.0.min.js",
+    "sbadmin": "./system/public/vendor/sb-admin.js"
   }
 }

@@ -1,12 +1,27 @@
 ﻿var angular = require('_angular');
-var angular = require('_angular-resource');
+var angularResource = require('_angular-resource');
+var angularRoute = require('_angular-route');
+// needs some serious refactoring
+require('bootstrap')
+require('jquery.metisMenu')
+require('sbadmin');
 
 window.cms = window.cms || {}
 
 window.cms.init = function (widgetModules){
-    var modules = ['sharedmodule', 'services', 'filters'].concat(widgetModules);
 
-    angular.module('dashboardApp', modules)
+    var modules = ['sharedmodule', 'services', 'filters', 'ngRoute', 'logsApp'].concat(widgetModules);
+
+    angular.module('adminApp', modules)
+    
+    .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
+        $routeProvider
+            .when('/dashboard', { 
+                templateUrl: '/admin/dashboard', 
+                controller: 'dashboardController' });
+            //.otherwise({ redirectTo: '/dashboard' });
+    }])
+
     .controller('dashboardController', function($scope, logsService){
         $scope.showLogMessagesLoader = true;
         
@@ -15,6 +30,7 @@ window.cms.init = function (widgetModules){
             $scope.showLogMessagesLoader = false;
         });
     })
+
     .directive('contentStats', function(){
         return {
           restrict: 'E',
