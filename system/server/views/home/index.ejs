@@ -113,7 +113,7 @@
         modules.push('<%= NODECMS_CONFIG.adminWidgets[i].moduleName %>');
     <% } %>
 
-    //cms.home.init(modules);
+    cms.init(modules);
     
 </script>
 <!-- @section endOfBody
@@ -125,7 +125,7 @@
     </script>
     <script type="text/javascript" src="https://www.google.com/jsapi"> </script>
     <script src="https://apis.google.com/js/client.js?onload=googleApiLoaded"> </script>
-    @Scripts.Render("~/admin/scripts/dashboard")
+    
     <script type="text/javascript">
         google.load('visualization', '1', { packages: ['corechart'] });
     </script>

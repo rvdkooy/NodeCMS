@@ -2,7 +2,8 @@ module.exports = function(grunt) {
 
 
   var libs = ['jquery', 'jquery-ui', '_angular', '_angular-resource', '_angular-route',
-   , 'bootstrap', 'underscore', 'dateformat'];
+   'bootstrap', 'ui-bootstrap', 'underscore', 'dateformat', 'morris', 'nestedsortable', 
+  'jquery.shake', 'jquery.metisMenu', 'jquery.growl'];
 
   grunt.initConfig({
     
@@ -34,32 +35,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    // concat: {
-      
-    //     options: {
-    //       separator: grunt.util.linefeed + ';' + grunt.util.linefeed
-    //     },
-    //     dist: {
-    //       src: [ 
-    //           'system/public/scripts/vendor/jquery.ui.nestedSortable.js',
-    //           'system/public/scripts/vendor/jquery.shake.js',
-    //           'system/public/scripts/vendor/metisMenu/jquery.metisMenu.js',
-    //           'system/public/scripts/vendor/morris/morris.js',
-    //           'system/public/scripts/vendor/sharedFunctions.js',
-    //           'system/public/scripts/vendor/sb-admin.js',  
-    //           'system/public/scripts/vendor/growl/jquery.growl.js'],
-    //       dest: 'system/public/scripts/dist/vendorscripts.js'
-    //     }
-      
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       'dist/vendor.min.js': ['dist/vendor.js']
-    //     }
-    //   }
-    // },
-
     watch: {
       
       // src: {

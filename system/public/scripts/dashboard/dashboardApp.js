@@ -1,9 +1,12 @@
 ﻿var angular = require('_angular');
 var angular = require('_angular-resource');
 
-var modules = ['sharedmodule', 'services', 'filters'];//.concat(widgetModules);
+window.cms = window.cms || {}
 
-angular.module('dashboardApp', modules)
+window.cms.init = function (widgetModules){
+    var modules = ['sharedmodule', 'services', 'filters'].concat(widgetModules);
+
+    angular.module('dashboardApp', modules)
     .controller('dashboardController', function($scope, logsService){
         $scope.showLogMessagesLoader = true;
         
@@ -31,4 +34,4 @@ angular.module('dashboardApp', modules)
                     '</div>'      
         };
     });
-    
+};    
