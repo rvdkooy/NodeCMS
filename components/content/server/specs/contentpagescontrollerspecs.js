@@ -6,16 +6,39 @@ var fakelogger = { info: function(){}, warn: function(){} }
 
 describe('Content pages controller specs:', function(){
 	
-	describe('When requesting the index view,', function(){
+	describe('When requesting the list content pages view,', function(){
 
 		var responseObject = new ResponseObject();
 		var controller = new ContentPagesController();
 		
-		controller.index(null, responseObject);
+		controller.listContentPages(null, responseObject);
 
-		it('It should render the index with the standard layout', function(){
-			assert.equal(responseObject.view, 'components/content/server/views/contentpages/index');
-			assert.equal(responseObject.options.layout, 'system/server/views/shared/layout');
+		it('It should render the content pages view', function(){
+			assert.equal(responseObject.view, 'components/content/server/views/contentpages/listcontentpages');
+		});
+	});
+
+	describe('When requesting the add content page view,', function(){
+
+		var responseObject = new ResponseObject();
+		var controller = new ContentPagesController();
+		
+		controller.addContentPage(null, responseObject);
+
+		it('It should render the add content page view', function(){
+			assert.equal(responseObject.view, 'components/content/server/views/contentpages/addcontentpage');
+		});
+	});
+
+	describe('When requesting the edit content page view,', function(){
+
+		var responseObject = new ResponseObject();
+		var controller = new ContentPagesController();
+		
+		controller.editContentPage(null, responseObject);
+
+		it('It should render the edit content page view', function(){
+			assert.equal(responseObject.view, 'components/content/server/views/contentpages/editcontentpage');
 		});
 	});
 
