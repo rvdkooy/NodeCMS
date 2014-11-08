@@ -22,7 +22,7 @@ module.exports = function(grunt) {
       },
       components: {
         files: {
-          'system/public/dist/components.js': ['system/**/public/scripts/**/*.js'],
+          'system/public/dist/components.js': ['system/**/public/scripts/**/*.js', 'components/**/public/scripts/**/*.js'],
         },
         options: {
           preBundleCB: function (bundle) {

@@ -1,4 +1,637 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+// warning global variable
+var tinyMceConfig = {
+    resize: false,
+    plugins: [
+        "advlist autolink lists link image charmap print preview anchor",
+        "searchreplace visualblocks code fullscreen", "image",
+        "insertdatetime media table contextmenu paste"
+    ],
+    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    file_browser_callback: function (field_name, url, type, win) {
+
+        if (type == 'image' || type == 'file') {
+            var ed = tinyMCE.activeEditor;
+            ed.windowManager.open({
+                file: '/admin/uribrowser/index?runningFromTinyMce=true&type=' + type + '&inputId=none',
+                title: cms.adminResources.get('PAGES_LABEL_URIBROWSERTITLE'),
+                width: 500,
+                height: 600,
+                scrollbars: "yes",
+                inline: "yes"
+            }, {
+                window: win,
+                input: field_name,
+                oninsert: function (passedurl) {
+                    var field = win.document.getElementById(field_name);
+                    field.value = passedurl;
+                    tinyMCE.activeEditor.dom.fire(field, "change");
+                }
+            });
+        }
+        return false;
+    },
+
+    extended_valid_elements: "iframe[src|width|height|name|align|style]",
+    relative_urls: false,
+    convert_urls: false
+    //language: $.cookie("cmslanguage")
+};
+
+var app = angular.module('contentPagesApp', ['services', 'contentServices', 'ui.tinymce', 'ui.bootstrap', 'cms.growlers', 'cms.ichecker'
+    , 'sharedmodule', 'ngResource', 'ngRoute', 'httpRequestInterceptors']).
+    config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
+        $routeProvider
+            .when('/pages', { templateUrl: '/admin/contentpages/listcontentpages', controller: 'pagesController' })
+            .when('/addpage', { templateUrl: '/admin/contentpages/addcontentpage', controller: 'addPageController' })
+            .when('/editpage/:pageId', {
+                templateUrl: '/admin/contentpages/editcontentpage',
+                controller: 'editPageController',
+                resolve: {
+                    page: ["pagesService", "$route", "$q", function(pagesService, $route, $q) {
+                        var deferred = $q.defer();
+
+                        pagesService.get({ pageid: $route.current.params.pageId }, function (successData) {
+                            deferred.resolve(successData);
+                        }, function() {
+                            deferred.reject();
+                        });
+
+                        return deferred.promise;
+                    }]
+                }
+            })
+            .otherwise({ redirectTo: '/all' });
+    }]);
+
+app.controller('pagesController', ['$scope', 'pagesService', 'notificationService', '$http',
+    function ($scope, pagesService, notificationService, $http) {
+    
+        loadPages();
+
+        $scope.deletePage = function (index) {
+
+            var page = $scope.pages[index];
+
+            var pageName = page.name;
+            if (confirm(cms.adminResources.get("ADMIN_PAGES_NOTIFY_DELETEPAGE", pageName))) {
+                page.$delete(function () {
+
+                    notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEDELETED', pageName));
+
+                    loadPages();
+                });
+            }
+        };
+
+        $scope.clearCache = function () {
+
+            $http({
+                method: 'POST',
+                url: '/admin/api/pages/clearcache'
+            }).success(function () {
+                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_ALLCACHECLEARED'));
+            });
+        };
+
+        function loadPages() {
+            $scope.pages = pagesService.query();
+        }
+}]);
+
+app.controller('addPageController', ['$scope', 'pagesService', '$location', 'notificationService',
+    function ($scope, pagesService, $location, notificationService) {
+
+        $scope.page = {};
+
+        $scope.defaultTinyMceConfig = tinyMceConfig;
+
+        $scope.saveAndCloseButtonClicked = function () {
+
+            pagesService.save($scope.page, function () {
+
+                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEADDED', $scope.page.name));
+
+                $location.path('#/contentpages');
+            });
+        };
+    }]);
+
+app.controller('editPageController', ['$scope', 'page', '$location', 'notificationService', 'pagesService', '$http',
+    function ($scope, page, $location, notificationService, pagesService, $http) {
+
+        $scope.page = page;
+
+        $scope.defaultTinyMceConfig = tinyMceConfig;
+
+        $scope.saveButtonClicked = function () {
+            updatePage(false);
+        };
+
+        $scope.saveAndCloseButtonClicked = function () {
+            updatePage(true);
+        };
+
+        $scope.clearCacheButtonClicked = function () {
+
+            $http({
+                method: 'POST',
+                url: '/admin/api/pages/clearcacheforpage/' + $scope.page._id
+            }).success(function () {
+
+                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGECACHECLEARED', $scope.page.name));
+            });
+        };
+
+        function updatePage(closePage) {
+
+            $scope.page.$update(function () {
+
+                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEUPDATED', $scope.page.name));
+
+                if (closePage) {
+                    $location.path('#/contentpages');
+                }
+            });
+        }
+    }]);
+},{}],2:[function(require,module,exports){
+var widgetsModule = angular.module('contentwidgets', []);
+
+widgetsModule.directive('latestupdates', function(){
+	return {
+      restrict: 'E',
+      controller: function($scope, $http){
+      	$scope.latestContentPages = [];
+
+      	$http.get('/admin/api/contentpages/latestchanged/5').then(function(result){
+      		$scope.latestContentPages = result.data;
+      	});
+      },
+      template: '<div class="panel-heading">' +
+                    cms.adminResources.get('ADMIN_DASHBOARD_LABEL_LATESTCHANGEDPAGES') +
+                '</div>' +
+                '<div class="panel-body">' +
+                    '<ul class="list-group">' +
+                      '<li class="list-group-item" ng-repeat="page in latestContentPages">' +
+                        '<i class="fa fa-file-text-o fa-fw"></i>' +
+                        '<a href="/admin/contentpages#/edit/{{ page._id }}">{{ page.name }}</a>' +
+                        '<span class="pull-right">{{ page.changed }}</span>' +
+                        '</li>' +
+                    '</ul>' +
+                '</div>'      
+    };
+});
+},{}],3:[function(require,module,exports){
+angular.module('contentSettingsApp', ['contentServices', 'services', 'cms.growlers', 
+	'ngResource', 'sharedmodule', 'httpRequestInterceptors'])
+
+    .value('settingKeys', ['website_description', 'website_keywords', 'website_landingpage'])
+
+    .directive('pagesSelector', function () {
+
+        return {
+        	restrict: 'A',
+        	scope: {
+        		selectedPage: '=pagesSelector'
+        	},
+            controller: function($scope, pagesService){
+            	$scope.availablePages = pagesService.query();
+            },
+            templateUrl: '/assets/content/templates/contentsettings/pagesselector.html'
+        };
+    });
+},{}],4:[function(require,module,exports){
+var app = angular.module('menusApp', ['ui.bootstrap', 'cms.growlers', 'services', 'sharedmodule', 'ngResource', 
+    'ngRoute', 'httpRequestInterceptors', 'cms.sortableMenu', 'filters']).
+    config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
+        $routeProvider
+            .when('/all', { templateUrl: '/admin/menus/list', controller: 'menusController' })
+            .when('/add', { templateUrl: '/admin/menus/add', controller: 'addMenuController' })
+            .when('/edit/:menuId', {
+                templateUrl: '/admin/menus/edit',
+                controller: 'editMenuController',
+                resolve: {
+                    menu: ["menusService", "$route", "$q", function(menusService, $route, $q) {
+                        var deferred = $q.defer();
+
+                        menusService.get({ menuid: $route.current.params.menuId }, function (successData) {
+                            deferred.resolve(successData);
+                        }, function() {
+                            deferred.reject();
+                        });
+
+                        return deferred.promise;
+                    }]
+                }
+            })
+            .otherwise({ redirectTo: '/all' });
+    }]);
+
+
+app.factory('menusService', ['$resource', function ($resource) {
+    return $resource('/admin/api/menus/:menuid', { menuid: '@_id' },
+    {
+        update: { method: 'PUT' },
+    });
+}]);
+
+app.controller('menusController',     function ($scope, menusService, notificationService, $http) {
+    
+    loadMenus();
+
+    $scope.deleteMenu = function (index) {
+
+        var menu = $scope.menus[index];
+
+        var menuName = menu.name;
+        if (confirm(cms.adminResources.get("ADMIN_MENUS_NOTIFY_DELETEMENU", menuName))) {
+            menu.$delete(function () {
+
+                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_MENUS_NOTIFY_MENUDELETED', menuName));
+
+                loadMenus();
+            });
+        }
+    };
+
+    function loadMenus() {
+        $scope.menus = menusService.query();
+    }
+});
+
+app.controller('addMenuController', 
+    function ($scope, menusService, $location, notificationService) {
+
+        $scope.menu = {};
+
+        $scope.saveAndCloseButtonClicked = function () {
+
+            menusService.save($scope.menu, function () {
+
+                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_MENUS_NOTIFY_MENUADDED', $scope.menu.name));
+
+                $location.path('#/all');
+            });
+        };
+    });
+
+app.controller('editMenuController', 
+    function ($scope, menu, $location, notificationService, menusService, $http, $modal) {
+
+        menu.children = menu.children || [];
+        $scope.menu = menu;
+        $scope.addMenuItem = function(){
+            var modalInstance = $modal.open({
+                templateUrl: 'newMenuItem',
+                controller: function($scope, $modalInstance) {
+
+                    $scope.saveAndClose = function (name, url) {
+                        $modalInstance.close({name: name, url: url});
+                    };
+
+                    $scope.closeModal = function() {
+                        $modalInstance.close();
+                    }
+                }
+            });
+
+            modalInstance.result.then(function(data) {
+
+                if (data) {
+                    $scope.menu.children.push({ 
+                        id: Math.floor((Math.random() * 1000000) + 1).toString(),
+                        name: data.name, 
+                        url: '/' + data.url,
+                        children: [] 
+                    });
+                }
+            });
+        };
+        
+        $scope.saveButtonClicked = function () {
+            updateMenu(false);
+        };
+
+        $scope.saveAndCloseButtonClicked = function () {
+            updateMenu(true);
+        };
+        
+        function updateMenu(close) {
+
+            menusService.update($scope.menu, function(){
+                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_MENUS_NOTIFY_MENUUPDATED', $scope.menu.name));
+
+                if (close) {
+                    $location.path('#/all');
+                }
+            });
+        }
+    });
+},{}],5:[function(require,module,exports){
+angular.module('cms.sortableMenu', [])
+
+    .directive('sortableMenu', function () {
+
+        var _scope, menu;
+
+        // this method is used to find the original nested array of an item
+        // it can be used to remove the item from that array
+        function findArray(array, item){
+            for (var i = 0; i < array.length; i++) {
+                if(array[i] === item){
+                    return array;
+                }
+                if(array[i].children){
+                    var result = findArray(array[i].children, item);
+                    if(result){
+                        return result;
+                    }
+                }
+            }
+        }
+
+        // whenever the nested sortable is updated with a drag event
+        // we rebuild the complete hierarchy for angular to draw the nested menu again.
+        // after that we reinit the nested menu again
+        function rebuildMenuHierarchy(){
+            var hierarchy = menu.nestedSortable('toHierarchy');
+            menu.nestedSortable("destroy");
+            var newChildren = [];
+
+            for (var i = 0; i < hierarchy.length; i++) {
+                buildupNewChildren(hierarchy[i], _scope.menu.children, newChildren);
+            };
+            _scope.menu.children = newChildren;
+
+            if (!_scope.$$phase) {
+              _scope.$apply();
+            }
+
+            initNestedSortable();
+        }
+
+        // this method is building up the new children nested array based on the 
+        // hierarchy and the previous values of the menu
+        function buildupNewChildren(hierarchyItem, originalMenu, newChildren){
+            
+            var originalItem = searchInOriginalMenu(originalMenu, hierarchyItem.id);
+            
+            if(originalItem){
+                
+                var newItem = angular.copy(originalItem);
+                newItem.children = [];
+                newChildren.push(newItem);
+
+                if(hierarchyItem.children){
+                
+                    for (var i = 0; i < hierarchyItem.children.length; i++) {
+                        buildupNewChildren(hierarchyItem.children[i], originalMenu, newItem.children);
+                    };
+                }
+            }
+        }
+
+        // recursively loop through the previous menu to find an item
+        function searchInOriginalMenu(children, id){
+                        
+            for (var i = 0; i < children.length; i++) {
+                
+                if(children[i].id === id){
+                    return children[i];
+                } 
+                if(children[i].children){
+                    var result = searchInOriginalMenu(children[i].children, id);
+                    if(result){
+                        return result;
+                    }
+                } 
+            }
+        }
+
+        function initNestedSortable(){
+
+            setTimeout(function() {
+                menu.nestedSortable({
+                    forcePlaceholderSize: true,
+                    helper: 'clone',
+                    items: 'li.listitem',
+                    maxLevels: 3,
+                    opacity: .6,
+                    revert: 250,
+                    update: function(){
+                        rebuildMenuHierarchy();
+                    }
+                }).disableSelection();
+            });
+        }
+
+        return {
+            restrict: 'E',
+            templateUrl: '/assets/content/templates/menus/sortablemenu.html',
+            link: function (scope, elm) {
+                _scope = scope;
+
+                _scope.toggle = function(el){
+                    
+                    $(el.target).closest('.panel').find('.panel-body').slideToggle();
+                    var togglebuttons = $(el.target).closest('.btn-group').find('button.togglebuttons');
+                    togglebuttons.toggle();
+
+                    return false;
+                };
+
+                 _scope.remove = function(item){
+                    var array = findArray(_scope.menu.children, item);
+                    if(array){
+                        array.splice(array.indexOf(item), 1);
+                    };
+
+                    return false;
+                };
+
+                menu = $('#nestedMenu')
+                
+                initNestedSortable();
+            }
+        };
+    });
+},{}],6:[function(require,module,exports){
+angular.module('contentServices', ['ngResource'])
+	.factory('pagesService', ['$resource', function ($resource) {
+	    return $resource('/admin/api/contentpages/:pageid', { pageid: '@_id' },
+	        {
+	            update: { method: 'PUT' },
+	            //clearCache: { method: 'POST', params: { clearcache: 'true' } },
+	            //clearCacheForPage: { method: 'POST', params: { 'clearCacheForPage': '@Id' } }
+	        });
+	}]);
+
+},{}],7:[function(require,module,exports){
+angular.module('loginApp', ['cms.focus', 'cms.growlers', 'cms.loginshaker', 'services'])
+	
+	.factory('authenticationService', ["$http", function ($http) {
+	    return {
+	        authenticate: function(username, password, language) {
+	            return $http({
+	                method: 'POST',
+	                url: '/public/api/login',
+	                data: { username: username, password: password, language: language }
+	            });
+	        }
+	    };
+	}])
+	.controller('loginController', ['$scope', 'authenticationService', 'notificationService', '$window',
+    	function ($scope, authenticationService, notificationService, $window) {
+
+        $scope.availableLanguages = ['en', 'nl'];
+        $scope.username = '';
+        $scope.password = '';
+        $scope.unauthorizedLogin = false;
+        setLanguageBasedOnCookieOrBrowser();
+
+        $scope.login = function() {
+            $scope.unauthorizedLogin = false;
+            authenticationService.authenticate($scope.username, $scope.password, $scope.language)
+                .then(onSuccessLogin, onErrorLogin);
+        };
+
+        function onSuccessLogin() {
+            
+            $.cookie("lang", $scope.language)
+            $window.location.href = '/admin';
+        }
+
+        function onErrorLogin(data) {
+
+            if (data.status === 401) {
+                if (data.data) {
+                    notificationService.addErrorMessage(data.data);
+                }
+                $scope.unauthorizedLogin = true;
+                $scope.password = '';
+            }
+        }
+
+        function setLanguageBasedOnCookieOrBrowser() {
+            var langaugeToSet = $.cookie("lang");
+
+            if (!langaugeToSet) {
+
+                var browserLanguage = window.navigator.userLanguage || window.navigator.language;
+
+                for (var i = 0; i < $scope.availableLanguages.length; i++) {
+                    if($scope.availableLanguages[i] === browserLanguage){
+                        langaugeToSet = browserLanguage;
+                        break;
+                    }
+                };
+                if(!langaugeToSet){
+                    langaugeToSet = 'en';
+                }
+            }
+
+            $scope.language = langaugeToSet;
+        }
+    }]);
+
+
+},{}],8:[function(require,module,exports){
+angular.module('usersApp', ['cms.growlers', 'cms.ichecker', 'services', 'ngRoute',
+    'ngResource', 'sharedmodule', 'httpRequestInterceptors']).
+    config(['$routeProvider', function($routeProvider) {
+        $routeProvider
+            .when('/users', { templateUrl: '/admin/users/listusers', controller: 'usersController' })
+            .when('/adduser', { templateUrl: '/admin/users/adduser', controller: 'addUserController' })
+            .when('/edituser/:userId', {
+                templateUrl: '/admin/users/edituser',
+                controller: 'editUserController',
+                resolve: {
+                    user: ["usersService", "$route", "$q", function(usersService, $route, $q) {
+                        var deferred = $q.defer();
+
+                        usersService.get({ id: $route.current.params.userId }, function(successData) {
+                            deferred.resolve(successData);
+                        }, function() {
+                            deferred.reject();
+                        });
+
+                        return deferred.promise;
+                    }]
+                }
+            })
+            .otherwise({ redirectTo: '/users' });
+    }])
+.controller('usersController', ['$scope', 'usersService', 'notificationService',
+    function ($scope, userService, notificationService) {
+    
+        loadUsers();
+
+        $scope.deleteUser = function (index) {
+
+            var user = $scope.users[index];
+
+            var username = user.username;
+            if (confirm(cms.adminResources.get("ADMIN_USERS_NOTIFY_DELETEUSER", username))) {
+                user.$delete(function () {
+
+                    notificationService.addSuccessMessage(cms.adminResources.get("ADMIN_USERS_NOTIFY_USERDELETED", username));
+
+                    loadUsers();
+                });
+            }
+        };
+
+        function loadUsers() {
+            $scope.users = userService.query();
+        }
+}])
+
+.controller('addUserController', ['$scope', 'usersService', '$location', 'notificationService',
+    function ($scope, usersService, $location, notificationService) {
+
+        $scope.user = {};
+
+        $scope.saveAndCloseButtonClicked = function () {
+
+            usersService.save($scope.user, function () {
+
+                notificationService.addSuccessMessage(cms.adminResources.get("ADMIN_USERS_NOTIFY_USERADDED", $scope.user.username));
+                $location.path('#/users');
+            });
+        };
+    }])
+
+.controller('editUserController', ['$scope', 'user', '$location', 'notificationService',
+    function ($scope, user, $location, notificationService) {
+
+        $scope.user = user;
+
+        $scope.saveButtonClicked = function () {
+            updateUser(false);
+        };
+
+        $scope.saveAndCloseButtonClicked = function () {
+            updateUser(true);
+        };
+
+        function updateUser(closePage) {
+            $scope.user.$update(function () {
+
+                notificationService.addSuccessMessage(cms.adminResources.get("ADMIN_USERS_NOTIFY_USERUPDATED", $scope.user.username));
+                if (closePage) {
+                    $location.path('#/users');
+                }
+            });
+        }
+    }])
+.factory('usersService', ['$resource', function ($resource) {
+    return $resource('/admin/api/users/:id', { id: '@_id' },
+        {
+            update: { method: 'PUT' },
+        });
+}]);
+},{}],9:[function(require,module,exports){
 'use strict';
 
 // Add ECMA262-5 method binding if not supported natively
@@ -92,7 +725,7 @@ if (!('some' in Array.prototype)) {
         return false;
     };
 }
-},{}],2:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (cms, $) {
     'use strict';
     function initContentSettings() {
@@ -128,7 +761,7 @@ if (!('some' in Array.prototype)) {
     };
 
 } (window.cms = window.cms || {}, jQuery));   
-},{}],3:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (cms, $) {
     'use strict';
 
@@ -173,7 +806,7 @@ if (!('some' in Array.prototype)) {
         init: init
     };
 }(window.cms = window.cms || {}, jQuery));
-},{}],4:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (cms) {
     'use strict';
     
@@ -235,7 +868,7 @@ if (!('some' in Array.prototype)) {
     };
 
 }(window.cms = window.cms || {}));
-},{}],5:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 (function(cms, $) {
     'use strict';
 
@@ -359,7 +992,7 @@ if (!('some' in Array.prototype)) {
     }
 
 }(window.cms = window.cms || { }, jQuery));
-},{}],6:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 var angular = require('_angular');
 var angularResource = require('_angular-resource');
 var angularRoute = require('_angular-route');
@@ -367,12 +1000,13 @@ var angularRoute = require('_angular-route');
 require('bootstrap')
 require('jquery.metisMenu')
 require('sbadmin');
+require('ui-bootstrap');
 
 window.cms = window.cms || {}
 
 window.cms.init = function (widgetModules){
 
-    var modules = ['sharedmodule', 'services', 'filters', 'ngRoute', 'logsApp'].concat(widgetModules);
+    var modules = ['sharedmodule', 'services', 'filters', 'ngRoute', 'logsApp', 'contentPagesApp'].concat(widgetModules);
 
     angular.module('adminApp', modules)
     
@@ -380,8 +1014,8 @@ window.cms.init = function (widgetModules){
         $routeProvider
             .when('/dashboard', { 
                 templateUrl: '/admin/dashboard', 
-                controller: 'dashboardController' });
-            //.otherwise({ redirectTo: '/dashboard' });
+                controller: 'dashboardController' })
+            .otherwise({ redirectTo: '/dashboard' });
     }])
 
     .controller('dashboardController', function($scope, logsService){
@@ -413,7 +1047,7 @@ window.cms.init = function (widgetModules){
         };
     });
 };    
-},{"_angular":undefined,"_angular-resource":undefined,"_angular-route":undefined,"bootstrap":undefined,"jquery.metisMenu":undefined,"sbadmin":undefined}],7:[function(require,module,exports){
+},{"_angular":undefined,"_angular-resource":undefined,"_angular-route":undefined,"bootstrap":undefined,"jquery.metisMenu":undefined,"sbadmin":undefined,"ui-bootstrap":undefined}],15:[function(require,module,exports){
 angular.module('cms.focus', [])
     //
     // Directive that registers a focus on an element 
@@ -426,7 +1060,7 @@ angular.module('cms.focus', [])
     		}
     	};
     }])
-},{}],8:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 
 angular.module('cms.growlers', [])
     //
@@ -451,7 +1085,7 @@ angular.module('cms.growlers', [])
             }
         };
     }])
-},{}],9:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 
 angular.module('cms.ichecker', [])
     //
@@ -495,7 +1129,7 @@ angular.module('cms.ichecker', [])
             }
         };
     });
-},{}],10:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * Binds a TinyMCE widget to <textarea> elements.
  * Downloaded from: https://github.com/angular-ui/ui-tinymce/blob/master/src/tinymce.js
@@ -576,7 +1210,7 @@ angular.module('ui.tinymce', [])
             }
         };
     }]);
-},{}],11:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * creates a jquery fileupload
  */
@@ -602,7 +1236,7 @@ angular.module('ui.upload', [])
             }
         };
     }]);
-},{}],12:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 angular.module('logsApp', ['services', 'ngResource', 'sharedmodule'])
 
 .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
@@ -617,12 +1251,12 @@ angular.module('logsApp', ['services', 'ngResource', 'sharedmodule'])
 
         $scope.logs = logsService.query({ limit: 75 });
     }]);
-},{}],13:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 angular.module('mainSettingsApp', ['services', 'cms.growlers', 
 	'ngResource', 'sharedmodule', 'httpRequestInterceptors'])
 
     .value('settingKeys', ['website_mainurl', 'website_title', 'email_address', 'mainaddress']);
-},{}],14:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 angular.module("httpRequestInterceptors", [])
 
 .config(['$httpProvider', function ($httpProvider) {
@@ -648,7 +1282,7 @@ angular.module("httpRequestInterceptors", [])
             };
     });
  }]);
-},{}],15:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 angular.module('services', ['ngResource'])
 
 	.factory('logsService', ['$resource', function ($resource) {
@@ -764,7 +1398,7 @@ angular.module('services', ['ngResource'])
 	        }
 	    };
 	}]);
-},{}],16:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 function showGrowl(type, message) {
 
     if(message === undefined) {
@@ -787,7 +1421,7 @@ function showGrowl(type, message) {
 }
 
 
-},{}],17:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 var angular = require('_angular');
 
 angular.module('filters', [])
@@ -796,7 +1430,7 @@ angular.module('filters', [])
             return cms.adminResources.get(input, args);
         }
     });
-},{"_angular":undefined}],18:[function(require,module,exports){
+},{"_angular":undefined}],26:[function(require,module,exports){
 'use strict';
 
 // Add ECMA262-5 method binding if not supported natively
@@ -900,7 +1534,7 @@ String.prototype.format = function () {
         ;
     });
 };
-},{}],19:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 angular.module('sharedmodule', [])
 .controller("maincontroller", function($scope, $http, $window){
 	$scope.logout = function () {
@@ -950,7 +1584,7 @@ angular.module('sharedmodule', [])
         };
 });;
 
-},{}],20:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 cms = window.cms || {};
 
 cms.uploadsApp = angular.module('uploadsApp', ['cms.growlers', 'ui.upload', 'services']).
@@ -958,7 +1592,7 @@ cms.uploadsApp = angular.module('uploadsApp', ['cms.growlers', 'ui.upload', 'ser
 
         $httpProvider.responseInterceptors.push('httpInterceptor');
     }]);
-},{}],21:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 cms.uploadsApp.controller('uploadsController', [
     '$scope', 'notificationService', '$http', 'uploadsService',
     function($scope, notificationService, $http, uploadsService) {
@@ -1065,4 +1699,4 @@ cms.uploadsApp.controller('uploadsController', [
         updateProgress(0);
     }
 ]);
-},{}]},{},[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]);
+},{}]},{},[9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,1,2,3,4,5,6,7,8]);

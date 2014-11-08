@@ -5,12 +5,13 @@ var angularRoute = require('_angular-route');
 require('bootstrap')
 require('jquery.metisMenu')
 require('sbadmin');
+require('ui-bootstrap');
 
 window.cms = window.cms || {}
 
 window.cms.init = function (widgetModules){
 
-    var modules = ['sharedmodule', 'services', 'filters', 'ngRoute', 'logsApp'].concat(widgetModules);
+    var modules = ['sharedmodule', 'services', 'filters', 'ngRoute', 'logsApp', 'contentPagesApp'].concat(widgetModules);
 
     angular.module('adminApp', modules)
     
@@ -18,8 +19,8 @@ window.cms.init = function (widgetModules){
         $routeProvider
             .when('/dashboard', { 
                 templateUrl: '/admin/dashboard', 
-                controller: 'dashboardController' });
-            //.otherwise({ redirectTo: '/dashboard' });
+                controller: 'dashboardController' })
+            .otherwise({ redirectTo: '/dashboard' });
     }])
 
     .controller('dashboardController', function($scope, logsService){
