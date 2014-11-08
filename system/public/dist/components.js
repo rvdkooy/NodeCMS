@@ -42,9 +42,13 @@ var app = angular.module('contentPagesApp', ['services', 'contentServices', 'ui.
     , 'sharedmodule', 'ngResource', 'ngRoute', 'httpRequestInterceptors']).
     config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
         $routeProvider
-            .when('/pages', { templateUrl: '/admin/contentpages/listcontentpages', controller: 'pagesController' })
-            .when('/addpage', { templateUrl: '/admin/contentpages/addcontentpage', controller: 'addPageController' })
-            .when('/editpage/:pageId', {
+            .when('/contentpages', { 
+                templateUrl: '/admin/contentpages/listcontentpages', 
+                controller: 'pagesController' })
+            .when('/addcontentpage', { 
+                templateUrl: '/admin/contentpages/addcontentpage', 
+                controller: 'addPageController' })
+            .when('/editcontentpage/:pageId', {
                 templateUrl: '/admin/contentpages/editcontentpage',
                 controller: 'editPageController',
                 resolve: {
@@ -60,8 +64,7 @@ var app = angular.module('contentPagesApp', ['services', 'contentServices', 'ui.
                         return deferred.promise;
                     }]
                 }
-            })
-            .otherwise({ redirectTo: '/all' });
+            });
     }]);
 
 app.controller('pagesController', ['$scope', 'pagesService', 'notificationService', '$http',
@@ -996,6 +999,7 @@ if (!('some' in Array.prototype)) {
 var angular = require('_angular');
 var angularResource = require('_angular-resource');
 var angularRoute = require('_angular-route');
+
 // needs some serious refactoring
 require('bootstrap')
 require('jquery.metisMenu')

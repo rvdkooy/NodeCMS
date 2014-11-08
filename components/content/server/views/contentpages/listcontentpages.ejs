@@ -1,4 +1,8 @@
-﻿<div ui-growler></div>
+﻿<div class="row">
+    <div class="col-lg-12 titlesection">
+       <h3><i class="fa fa-file-text-o fa-fw"></i> <%= __('ADMIN_PAGES_LABEL_MAINHEADER') %></h3>
+    </div>
+</div>
 
 <div class='row'>
     <div class='col-lg-12'>
@@ -19,7 +23,7 @@
             <div class="panel-heading">
                 <span>
                     <i class="fa fa-file-text-o fa-fw"></i>
-                    <a href="#/add"><%= __("ADMIN_PAGES_LABEL_CREATENEW") %></a>
+                    <a href="#/addcontentpage"><%= __("ADMIN_PAGES_LABEL_CREATENEW") %></a>
                 </span>
                 
                 <span>
@@ -40,7 +44,7 @@
                     <tbody>
                         <tr ng-repeat="page in pages">
                             <td style="text-align: left">
-                                <a href="#/edit/{{page._id}}"><h4>{{ page.name }}</h4></a>
+                                <a href="#/editcontentpage/{{page._id}}"><h4>{{ page.name }}</h4></a>
                                 <span>
                                     <a href="{{ page.url }}"
                                        target="_blank"><i class="icon-eye-open"></i>{{ page.url }}</a>

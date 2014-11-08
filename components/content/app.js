@@ -29,7 +29,10 @@ exports.register = function(mainApp) {
 	mainApp.use('/assets/content', express.static(path.join(__dirname, 'public')));	
 
 	// Contentpages
-	mainApp.get('/admin/contentpages', pagescontroller.index);
+	mainApp.get('/admin/contentpages/listcontentpages', pagescontroller.listContentPages);
+	mainApp.get('/admin/contentpages/addcontentpage', pagescontroller.addContentPage);
+	mainApp.get('/admin/contentpages/editcontentpage', pagescontroller.editContentPage);
+
 	mainApp.get('/admin/api/contentpages', pagescontroller.ApiContentPages);
 	mainApp.get('/admin/api/contentpages/:id', pagescontroller.ApiGetContentPage);
 	mainApp.post('/admin/api/contentpages', pagescontroller.ApiAddContentPage);
@@ -53,11 +56,11 @@ exports.register = function(mainApp) {
 exports.config = {
 	adminMenu: [ 
 		{ key: 'CONTENT', url: '#', css: 'fa-sitemap', menuItems: [ 
-			{ key: 'PAGES', url: '/admin/contentpages', css: 'fa-file-text-o' }, 
-			{ key: 'MENUS', url: '/admin/menus', css:'fa-th-list' }
+			{ key: 'PAGES', url: '/contentpages', css: 'fa-file-text-o' }, 
+			{ key: 'MENUS', url: '/menus', css:'fa-th-list' }
 		] }, 
 	 	{ key: 'SETTINGS', url: '#', css: 'fa-cogs', menuItems: [
-		 	{ key: 'CONTENTSETTINGS', url: '/admin/contentsettings', css:'fa-th-list' }] }
+		 	{ key: 'CONTENTSETTINGS', url: '/contentsettings', css:'fa-th-list' }] }
 	 	],
 	adminWidgets: { file: '/assets/content/scripts/contentpages/widgets.js', moduleName: 'contentwidgets', widgets: ['latestupdates' ] },
 	adminStats: statsProvider.getContentStats

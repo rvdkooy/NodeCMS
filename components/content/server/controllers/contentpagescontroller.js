@@ -33,10 +33,14 @@ module.exports = function(contentpagesrepository, logger){
 		}
 	};
 
-	this.index = function(req, res){
-		res.render('components/content/server/views/contentpages/index', {
-			layout: 'system/server/views/shared/layout'
-		});
+	this.listContentPages = function(req, res){
+		res.render('components/content/server/views/contentpages/listcontentpages');
+	};
+	this.addContentPage = function(req, res){
+		res.render('components/content/server/views/contentpages/addcontentpage');
+	};
+	this.editContentPage = function(req, res){
+		res.render('components/content/server/views/contentpages/editcontentpage');
 	};
 	
 	this.ApiContentPages = function(req, res){
