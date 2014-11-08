@@ -17,7 +17,6 @@
     "debug": "~0.7.4",
     "ejs": "~0.8.5",
     "express": "~4.2.0",
-    "express-ejs-layouts": "1.1.x",
     "express-session": "~1.6.5",
     "extendify": "~0.1.0",
     "i18n-2": "0.4.x",

@@ -5,21 +5,29 @@ var DashboardController = require('../../../controllers/dashboardcontroller.js')
 
 describe('Dashboard controller specs:', function(){
 
-	var responseObject = new ResponseObject();
-	
-	describe('When requesting the index,', function(){
+	describe('When requesting the default layout,', function(){
 		
+		var responseObject = new ResponseObject();
 		var controller = new DashboardController();
 		controller.index(null, responseObject);
 		
-		it('It should render the index with the standard layout', function(){
-			assert.equal(responseObject.view, 'system/server/views/home/index');
-			assert.equal(responseObject.options.layout, 'system/server/views/shared/layout');
+		it('It should render the shared layout', function(){
+			assert.equal(responseObject.view, 'system/server/views/shared/layout');
+		});
+	});
+
+	describe('When requesting the dashboard,', function(){
+		var responseObject = new ResponseObject();
+		var controller = new DashboardController();
+		controller.dashboard(null, responseObject);
+		
+		it('It should render the dashboard', function(){
+			assert.equal(responseObject.view, 'system/server/views/dashboard/index');
 		});
 	});
 
 	describe('When getting content statistics,', function(){
-		
+		var responseObject = new ResponseObject();
 		var statsResult = [{ name: 'item1' }, { name: 'item2' }];
 		var arrayOfAdminStats = [ function(){
 			var defered = q.defer();

@@ -3,9 +3,7 @@ var _ = require('underscore');
 module.exports = function(loggingrepository){
 	
 	this.index = function(req, res){
-		res.render('system/server/views/logs/index', { 
-			layout: false
-		});
+		res.render('system/server/views/logs/index');
 	};
 
 	this.apiGetLogs = function(req, res){

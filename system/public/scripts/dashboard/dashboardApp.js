@@ -1,6 +1,7 @@
 ﻿var angular = require('_angular');
 var angularResource = require('_angular-resource');
 var angularRoute = require('_angular-route');
+
 // needs some serious refactoring
 require('bootstrap')
 require('jquery.metisMenu')
