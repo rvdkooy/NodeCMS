@@ -59,7 +59,7 @@
                         var adminMenu = NODECMS_CONFIG.adminMenu;
                         for(var i=0; i< adminMenu.length; i++) {%>
                             <li>
-                                <a href="<%= adminMenu[i].url %>">
+                                <a href="#<%= adminMenu[i].url %>">
                                     <i class="fa <%= adminMenu[i].css %> fa-fw"></i> 
                                     <%= __('ADMIN_LEFTMENU_LABEL_' + adminMenu[i].key) %>
                                     <% if( adminMenu[i].menuItems) { %> <span class="fa arrow"></span> <% } %>
@@ -71,7 +71,7 @@
                                 
                                     <% for(var j=0; j< adminMenu[i].menuItems.length; j++) {%>
 
-                                        <li><a href='<%= adminMenu[i].menuItems[j].url %>'><i class="fa <%= adminMenu[i].menuItems[j].css %> fa-fw"></i> 
+                                        <li><a href='#<%= adminMenu[i].menuItems[j].url %>'><i class="fa <%= adminMenu[i].menuItems[j].css %> fa-fw"></i> 
                                         <%= __('ADMIN_LEFTMENU_LABEL_' + adminMenu[i].menuItems[j].key) %></a></li>
                                     <% } %>
                                      </ul>
