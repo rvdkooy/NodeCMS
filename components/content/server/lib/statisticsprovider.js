@@ -15,7 +15,7 @@ exports.getContentStats = function(){
 
 			var pagesStats = { count: pages.length, 
 							resourcekey: 'ADMIN_DASHBOARD_LABEL_CONTENTPAGESSTATS', 
-							url: '/admin/contentpages'}
+							url: '#/contentpages'}
 
 			var menusStats = { count: menus.length, 
 								resourcekey: 'ADMIN_DASHBOARD_LABEL_MENUSSTATS', 

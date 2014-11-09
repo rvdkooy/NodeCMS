@@ -73,7 +73,7 @@ function runThroughComponents(method, mainApp, eventEmitter){
 
 function extendConfig(config, mainApp){
 	
-	var defaultConfig = { adminMenu: [], adminWidgets: [], adminStats: [] };
+	var defaultConfig = { adminMenu: [], adminWidgets: [], adminStats: [], ngModules: [] };
 	var existingConfig = mainApp.get('NODECMS_CONFIG') || defaultConfig;
 	
 	if(config.adminMenu){
@@ -105,6 +105,9 @@ function extendConfig(config, mainApp){
 	}
 	if(config.adminStats){
 		existingConfig.adminStats.push(config.adminStats); 
+	}
+	if(config.ngModules){
+		existingConfig.ngModules.push(config.ngModules); 
 	}
 	mainApp.set('NODECMS_CONFIG', existingConfig);
 }

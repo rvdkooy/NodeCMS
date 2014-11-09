@@ -37,7 +37,7 @@ var tinyMceConfig = {
     //language: $.cookie("cmslanguage")
 };
 
-var app = angular.module('contentPagesApp', ['services', 'contentServices', 'ui.tinymce', 'ui.bootstrap', 'cms.ichecker'
+var app = angular.module('contentPagesModule', ['services', 'contentServices', 'ui.tinymce', 'ui.bootstrap', 'cms.ichecker'
     , 'sharedmodule', 'ngResource', 'ngRoute', 'httpRequestInterceptors']).
     config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
         $routeProvider
@@ -66,8 +66,7 @@ var app = angular.module('contentPagesApp', ['services', 'contentServices', 'ui.
             });
     }]);
 
-app.controller('pagesController', ['$scope', 'pagesService', 'notificationService', '$http',
-    function ($scope, pagesService, notificationService, $http) {
+app.controller('pagesController', function ($scope, pagesService, notificationService, $http, $modal) {
     
         loadPages();
 
@@ -75,34 +74,42 @@ app.controller('pagesController', ['$scope', 'pagesService', 'notificationServic
 
             var page = $scope.pages[index];
 
-            var pageName = page.name;
-            if (confirm(cms.adminResources.get("ADMIN_PAGES_NOTIFY_DELETEPAGE", pageName))) {
+
+            var modalInstance = $modal.open({
+                templateUrl : 'confirmdeletecontentpage.html',
+                resolve : {
+                    pageToDelete : function (){ return page.name; }
+                },
+                controller : deleteContentPageController
+            });
+
+            modalInstance.result.then(function () {
                 page.$delete(function () {
 
-                    notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEDELETED', pageName));
+                    notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEDELETED', page.name));
 
                     loadPages();
                 });
-            }
-        };
-
-        $scope.clearCache = function () {
-
-            $http({
-                method: 'POST',
-                url: '/admin/api/pages/clearcache'
-            }).success(function () {
-                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_ALLCACHECLEARED'));
             });
         };
 
         function loadPages() {
             $scope.pages = pagesService.query();
         }
-}]);
+});
 
-app.controller('addPageController', ['$scope', 'pagesService', '$location', 'notificationService',
-    function ($scope, pagesService, $location, notificationService) {
+var deleteContentPageController = function ($scope, $modalInstance, pageToDelete){
+    $scope.pageToDelete = pageToDelete;
+    $scope.ok = function (){
+        $modalInstance.close('ok');
+    };
+
+    $scope.cancel = function (){
+        $modalInstance.dismiss('cancel');
+    };
+};
+
+app.controller('addPageController', function ($scope, pagesService, $location, notificationService) {
 
         $scope.page = {};
 
@@ -114,13 +121,12 @@ app.controller('addPageController', ['$scope', 'pagesService', '$location', 'not
 
                 notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEADDED', $scope.page.name));
 
-                $location.path('#/contentpages');
+                $location.path('/contentpages');
             });
         };
-    }]);
+    });
 
-app.controller('editPageController', ['$scope', 'page', '$location', 'notificationService', 'pagesService', '$http',
-    function ($scope, page, $location, notificationService, pagesService, $http) {
+app.controller('editPageController', function ($scope, page, $location, notificationService, pagesService, $http) {
 
         $scope.page = page;
 
@@ -152,8 +158,32 @@ app.controller('editPageController', ['$scope', 'page', '$location', 'notificati
                 notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEUPDATED', $scope.page.name));
 
                 if (closePage) {
-                    $location.path('#/contentpages');
+                    $location.path('/contentpages');
                 }
             });
         }
-    }]);
+    })
+    .directive('latestupdates', function(){
+        return {
+          restrict: 'E',
+          controller: function($scope, $http){
+            $scope.latestContentPages = [];
+
+            $http.get('/admin/api/contentpages/latestchanged/5').then(function(result){
+                $scope.latestContentPages = result.data;
+            });
+          },
+          template: '<div class="panel-heading">' +
+                        cms.adminResources.get('ADMIN_DASHBOARD_LABEL_LATESTCHANGEDPAGES') +
+                    '</div>' +
+                    '<div class="panel-body">' +
+                        '<ul class="list-group">' +
+                          '<li class="list-group-item" ng-repeat="page in latestContentPages">' +
+                            '<i class="fa fa-file-text-o fa-fw"></i>' +
+                            '<a href="#/editcontentpage/{{ page._id }}">{{ page.name }}</a>' +
+                            '<span class="pull-right">{{ page.changed }}</span>' +
+                            '</li>' +
+                        '</ul>' +
+                    '</div>'      
+        };
+    });

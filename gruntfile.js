@@ -37,7 +37,10 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      
+      browserify:{
+        files: ['system/**/public/scripts/**/*.js','components/**/public/scripts/**/*.js'],
+        tasks: ['browserify:components'],
+      },
       // src: {
       //   files: ['lib/*.js', 'css/**/*.scss', '!lib/dontwatch.js'],
       //   tasks: ['default'],
@@ -62,5 +65,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.registerTask('test', ['servertests']);
-  grunt.registerTask('build', ['browserify:libs', 'browserify:components']);
+  grunt.registerTask('build', ['browserify:libs', 'browserify:components', 'watch:browserify']);
 };

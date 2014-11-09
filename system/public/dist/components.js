@@ -38,7 +38,7 @@ var tinyMceConfig = {
     //language: $.cookie("cmslanguage")
 };
 
-var app = angular.module('contentPagesApp', ['services', 'contentServices', 'ui.tinymce', 'ui.bootstrap', 'cms.ichecker'
+var app = angular.module('contentPagesModule', ['services', 'contentServices', 'ui.tinymce', 'ui.bootstrap', 'cms.ichecker'
     , 'sharedmodule', 'ngResource', 'ngRoute', 'httpRequestInterceptors']).
     config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
         $routeProvider
@@ -67,8 +67,7 @@ var app = angular.module('contentPagesApp', ['services', 'contentServices', 'ui.
             });
     }]);
 
-app.controller('pagesController', ['$scope', 'pagesService', 'notificationService', '$http',
-    function ($scope, pagesService, notificationService, $http) {
+app.controller('pagesController', function ($scope, pagesService, notificationService, $http, $modal) {
     
         loadPages();
 
@@ -76,34 +75,42 @@ app.controller('pagesController', ['$scope', 'pagesService', 'notificationServic
 
             var page = $scope.pages[index];
 
-            var pageName = page.name;
-            if (confirm(cms.adminResources.get("ADMIN_PAGES_NOTIFY_DELETEPAGE", pageName))) {
+
+            var modalInstance = $modal.open({
+                templateUrl : 'confirmdeletecontentpage.html',
+                resolve : {
+                    pageToDelete : function (){ return page.name; }
+                },
+                controller : deleteContentPageController
+            });
+
+            modalInstance.result.then(function () {
                 page.$delete(function () {
 
-                    notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEDELETED', pageName));
+                    notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEDELETED', page.name));
 
                     loadPages();
                 });
-            }
-        };
-
-        $scope.clearCache = function () {
-
-            $http({
-                method: 'POST',
-                url: '/admin/api/pages/clearcache'
-            }).success(function () {
-                notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_ALLCACHECLEARED'));
             });
         };
 
         function loadPages() {
             $scope.pages = pagesService.query();
         }
-}]);
+});
 
-app.controller('addPageController', ['$scope', 'pagesService', '$location', 'notificationService',
-    function ($scope, pagesService, $location, notificationService) {
+var deleteContentPageController = function ($scope, $modalInstance, pageToDelete){
+    $scope.pageToDelete = pageToDelete;
+    $scope.ok = function (){
+        $modalInstance.close('ok');
+    };
+
+    $scope.cancel = function (){
+        $modalInstance.dismiss('cancel');
+    };
+};
+
+app.controller('addPageController', function ($scope, pagesService, $location, notificationService) {
 
         $scope.page = {};
 
@@ -115,13 +122,12 @@ app.controller('addPageController', ['$scope', 'pagesService', '$location', 'not
 
                 notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEADDED', $scope.page.name));
 
-                $location.path('#/contentpages');
+                $location.path('/contentpages');
             });
         };
-    }]);
+    });
 
-app.controller('editPageController', ['$scope', 'page', '$location', 'notificationService', 'pagesService', '$http',
-    function ($scope, page, $location, notificationService, pagesService, $http) {
+app.controller('editPageController', function ($scope, page, $location, notificationService, pagesService, $http) {
 
         $scope.page = page;
 
@@ -153,39 +159,36 @@ app.controller('editPageController', ['$scope', 'page', '$location', 'notificati
                 notificationService.addSuccessMessage(cms.adminResources.get('ADMIN_PAGES_NOTIFY_PAGEUPDATED', $scope.page.name));
 
                 if (closePage) {
-                    $location.path('#/contentpages');
+                    $location.path('/contentpages');
                 }
             });
         }
-    }]);
+    })
+    .directive('latestupdates', function(){
+        return {
+          restrict: 'E',
+          controller: function($scope, $http){
+            $scope.latestContentPages = [];
+
+            $http.get('/admin/api/contentpages/latestchanged/5').then(function(result){
+                $scope.latestContentPages = result.data;
+            });
+          },
+          template: '<div class="panel-heading">' +
+                        cms.adminResources.get('ADMIN_DASHBOARD_LABEL_LATESTCHANGEDPAGES') +
+                    '</div>' +
+                    '<div class="panel-body">' +
+                        '<ul class="list-group">' +
+                          '<li class="list-group-item" ng-repeat="page in latestContentPages">' +
+                            '<i class="fa fa-file-text-o fa-fw"></i>' +
+                            '<a href="#/editcontentpage/{{ page._id }}">{{ page.name }}</a>' +
+                            '<span class="pull-right">{{ page.changed }}</span>' +
+                            '</li>' +
+                        '</ul>' +
+                    '</div>'      
+        };
+    });
 },{}],2:[function(require,module,exports){
-var widgetsModule = angular.module('contentwidgets', []);
-
-widgetsModule.directive('latestupdates', function(){
-	return {
-      restrict: 'E',
-      controller: function($scope, $http){
-      	$scope.latestContentPages = [];
-
-      	$http.get('/admin/api/contentpages/latestchanged/5').then(function(result){
-      		$scope.latestContentPages = result.data;
-      	});
-      },
-      template: '<div class="panel-heading">' +
-                    cms.adminResources.get('ADMIN_DASHBOARD_LABEL_LATESTCHANGEDPAGES') +
-                '</div>' +
-                '<div class="panel-body">' +
-                    '<ul class="list-group">' +
-                      '<li class="list-group-item" ng-repeat="page in latestContentPages">' +
-                        '<i class="fa fa-file-text-o fa-fw"></i>' +
-                        '<a href="/admin/contentpages#/edit/{{ page._id }}">{{ page.name }}</a>' +
-                        '<span class="pull-right">{{ page.changed }}</span>' +
-                        '</li>' +
-                    '</ul>' +
-                '</div>'      
-    };
-});
-},{}],3:[function(require,module,exports){
 angular.module('contentSettingsApp', ['contentServices', 'services',
 	'ngResource', 'sharedmodule', 'httpRequestInterceptors'])
 
@@ -204,7 +207,7 @@ angular.module('contentSettingsApp', ['contentServices', 'services',
             templateUrl: '/assets/content/templates/contentsettings/pagesselector.html'
         };
     });
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 var app = angular.module('menusApp', ['ui.bootstrap', 'services', 'sharedmodule', 'ngResource', 
     'ngRoute', 'httpRequestInterceptors', 'cms.sortableMenu', 'filters']).
     config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
@@ -331,7 +334,7 @@ app.controller('editMenuController',
             });
         }
     });
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 angular.module('cms.sortableMenu', [])
 
     .directive('sortableMenu', function () {
@@ -459,7 +462,7 @@ angular.module('cms.sortableMenu', [])
             }
         };
     });
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 angular.module('contentServices', ['ngResource'])
 	.factory('pagesService', ['$resource', function ($resource) {
 	    return $resource('/admin/api/contentpages/:pageid', { pageid: '@_id' },
@@ -470,7 +473,7 @@ angular.module('contentServices', ['ngResource'])
 	        });
 	}]);
 
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 angular.module('loginApp', ['cms.focus', 'cms.loginshaker', 'services'])
 	
 	.factory('authenticationService', ["$http", function ($http) {
@@ -539,7 +542,7 @@ angular.module('loginApp', ['cms.focus', 'cms.loginshaker', 'services'])
     }]);
 
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 angular.module('usersApp', ['cms.ichecker', 'services', 'ngRoute',
     'ngResource', 'sharedmodule', 'httpRequestInterceptors']).
     config(['$routeProvider', function($routeProvider) {
@@ -634,7 +637,7 @@ angular.module('usersApp', ['cms.ichecker', 'services', 'ngRoute',
             update: { method: 'PUT' },
         });
 }]);
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*
  * Toastr
  * Copyright 2012-2014 John Papa and Hans Fjällemark.
@@ -973,7 +976,7 @@ angular.module('usersApp', ['cms.ichecker', 'services', 'ngRoute',
         window['toastr'] = factory(window['jQuery']);
     }
 }));
-},{"jquery":undefined}],10:[function(require,module,exports){
+},{"jquery":undefined}],9:[function(require,module,exports){
 'use strict';
 
 // Add ECMA262-5 method binding if not supported natively
@@ -1067,7 +1070,7 @@ if (!('some' in Array.prototype)) {
         return false;
     };
 }
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (cms, $) {
     'use strict';
     function initContentSettings() {
@@ -1103,7 +1106,7 @@ if (!('some' in Array.prototype)) {
     };
 
 } (window.cms = window.cms || {}, jQuery));   
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (cms, $) {
     'use strict';
 
@@ -1148,7 +1151,7 @@ if (!('some' in Array.prototype)) {
         init: init
     };
 }(window.cms = window.cms || {}, jQuery));
-},{}],13:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (cms) {
     'use strict';
     
@@ -1210,7 +1213,7 @@ if (!('some' in Array.prototype)) {
     };
 
 }(window.cms = window.cms || {}));
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 (function(cms, $) {
     'use strict';
 
@@ -1334,7 +1337,7 @@ if (!('some' in Array.prototype)) {
     }
 
 }(window.cms = window.cms || { }, jQuery));
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 var angular = require('_angular');
 var angularResource = require('_angular-resource');
 var angularRoute = require('_angular-route');
@@ -1348,9 +1351,9 @@ require('ui-bootstrap');
 
 window.cms = window.cms || {}
 
-window.cms.init = function (widgetModules){
+window.cms.init = function (modules){
 
-    var modules = ['sharedmodule', 'services', 'filters', 'ngRoute', 'logsApp', 'contentPagesApp'].concat(widgetModules);
+    var modules = ['sharedmodule', 'services', 'filters', 'ngRoute', 'logsApp'].concat(modules);
 
     angular.module('adminApp', modules)
     
@@ -1391,7 +1394,7 @@ window.cms.init = function (widgetModules){
         };
     });
 };    
-},{"_angular":undefined,"_angular-resource":undefined,"_angular-route":undefined,"bootstrap":undefined,"jquery.metisMenu":undefined,"sbadmin":undefined,"ui-bootstrap":undefined}],16:[function(require,module,exports){
+},{"_angular":undefined,"_angular-resource":undefined,"_angular-route":undefined,"bootstrap":undefined,"jquery.metisMenu":undefined,"sbadmin":undefined,"ui-bootstrap":undefined}],15:[function(require,module,exports){
 angular.module('cms.focus', [])
     //
     // Directive that registers a focus on an element 
@@ -1404,7 +1407,7 @@ angular.module('cms.focus', [])
     		}
     	};
     }])
-},{}],17:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 
 angular.module('cms.ichecker', [])
     //
@@ -1448,7 +1451,7 @@ angular.module('cms.ichecker', [])
             }
         };
     });
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /**
  * Binds a TinyMCE widget to <textarea> elements.
  * Downloaded from: https://github.com/angular-ui/ui-tinymce/blob/master/src/tinymce.js
@@ -1529,7 +1532,7 @@ angular.module('ui.tinymce', [])
             }
         };
     }]);
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * creates a jquery fileupload
  */
@@ -1555,7 +1558,7 @@ angular.module('ui.upload', [])
             }
         };
     }]);
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 angular.module('logsApp', ['services', 'ngResource', 'sharedmodule'])
 
 .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
@@ -1570,10 +1573,10 @@ angular.module('logsApp', ['services', 'ngResource', 'sharedmodule'])
 
         $scope.logs = logsService.query({ limit: 75 });
     }]);
-},{}],21:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 angular.module('mainSettingsApp', ['services', 'ngResource', 'sharedmodule', 'httpRequestInterceptors'])
     .value('settingKeys', ['website_mainurl', 'website_title', 'email_address', 'mainaddress']);
-},{}],22:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 angular.module("httpRequestInterceptors", [])
 
 .config(['$httpProvider', function ($httpProvider) {
@@ -1599,7 +1602,7 @@ angular.module("httpRequestInterceptors", [])
             };
     });
  }]);
-},{}],23:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 var toastr = require('toastr');
 toastr.options.positionClass = "toast-top-right";
 toastr.options.showMethod = 'fadeIn';
@@ -1702,7 +1705,7 @@ angular.module('services', ['ngResource'])
 	        }
 	    };
 	}]);
-},{"toastr":9}],24:[function(require,module,exports){
+},{"toastr":8}],23:[function(require,module,exports){
 function showGrowl(type, message) {
 
     if(message === undefined) {
@@ -1725,7 +1728,7 @@ function showGrowl(type, message) {
 }
 
 
-},{}],25:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 var angular = require('_angular');
 
 angular.module('filters', [])
@@ -1734,7 +1737,7 @@ angular.module('filters', [])
             return cms.adminResources.get(input, args);
         }
     });
-},{"_angular":undefined}],26:[function(require,module,exports){
+},{"_angular":undefined}],25:[function(require,module,exports){
 'use strict';
 
 // Add ECMA262-5 method binding if not supported natively
@@ -1838,7 +1841,7 @@ String.prototype.format = function () {
         ;
     });
 };
-},{}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 angular.module('sharedmodule', [])
 .controller("maincontroller", function($scope, $http, $window){
 	$scope.logout = function () {
@@ -1888,7 +1891,7 @@ angular.module('sharedmodule', [])
         };
 });;
 
-},{}],28:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 cms = window.cms || {};
 
 cms.uploadsApp = angular.module('uploadsApp', ['ui.upload', 'services']).
@@ -1896,7 +1899,7 @@ cms.uploadsApp = angular.module('uploadsApp', ['ui.upload', 'services']).
 
         $httpProvider.responseInterceptors.push('httpInterceptor');
     }]);
-},{}],29:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 cms.uploadsApp.controller('uploadsController', [
     '$scope', 'notificationService', '$http', 'uploadsService',
     function($scope, notificationService, $http, uploadsService) {
@@ -2003,4 +2006,4 @@ cms.uploadsApp.controller('uploadsController', [
         updateProgress(0);
     }
 ]);
-},{}]},{},[10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,1,2,3,4,5,6,7,8]);
+},{}]},{},[9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,1,2,3,4,5,6,7]);

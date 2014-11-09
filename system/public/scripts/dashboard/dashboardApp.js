@@ -11,9 +11,9 @@ require('ui-bootstrap');
 
 window.cms = window.cms || {}
 
-window.cms.init = function (widgetModules){
+window.cms.init = function (modules){
 
-    var modules = ['sharedmodule', 'services', 'filters', 'ngRoute', 'logsApp', 'contentPagesApp'].concat(widgetModules);
+    var modules = ['sharedmodule', 'services', 'filters', 'ngRoute', 'logsApp'].concat(modules);
 
     angular.module('adminApp', modules)
     

@@ -6,8 +6,8 @@
 <div class='row'>
     <div class='col-lg-12'>
         <ol class='breadcrumb'>
-            <li><a href="/admin"><i class='fa fa-dashboard'></i> Home</a></li>
-            <li><a href="/admin/contentpages"><i class='fa fa-file-text-o'></i> Pages</a></li>
+            <li><a href="#/dashboard"><i class='fa fa-dashboard'></i> Home</a></li>
+            <li><a href="#/contentpages"><i class='fa fa-file-text-o'></i> Pages</a></li>
             <li>Edit page</li>
         </ol>
     </div>
@@ -24,9 +24,9 @@
                     <button class="btn btn-primary" ng-disabled="!editform.$valid" ng-click="saveAndCloseButtonClicked()">
                         <%= __("ADMIN_COMMON_BUTTON_SAVEANDCLOSE")  %>
                     </button>
-                    <button class="btn btn-primary" ng-click="clearCacheButtonClicked()">
+                    <!-- <button class="btn btn-primary" ng-click="clearCacheButtonClicked()">
                         <%= __("ADMIN_PAGES_LABEL_CLEARCACHEOFPAGE")  %>
-                    </button>
+                    </button> -->
                 </form>
             </div>
         </div>

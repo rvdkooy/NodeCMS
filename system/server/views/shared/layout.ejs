@@ -91,16 +91,12 @@
         </div>
         <script type="text/javascript" src="/assets/admin/dist/components.js"> </script>
 
-        <% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ %>
-            <script type="text/javascript" src="<%= NODECMS_CONFIG.adminWidgets[i].file %>"> </script>
-        <% } %>
-
         <script type="text/javascript">
 
         var modules = [];
 
-        <% for(var i = 0; i < NODECMS_CONFIG.adminWidgets.length; i++){ %>
-            modules.push('<%= NODECMS_CONFIG.adminWidgets[i].moduleName %>');
+        <% for(var i = 0; i < NODECMS_CONFIG.ngModules.length; i++){ %>
+            modules.push('<%= NODECMS_CONFIG.ngModules[i] %>');
         <% } %>
 
         cms.init(modules);

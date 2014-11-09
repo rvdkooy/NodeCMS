@@ -62,6 +62,7 @@ exports.config = {
 	 	{ key: 'SETTINGS', url: '#', css: 'fa-cogs', menuItems: [
 		 	{ key: 'CONTENTSETTINGS', url: '/contentsettings', css:'fa-th-list' }] }
 	 	],
-	adminWidgets: { file: '/assets/content/scripts/contentpages/widgets.js', moduleName: 'contentwidgets', widgets: ['latestupdates' ] },
+	ngModules: ['contentPagesModule'],
+	adminWidgets: { file: '/assets/content/scripts/contentpages/widgets.js', widgets: ['latestupdates' ] },
 	adminStats: statsProvider.getContentStats
 };
