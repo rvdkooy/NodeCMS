@@ -16,6 +16,7 @@
     "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
     "ejs": "~0.8.5",
+    "express-ejs-layouts": "1.1.x",
     "express": "~4.2.0",
     "express-session": "~1.6.5",
     "extendify": "~0.1.0",

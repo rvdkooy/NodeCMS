@@ -7,6 +7,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var expressLayouts = require('express-ejs-layouts');
 var I18n = require('i18n-2');
 var fs = require('fs');
 var session = require('express-session');
@@ -20,6 +21,8 @@ var ErrorController = require('./system/server/controllers/errorcontroller');
 // Default express middleware
 app.set('views', path.join(__dirname));
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
+
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
