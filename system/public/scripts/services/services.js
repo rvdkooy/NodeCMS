@@ -1,4 +1,10 @@
-﻿angular.module('services', ['ngResource'])
+﻿var toastr = require('toastr');
+toastr.options.positionClass = "toast-top-right";
+toastr.options.showMethod = 'fadeIn';
+toastr.options.hideMethod = 'fadeOut';
+toastr.options.closeButton = true;
+
+angular.module('services', ['ngResource'])
 
 	.factory('logsService', ['$resource', function ($resource) {
 	    return $resource('/admin/api/logs');
@@ -84,32 +90,13 @@
 	}])
 	
 	.factory('notificationService', ['$rootScope', function($rootScope) {
-	    var listeners = [];
-
-	    $rootScope.$on("$routeChangeStart", function() {
-	        listeners = [];
-	    });
 
 	    return {
 	        addErrorMessage: function(message) {
-	            for (var i = 0; i < listeners.length; i++) {
-
-	                if (listeners[i].messageType === 'error') {
-	                    listeners[i].handler(message);
-	                }
-	            }
+	            toastr.error(message);
 	        },
 	        addSuccessMessage: function(message) {
-	            for (var i = 0; i < listeners.length; i++) {
-
-	                if (listeners[i].messageType === 'success') {
-	                    listeners[i].handler(message);
-	                }
-	            }
-	        },
-
-	        addListener: function(func, messageType) {
-	            listeners.push({ handler: func, messageType: messageType });
+	            toastr.success(message);
 	        }
 	    };
 	}]);

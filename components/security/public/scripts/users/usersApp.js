@@ -1,4 +1,4 @@
-﻿angular.module('usersApp', ['cms.growlers', 'cms.ichecker', 'services', 'ngRoute',
+﻿angular.module('usersApp', ['cms.ichecker', 'services', 'ngRoute',
     'ngResource', 'sharedmodule', 'httpRequestInterceptors']).
     config(['$routeProvider', function($routeProvider) {
         $routeProvider

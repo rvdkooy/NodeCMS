@@ -8,6 +8,7 @@ require('jquery.metisMenu')
 require('sbadmin');
 require('ui-bootstrap');
 
+
 window.cms = window.cms || {}
 
 window.cms.init = function (widgetModules){

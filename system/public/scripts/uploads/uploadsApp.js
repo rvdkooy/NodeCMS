@@ -1,6 +1,6 @@
 ﻿cms = window.cms || {};
 
-cms.uploadsApp = angular.module('uploadsApp', ['cms.growlers', 'ui.upload', 'services']).
+cms.uploadsApp = angular.module('uploadsApp', ['ui.upload', 'services']).
     config(['$httpProvider', function($httpProvider) {
 
         $httpProvider.responseInterceptors.push('httpInterceptor');

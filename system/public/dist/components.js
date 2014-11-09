@@ -38,7 +38,7 @@ var tinyMceConfig = {
     //language: $.cookie("cmslanguage")
 };
 
-var app = angular.module('contentPagesApp', ['services', 'contentServices', 'ui.tinymce', 'ui.bootstrap', 'cms.growlers', 'cms.ichecker'
+var app = angular.module('contentPagesApp', ['services', 'contentServices', 'ui.tinymce', 'ui.bootstrap', 'cms.ichecker'
     , 'sharedmodule', 'ngResource', 'ngRoute', 'httpRequestInterceptors']).
     config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
         $routeProvider
@@ -186,7 +186,7 @@ widgetsModule.directive('latestupdates', function(){
     };
 });
 },{}],3:[function(require,module,exports){
-angular.module('contentSettingsApp', ['contentServices', 'services', 'cms.growlers', 
+angular.module('contentSettingsApp', ['contentServices', 'services',
 	'ngResource', 'sharedmodule', 'httpRequestInterceptors'])
 
     .value('settingKeys', ['website_description', 'website_keywords', 'website_landingpage'])
@@ -205,7 +205,7 @@ angular.module('contentSettingsApp', ['contentServices', 'services', 'cms.growle
         };
     });
 },{}],4:[function(require,module,exports){
-var app = angular.module('menusApp', ['ui.bootstrap', 'cms.growlers', 'services', 'sharedmodule', 'ngResource', 
+var app = angular.module('menusApp', ['ui.bootstrap', 'services', 'sharedmodule', 'ngResource', 
     'ngRoute', 'httpRequestInterceptors', 'cms.sortableMenu', 'filters']).
     config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
         $routeProvider
@@ -471,7 +471,7 @@ angular.module('contentServices', ['ngResource'])
 	}]);
 
 },{}],7:[function(require,module,exports){
-angular.module('loginApp', ['cms.focus', 'cms.growlers', 'cms.loginshaker', 'services'])
+angular.module('loginApp', ['cms.focus', 'cms.loginshaker', 'services'])
 	
 	.factory('authenticationService', ["$http", function ($http) {
 	    return {
@@ -540,7 +540,7 @@ angular.module('loginApp', ['cms.focus', 'cms.growlers', 'cms.loginshaker', 'ser
 
 
 },{}],8:[function(require,module,exports){
-angular.module('usersApp', ['cms.growlers', 'cms.ichecker', 'services', 'ngRoute',
+angular.module('usersApp', ['cms.ichecker', 'services', 'ngRoute',
     'ngResource', 'sharedmodule', 'httpRequestInterceptors']).
     config(['$routeProvider', function($routeProvider) {
         $routeProvider
@@ -635,6 +635,345 @@ angular.module('usersApp', ['cms.growlers', 'cms.ichecker', 'services', 'ngRoute
         });
 }]);
 },{}],9:[function(require,module,exports){
+/*
+ * Toastr
+ * Copyright 2012-2014 John Papa and Hans Fjällemark.
+ * All Rights Reserved.
+ * Use, reproduction, distribution, and modification of this code is subject to the terms and
+ * conditions of the MIT license, available at http://www.opensource.org/licenses/mit-license.php
+ *
+ * Author: John Papa and Hans Fjällemark
+ * ARIA Support: Greta Krafsig
+ * Project: https://github.com/CodeSeven/toastr
+ */
+; (function (define) {
+    define(['jquery'], function ($) {
+        return (function () {
+            var $container;
+            var listener;
+            var toastId = 0;
+            var toastType = {
+                error: 'error',
+                info: 'info',
+                success: 'success',
+                warning: 'warning'
+            };
+
+            var toastr = {
+                clear: clear,
+                remove: remove,
+                error: error,
+                getContainer: getContainer,
+                info: info,
+                options: {},
+                subscribe: subscribe,
+                success: success,
+                version: '2.0.3',
+                warning: warning
+            };
+
+            return toastr;
+
+            //#region Accessible Methods
+            function error(message, title, optionsOverride) {
+                return notify({
+                    type: toastType.error,
+                    iconClass: getOptions().iconClasses.error,
+                    message: message,
+                    optionsOverride: optionsOverride,
+                    title: title
+                });
+            }
+
+            function getContainer(options, create) {
+                if (!options) { options = getOptions(); }
+                $container = $('#' + options.containerId);
+                if ($container.length) {
+                    return $container;
+                }
+                if(create) {
+                    $container = createContainer(options);
+                }
+                return $container;
+            }
+
+            function info(message, title, optionsOverride) {
+                return notify({
+                    type: toastType.info,
+                    iconClass: getOptions().iconClasses.info,
+                    message: message,
+                    optionsOverride: optionsOverride,
+                    title: title
+                });
+            }
+
+            function subscribe(callback) {
+                listener = callback;
+            }
+
+            function success(message, title, optionsOverride) {
+                return notify({
+                    type: toastType.success,
+                    iconClass: getOptions().iconClasses.success,
+                    message: message,
+                    optionsOverride: optionsOverride,
+                    title: title
+                });
+            }
+
+            function warning(message, title, optionsOverride) {
+                return notify({
+                    type: toastType.warning,
+                    iconClass: getOptions().iconClasses.warning,
+                    message: message,
+                    optionsOverride: optionsOverride,
+                    title: title
+                });
+            }
+
+            function clear($toastElement) {
+                var options = getOptions();
+                if (!$container) { getContainer(options); }
+                if (!clearToast($toastElement, options)) {
+                    clearContainer(options);
+                }
+            }
+
+            function remove($toastElement) {
+                var options = getOptions();
+                if (!$container) { getContainer(options); }
+                if ($toastElement && $(':focus', $toastElement).length === 0) {
+                    removeToast($toastElement);
+                    return;
+                }
+                if ($container.children().length) {
+                    $container.remove();
+                }
+            }
+            //#endregion
+
+            //#region Internal Methods
+
+            function clearContainer(options){
+                var toastsToClear = $container.children();
+                for (var i = toastsToClear.length - 1; i >= 0; i--) {
+                    clearToast($(toastsToClear[i]), options);
+                };
+            }
+
+            function clearToast($toastElement, options){
+                if ($toastElement && $(':focus', $toastElement).length === 0) {
+                    $toastElement[options.hideMethod]({
+                        duration: options.hideDuration,
+                        easing: options.hideEasing,
+                        complete: function () { removeToast($toastElement); }
+                    });
+                    return true;
+                }
+                return false;
+            }
+
+            function createContainer(options) {
+                $container = $('<div/>')
+                    .attr('id', options.containerId)
+                    .addClass(options.positionClass)
+                    .attr('aria-live', 'polite')
+                    .attr('role', 'alert');
+
+                $container.appendTo($(options.target));
+                return $container;
+            }
+
+            function getDefaults() {
+                return {
+                    tapToDismiss: true,
+                    toastClass: 'toast',
+                    containerId: 'toast-container',
+                    debug: false,
+
+                    showMethod: 'fadeIn', //fadeIn, slideDown, and show are built into jQuery
+                    showDuration: 300,
+                    showEasing: 'swing', //swing and linear are built into jQuery
+                    onShown: undefined,
+                    hideMethod: 'fadeOut',
+                    hideDuration: 1000,
+                    hideEasing: 'swing',
+                    onHidden: undefined,
+
+                    extendedTimeOut: 1000,
+                    iconClasses: {
+                        error: 'toast-error',
+                        info: 'toast-info',
+                        success: 'toast-success',
+                        warning: 'toast-warning'
+                    },
+                    iconClass: 'toast-info',
+                    positionClass: 'toast-top-right',
+                    timeOut: 5000, // Set timeOut and extendedTimeout to 0 to make it sticky
+                    titleClass: 'toast-title',
+                    messageClass: 'toast-message',
+                    target: 'body',
+                    closeHtml: '<button>&times;</button>',
+                    newestOnTop: true
+                };
+            }
+
+            function publish(args) {
+                if (!listener) { return; }
+                listener(args);
+            }
+
+            function notify(map) {
+                var options = getOptions(),
+                    iconClass = map.iconClass || options.iconClass;
+
+                if (typeof (map.optionsOverride) !== 'undefined') {
+                    options = $.extend(options, map.optionsOverride);
+                    iconClass = map.optionsOverride.iconClass || iconClass;
+                }
+
+                toastId++;
+
+                $container = getContainer(options, true);
+                var intervalId = null,
+                    $toastElement = $('<div/>'),
+                    $titleElement = $('<div/>'),
+                    $messageElement = $('<div/>'),
+                    $closeElement = $(options.closeHtml),
+                    response = {
+                        toastId: toastId,
+                        state: 'visible',
+                        startTime: new Date(),
+                        options: options,
+                        map: map
+                    };
+
+                if (map.iconClass) {
+                    $toastElement.addClass(options.toastClass).addClass(iconClass);
+                }
+
+                if (map.title) {
+                    $titleElement.append(map.title).addClass(options.titleClass);
+                    $toastElement.append($titleElement);
+                }
+
+                if (map.message) {
+                    $messageElement.append(map.message).addClass(options.messageClass);
+                    $toastElement.append($messageElement);
+                }
+
+                if (options.closeButton) {
+                    $closeElement.addClass('toast-close-button').attr("role", "button");
+                    $toastElement.prepend($closeElement);
+                }
+
+                $toastElement.hide();
+                if (options.newestOnTop) {
+                    $container.prepend($toastElement);
+                } else {
+                    $container.append($toastElement);
+                }
+
+
+                $toastElement[options.showMethod](
+                    { duration: options.showDuration, easing: options.showEasing, complete: options.onShown }
+                );
+
+                if (options.timeOut > 0) {
+                    intervalId = setTimeout(hideToast, options.timeOut);
+                }
+
+                $toastElement.hover(stickAround, delayedHideToast);
+                if (!options.onclick && options.tapToDismiss) {
+                    $toastElement.click(hideToast);
+                }
+
+                if (options.closeButton && $closeElement) {
+                    $closeElement.click(function (event) {
+                        if( event.stopPropagation ) {
+                            event.stopPropagation();
+                        } else if( event.cancelBubble !== undefined && event.cancelBubble !== true ) {
+                            event.cancelBubble = true;
+                        }
+                        hideToast(true);
+                    });
+                }
+
+                if (options.onclick) {
+                    $toastElement.click(function () {
+                        options.onclick();
+                        hideToast();
+                    });
+                }
+
+                publish(response);
+
+                if (options.debug && console) {
+                    console.log(response);
+                }
+
+                return $toastElement;
+
+                function hideToast(override) {
+                    if ($(':focus', $toastElement).length && !override) {
+                        return;
+                    }
+                    return $toastElement[options.hideMethod]({
+                        duration: options.hideDuration,
+                        easing: options.hideEasing,
+                        complete: function () {
+                            removeToast($toastElement);
+                            if (options.onHidden && response.state !== 'hidden') {
+                                options.onHidden();
+                            }
+                            response.state = 'hidden';
+                            response.endTime = new Date();
+                            publish(response);
+                        }
+                    });
+                }
+
+                function delayedHideToast() {
+                    if (options.timeOut > 0 || options.extendedTimeOut > 0) {
+                        intervalId = setTimeout(hideToast, options.extendedTimeOut);
+                    }
+                }
+
+                function stickAround() {
+                    clearTimeout(intervalId);
+                    $toastElement.stop(true, true)[options.showMethod](
+                        { duration: options.showDuration, easing: options.showEasing }
+                    );
+                }
+            }
+
+            function getOptions() {
+                return $.extend({}, getDefaults(), toastr.options);
+            }
+
+            function removeToast($toastElement) {
+                if (!$container) { $container = getContainer(); }
+                if ($toastElement.is(':visible')) {
+                    return;
+                }
+                $toastElement.remove();
+                $toastElement = null;
+                if ($container.children().length === 0) {
+                    $container.remove();
+                }
+            }
+            //#endregion
+
+        })();
+    });
+}(typeof define === 'function' && define.amd ? define : function (deps, factory) {
+    if (typeof module !== 'undefined' && module.exports) { //Node
+        module.exports = factory(require('jquery'));
+    } else {
+        window['toastr'] = factory(window['jQuery']);
+    }
+}));
+},{"jquery":undefined}],10:[function(require,module,exports){
 'use strict';
 
 // Add ECMA262-5 method binding if not supported natively
@@ -728,7 +1067,7 @@ if (!('some' in Array.prototype)) {
         return false;
     };
 }
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (cms, $) {
     'use strict';
     function initContentSettings() {
@@ -764,7 +1103,7 @@ if (!('some' in Array.prototype)) {
     };
 
 } (window.cms = window.cms || {}, jQuery));   
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (cms, $) {
     'use strict';
 
@@ -809,7 +1148,7 @@ if (!('some' in Array.prototype)) {
         init: init
     };
 }(window.cms = window.cms || {}, jQuery));
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 (function (cms) {
     'use strict';
     
@@ -871,7 +1210,7 @@ if (!('some' in Array.prototype)) {
     };
 
 }(window.cms = window.cms || {}));
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 (function(cms, $) {
     'use strict';
 
@@ -995,7 +1334,7 @@ if (!('some' in Array.prototype)) {
     }
 
 }(window.cms = window.cms || { }, jQuery));
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 var angular = require('_angular');
 var angularResource = require('_angular-resource');
 var angularRoute = require('_angular-route');
@@ -1005,6 +1344,7 @@ require('bootstrap')
 require('jquery.metisMenu')
 require('sbadmin');
 require('ui-bootstrap');
+
 
 window.cms = window.cms || {}
 
@@ -1051,7 +1391,7 @@ window.cms.init = function (widgetModules){
         };
     });
 };    
-},{"_angular":undefined,"_angular-resource":undefined,"_angular-route":undefined,"bootstrap":undefined,"jquery.metisMenu":undefined,"sbadmin":undefined,"ui-bootstrap":undefined}],15:[function(require,module,exports){
+},{"_angular":undefined,"_angular-resource":undefined,"_angular-route":undefined,"bootstrap":undefined,"jquery.metisMenu":undefined,"sbadmin":undefined,"ui-bootstrap":undefined}],16:[function(require,module,exports){
 angular.module('cms.focus', [])
     //
     // Directive that registers a focus on an element 
@@ -1063,31 +1403,6 @@ angular.module('cms.focus', [])
     			elm.focus();
     		}
     	};
-    }])
-},{}],16:[function(require,module,exports){
-
-angular.module('cms.growlers', [])
-    //
-    // Directive that shows a growl message when a error messaged is pushed to 
-    //
-    .directive('uiGrowler', ["notificationService", function(notificationService) {
-        return {
-            restrict: 'A',
-            controller: function ($scope, $element, $attrs) {
-
-                notificationService.addListener(showErrorMessages, 'error');
-
-                notificationService.addListener(showSuccessMessages, 'success');
-
-                function showSuccessMessages(message) {
-                    showGrowl('success', message);
-                }
-
-                function showErrorMessages(message) {
-                    showGrowl('error', message);
-                }
-            }
-        };
     }])
 },{}],17:[function(require,module,exports){
 
@@ -1256,9 +1571,7 @@ angular.module('logsApp', ['services', 'ngResource', 'sharedmodule'])
         $scope.logs = logsService.query({ limit: 75 });
     }]);
 },{}],21:[function(require,module,exports){
-angular.module('mainSettingsApp', ['services', 'cms.growlers', 
-	'ngResource', 'sharedmodule', 'httpRequestInterceptors'])
-
+angular.module('mainSettingsApp', ['services', 'ngResource', 'sharedmodule', 'httpRequestInterceptors'])
     .value('settingKeys', ['website_mainurl', 'website_title', 'email_address', 'mainaddress']);
 },{}],22:[function(require,module,exports){
 angular.module("httpRequestInterceptors", [])
@@ -1287,6 +1600,12 @@ angular.module("httpRequestInterceptors", [])
     });
  }]);
 },{}],23:[function(require,module,exports){
+var toastr = require('toastr');
+toastr.options.positionClass = "toast-top-right";
+toastr.options.showMethod = 'fadeIn';
+toastr.options.hideMethod = 'fadeOut';
+toastr.options.closeButton = true;
+
 angular.module('services', ['ngResource'])
 
 	.factory('logsService', ['$resource', function ($resource) {
@@ -1373,36 +1692,17 @@ angular.module('services', ['ngResource'])
 	}])
 	
 	.factory('notificationService', ['$rootScope', function($rootScope) {
-	    var listeners = [];
-
-	    $rootScope.$on("$routeChangeStart", function() {
-	        listeners = [];
-	    });
 
 	    return {
 	        addErrorMessage: function(message) {
-	            for (var i = 0; i < listeners.length; i++) {
-
-	                if (listeners[i].messageType === 'error') {
-	                    listeners[i].handler(message);
-	                }
-	            }
+	            toastr.error(message);
 	        },
 	        addSuccessMessage: function(message) {
-	            for (var i = 0; i < listeners.length; i++) {
-
-	                if (listeners[i].messageType === 'success') {
-	                    listeners[i].handler(message);
-	                }
-	            }
-	        },
-
-	        addListener: function(func, messageType) {
-	            listeners.push({ handler: func, messageType: messageType });
+	            toastr.success(message);
 	        }
 	    };
 	}]);
-},{}],24:[function(require,module,exports){
+},{"toastr":9}],24:[function(require,module,exports){
 function showGrowl(type, message) {
 
     if(message === undefined) {
@@ -1591,7 +1891,7 @@ angular.module('sharedmodule', [])
 },{}],28:[function(require,module,exports){
 cms = window.cms || {};
 
-cms.uploadsApp = angular.module('uploadsApp', ['cms.growlers', 'ui.upload', 'services']).
+cms.uploadsApp = angular.module('uploadsApp', ['ui.upload', 'services']).
     config(['$httpProvider', function($httpProvider) {
 
         $httpProvider.responseInterceptors.push('httpInterceptor');
@@ -1703,4 +2003,4 @@ cms.uploadsApp.controller('uploadsController', [
         updateProgress(0);
     }
 ]);
-},{}]},{},[9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,1,2,3,4,5,6,7,8]);
+},{}]},{},[10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,1,2,3,4,5,6,7,8]);

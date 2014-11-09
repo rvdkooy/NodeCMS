@@ -1,4 +1,4 @@
-﻿angular.module('contentSettingsApp', ['contentServices', 'services', 'cms.growlers', 
+﻿angular.module('contentSettingsApp', ['contentServices', 'services',
 	'ngResource', 'sharedmodule', 'httpRequestInterceptors'])
 
     .value('settingKeys', ['website_description', 'website_keywords', 'website_landingpage'])

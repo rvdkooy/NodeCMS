@@ -1,4 +1,4 @@
-﻿angular.module('loginApp', ['cms.focus', 'cms.growlers', 'cms.loginshaker', 'services'])
+﻿angular.module('loginApp', ['cms.focus', 'cms.loginshaker', 'services'])
 	
 	.factory('authenticationService', ["$http", function ($http) {
 	    return {
