@@ -4,11 +4,11 @@ var _ = require('underscore');
 module.exports = function(mainApp){
 	
 	this.dashboard = function(req, res){
-		res.render('system/server/views/dashboard/index');
+		res.render('system/server/views/dashboard/index', { layout:false });
 	};
 
 	this.index = function(req, res){
-		res.render('system/server/views/shared/layout');
+		res.render('system/server/views/main/index', { layout:false });
 	};
 
 	this.getcontentstats = function(req, res){

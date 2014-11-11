@@ -34,13 +34,13 @@ module.exports = function(contentpagesrepository, logger){
 	};
 
 	this.listContentPages = function(req, res){
-		res.render('components/content/server/views/contentpages/listcontentpages');
+		res.render('components/content/server/views/contentpages/listcontentpages', { layout:false });
 	};
 	this.addContentPage = function(req, res){
-		res.render('components/content/server/views/contentpages/addcontentpage');
+		res.render('components/content/server/views/contentpages/addcontentpage', { layout:false });
 	};
 	this.editContentPage = function(req, res){
-		res.render('components/content/server/views/contentpages/editcontentpage');
+		res.render('components/content/server/views/contentpages/editcontentpage', { layout:false });
 	};
 	
 	this.ApiContentPages = function(req, res){
