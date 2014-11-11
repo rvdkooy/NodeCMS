@@ -33,8 +33,8 @@ var tinyMceConfig = {
 
     extended_valid_elements: "iframe[src|width|height|name|align|style]",
     relative_urls: false,
-    convert_urls: false
-    //language: $.cookie("cmslanguage")
+    convert_urls: false,
+    language: $.cookie("cmslanguage")
 };
 
 var app = angular.module('contentPagesModule', ['services', 'contentServices', 'ui.tinymce', 'ui.bootstrap', 'cms.ichecker'

@@ -1,19 +1,21 @@
 ﻿var angular = require('_angular');
 var angularResource = require('_angular-resource');
 var angularRoute = require('_angular-route');
+var maindirectives = require('maindirectives');
 
 // needs some serious refactoring
 require('bootstrap')
 require('jquery.metisMenu')
 require('sbadmin');
 require('ui-bootstrap');
-
+require('jquery-cookie');
 
 window.cms = window.cms || {}
 
 window.cms.init = function (modules){
 
-    var modules = ['sharedmodule', 'services', 'filters', 'ngRoute', 'logsApp'].concat(modules);
+    var modules = ['sharedmodule', 'services', 'filters', 
+        maindirectives.name, 'ngRoute', 'logsApp'].concat(modules);
 
     angular.module('adminApp', modules)
     

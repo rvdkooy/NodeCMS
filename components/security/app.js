@@ -15,13 +15,21 @@ exports.init = function(mainApp){
 		ioc.resolve('logger'));
 	authenticator.configure();
 
-  	mainApp.all('/admin/*', function(req, res, next){
-  		if (req.isAuthenticated() || req.url === '/admin/login') { 
-			return next(); 
-		}
-  		
-  		res.send(403);
-	});
+  	mainApp.all('/admin/*', checkAuthentication);
+  	mainApp.all('/admin', checkAuthentication);
+}
+
+function checkAuthentication(req, res, next){
+	if (req.isAuthenticated() || req.url === '/admin/login') { 
+		return next(); 
+	}
+	
+	if(req.url === '/admin'){
+		res.redirect('/admin/login');
+	}
+	else{
+		res.send(403);
+	}
 }
 
 exports.register = function(mainApp) {
@@ -45,6 +53,5 @@ exports.register = function(mainApp) {
 };
 
 exports.config = {
-	//adminMenu: [ { key: 'SECURITY', url: '#' } ]
 	adminMenu: [ { key: 'SECURITY', url: '#', css: 'fa-lock', menuItems: [ { key: 'USERS', url: '/admin/users', css: 'fa-user' } ] } ]
 };

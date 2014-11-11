@@ -34,8 +34,8 @@ var tinyMceConfig = {
 
     extended_valid_elements: "iframe[src|width|height|name|align|style]",
     relative_urls: false,
-    convert_urls: false
-    //language: $.cookie("cmslanguage")
+    convert_urls: false,
+    language: $.cookie("cmslanguage")
 };
 
 var app = angular.module('contentPagesModule', ['services', 'contentServices', 'ui.tinymce', 'ui.bootstrap', 'cms.ichecker'
@@ -1150,19 +1150,21 @@ if (!('some' in Array.prototype)) {
 var angular = require('_angular');
 var angularResource = require('_angular-resource');
 var angularRoute = require('_angular-route');
+var maindirectives = require('maindirectives');
 
 // needs some serious refactoring
 require('bootstrap')
 require('jquery.metisMenu')
 require('sbadmin');
 require('ui-bootstrap');
-
+require('jquery-cookie');
 
 window.cms = window.cms || {}
 
 window.cms.init = function (modules){
 
-    var modules = ['sharedmodule', 'services', 'filters', 'ngRoute', 'logsApp'].concat(modules);
+    var modules = ['sharedmodule', 'services', 'filters', 
+        maindirectives.name, 'ngRoute', 'logsApp'].concat(modules);
 
     angular.module('adminApp', modules)
     
@@ -1203,7 +1205,7 @@ window.cms.init = function (modules){
         };
     });
 };    
-},{"_angular":undefined,"_angular-resource":undefined,"_angular-route":undefined,"bootstrap":undefined,"jquery.metisMenu":undefined,"sbadmin":undefined,"ui-bootstrap":undefined}],13:[function(require,module,exports){
+},{"_angular":undefined,"_angular-resource":undefined,"_angular-route":undefined,"bootstrap":undefined,"jquery-cookie":undefined,"jquery.metisMenu":undefined,"maindirectives":17,"sbadmin":undefined,"ui-bootstrap":undefined}],13:[function(require,module,exports){
 angular.module('cms.focus', [])
     //
     // Directive that registers a focus on an element 
@@ -1368,6 +1370,33 @@ angular.module('ui.upload', [])
         };
     }]);
 },{}],17:[function(require,module,exports){
+var app = angular.module('mainDirectives', ['filters']);
+
+app.directive('userSection', function(){
+	return {
+        controller: function($scope, $http, $window){
+        	$scope.logout = function(){
+        		$http({ method: 'POST',
+	                url: '/admin/api/logout'
+	            })
+	    		.then(function() {
+	            	$window.location.href = '/admin';
+	        	});
+        	};
+        },
+        template: '<ul class="nav navbar-top-links navbar-right">' +
+                '<li class="dropdown">' +
+                    '<a ng-click="logout()">' +
+                                '<i class="fa fa-sign-out fa-fw"></i>' +
+                                '<span >{{ "ADMIN_TOPMENU_LABEL_LOGOUT" | __ }}</span>' +
+                            '</a>' +
+                '</li>' +
+            '</ul>'
+	};
+});
+
+module.exports = app;
+},{}],18:[function(require,module,exports){
 angular.module('logsApp', ['services', 'ngResource', 'sharedmodule'])
 
 .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
@@ -1382,10 +1411,10 @@ angular.module('logsApp', ['services', 'ngResource', 'sharedmodule'])
 
         $scope.logs = logsService.query({ limit: 75 });
     }]);
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 angular.module('mainSettingsApp', ['services', 'ngResource', 'sharedmodule', 'httpRequestInterceptors'])
     .value('settingKeys', ['website_mainurl', 'website_title', 'email_address', 'mainaddress']);
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 angular.module("httpRequestInterceptors", [])
 
 .config(['$httpProvider', function ($httpProvider) {
@@ -1415,7 +1444,7 @@ angular.module("httpRequestInterceptors", [])
             };
     });
  }]);
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 var toastr = require('toastr');
 toastr.options.positionClass = "toast-top-right";
 toastr.options.showMethod = 'fadeIn';
@@ -1518,7 +1547,7 @@ angular.module('services', ['ngResource'])
 	        }
 	    };
 	}]);
-},{"toastr":9}],21:[function(require,module,exports){
+},{"toastr":9}],22:[function(require,module,exports){
 var angular = require('_angular');
 
 angular.module('filters', [])
@@ -1527,7 +1556,7 @@ angular.module('filters', [])
             return cms.adminResources.get(input, args);
         }
     });
-},{"_angular":undefined}],22:[function(require,module,exports){
+},{"_angular":undefined}],23:[function(require,module,exports){
 'use strict';
 
 // Add ECMA262-5 method binding if not supported natively
@@ -1631,19 +1660,9 @@ String.prototype.format = function () {
         ;
     });
 };
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 angular.module('sharedmodule', [])
-.controller("maincontroller", function($scope, $http, $window){
-	$scope.logout = function () {
-        
-    	$http({ method: 'POST',
-                url: '/admin/api/logout'
-            })
-    		.then(function() {
-            	$window.location.href = '/admin';
-        	});
-    }
-})
+
 .controller('settingsController', function($scope, $parse, settingsService, 
        settingKeys, notificationService){
 
@@ -1681,7 +1700,7 @@ angular.module('sharedmodule', [])
         };
 });;
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 cms = window.cms || {};
 
 cms.uploadsApp = angular.module('uploadsApp', ['ui.upload', 'services']).
@@ -1689,7 +1708,7 @@ cms.uploadsApp = angular.module('uploadsApp', ['ui.upload', 'services']).
 
         $httpProvider.responseInterceptors.push('httpInterceptor');
     }]);
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 cms.uploadsApp.controller('uploadsController', [
     '$scope', 'notificationService', '$http', 'uploadsService',
     function($scope, notificationService, $http, uploadsService) {
@@ -1796,4 +1815,4 @@ cms.uploadsApp.controller('uploadsController', [
         updateProgress(0);
     }
 ]);
-},{}]},{},[10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,1,2,3,4,5,6,7]);
+},{}]},{},[10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,1,2,3,4,5,6,7]);

@@ -8,10 +8,7 @@
        
         <script type="text/javascript" src="/js/globalresources.js"> </script>
         <script type="text/javascript" src="/assets/admin/dist/vendor.js"> </script>
-        <!--<script type="text/javascript" src="/assets/admin/vendor/jquery.cookie.js"> </script>
-        <script type="text/javascript" src="/assets/admin/scripts/vendor/ui-bootstrap-tpls-0.11.0.min.js"> </script>
-        <script type="text/javascript" src="/assets/admin/scripts/sharedmodule.js"> </script>-->
-        <script type="text/javascript" src="/assets/admin/scripts/shared/filters.js"> </script>
+        <!--<script type="text/javascript" src="/assets/admin/scripts/vendor/ui-bootstrap-tpls-0.11.0.min.js"> </script>-->
         <script type="text/javascript" src="/assets/admin/vendor/tiny_mce/tinymce.min.js"> </script>
 
         <link href="/assets/admin/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
@@ -22,7 +19,7 @@
         
     </head>
     <body >
-        <div id="wrapper" ng-controller="maincontroller"> 
+        <div id="wrapper"> 
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
@@ -33,22 +30,7 @@
                     </button>
                     <img src="/assets/admin/images/nodelogo.svg" class="cmslogo" alt="nodecms">
                 </div>
-                <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-user fa-fw"></i> Username <i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li>
-                                <a ng-click="logout()">
-                                    <i class="fa fa-sign-out fa-fw"></i>
-                                    <span><%= __('ADMIN_TOPMENU_LABEL_LOGOUT') %></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
+                <data-user-section></div>
             </nav>
             <div class="sidebar-background">
                 <div class="primary-sidebar-background"></div>
