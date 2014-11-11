@@ -60,7 +60,7 @@
     "ui.bootstrap": "./system/public/vendor/_ui.bootstrap.js",
     "morris": "./system/public/vendor/morris/morris.js",
     "nestedsortable": "./system/public/vendor/jquery.ui.nestedSortable.js",
-    "jquery.shake": "./system/public/vendor/jquery.shake.js",
+    "jquery-cookie": "./system/public/vendor/jquery.cookie.js",
     "jquery.metisMenu": "./system/public/vendor/metisMenu/jquery.metisMenu.js",
     "jquery.growl": "./system/public/vendor/growl/jquery.growl.js",
     "ui-bootstrap": "./system/public/vendor/ui-bootstrap-tpls-0.11.0.min.js",

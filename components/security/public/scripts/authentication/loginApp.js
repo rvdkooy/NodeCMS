@@ -1,4 +1,10 @@
-﻿angular.module('loginApp', ['cms.focus', 'cms.loginshaker', 'services'])
+﻿require('_angular');
+require('_angular-resource');
+require('bootstrap')
+require('../../vendor/jquery.shake.js');
+require('jquery-cookie');
+
+angular.module('loginApp', ['cms.focus', 'services'])
 	
 	.factory('authenticationService', ["$http", function ($http) {
 	    return {
@@ -63,5 +69,18 @@
 
             $scope.language = langaugeToSet;
         }
+    }])
+    .directive('loginShaker', [function () {
+        return {
+            restrict: 'A',
+            link: function (scope, elm) {
+                
+                scope.$watch("unauthorizedLogin", function (newValue) {
+                    if (newValue === true) {
+                        $(elm).shake(3, 6, 180);
+                    }
+                });
+            }
+        };
     }]);
 

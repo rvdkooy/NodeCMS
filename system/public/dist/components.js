@@ -474,7 +474,13 @@ angular.module('contentServices', ['ngResource'])
 	}]);
 
 },{}],6:[function(require,module,exports){
-angular.module('loginApp', ['cms.focus', 'cms.loginshaker', 'services'])
+require('_angular');
+require('_angular-resource');
+require('bootstrap')
+require('../../vendor/jquery.shake.js');
+require('jquery-cookie');
+
+angular.module('loginApp', ['cms.focus', 'services'])
 	
 	.factory('authenticationService', ["$http", function ($http) {
 	    return {
@@ -539,10 +545,23 @@ angular.module('loginApp', ['cms.focus', 'cms.loginshaker', 'services'])
 
             $scope.language = langaugeToSet;
         }
+    }])
+    .directive('loginShaker', [function () {
+        return {
+            restrict: 'A',
+            link: function (scope, elm) {
+                
+                scope.$watch("unauthorizedLogin", function (newValue) {
+                    if (newValue === true) {
+                        $(elm).shake(3, 6, 180);
+                    }
+                });
+            }
+        };
     }]);
 
 
-},{}],7:[function(require,module,exports){
+},{"../../vendor/jquery.shake.js":8,"_angular":undefined,"_angular-resource":undefined,"bootstrap":undefined,"jquery-cookie":undefined}],7:[function(require,module,exports){
 angular.module('usersApp', ['cms.ichecker', 'services', 'ngRoute',
     'ngResource', 'sharedmodule', 'httpRequestInterceptors']).
     config(['$routeProvider', function($routeProvider) {
@@ -638,6 +657,18 @@ angular.module('usersApp', ['cms.ichecker', 'services', 'ngRoute',
         });
 }]);
 },{}],8:[function(require,module,exports){
+jQuery.fn.shake = function (intShakes /*Amount of shakes*/, intDistance /*Shake distance*/, intDuration /*Time duration*/) {
+    this.each(function () {
+        $(this).css({ position: 'relative' });
+        for (var x = 1; x <= intShakes; x++) {
+            $(this).animate({ left: (intDistance * -1) }, (((intDuration / intShakes) / 4)))
+            .animate({ left: intDistance }, ((intDuration / intShakes) / 2))
+            .animate({ left: 0 }, (((intDuration / intShakes) / 4)));
+        }
+    });
+    return this;
+};
+},{}],9:[function(require,module,exports){
 /*
  * Toastr
  * Copyright 2012-2014 John Papa and Hans Fjällemark.
@@ -976,7 +1007,7 @@ angular.module('usersApp', ['cms.ichecker', 'services', 'ngRoute',
         window['toastr'] = factory(window['jQuery']);
     }
 }));
-},{"jquery":undefined}],9:[function(require,module,exports){
+},{"jquery":undefined}],10:[function(require,module,exports){
 'use strict';
 
 // Add ECMA262-5 method binding if not supported natively
@@ -1070,274 +1101,52 @@ if (!('some' in Array.prototype)) {
         return false;
     };
 }
-},{}],10:[function(require,module,exports){
-(function (cms, $) {
-    'use strict';
-    function initContentSettings() {
-        $('#createSitemapLinkButton').click(function (event) {
-            event.preventDefault();
-
-            createSitemap();
-        });
-    }
-
-    function createSitemap() {
-        $.ajax({
-            url: '/admin/contentsettings/createsitemap',
-            timeout: 1000,
-            type: 'POST',
-            traditional: true,
-            success: function (data) {
-                if (data.success == true) {
-                    alert('sitemap created');
-                }
-                else {
-                    alert('error while creating sitemap');
-                }
-            },
-            error: function (xhr) {
-                alert('error while creating sitemap: ' + xhr);
-            }
-        });
-    }
-
-    cms.options = {
-        initContentSettings: initContentSettings,
-    };
-
-} (window.cms = window.cms || {}, jQuery));   
 },{}],11:[function(require,module,exports){
-(function (cms, $) {
-    'use strict';
+// (function (cms, $) {
+//     'use strict';
 
-    var enableTinyMCe;
+//     var enableTinyMCe;
 
-    function init(tinyMce) {
+//     function init(tinyMce) {
 
-        enableTinyMCe = tinyMce;
+//         enableTinyMCe = tinyMce;
 
-        registerClickHandlersOnAnchors();
-    }
+//         registerClickHandlersOnAnchors();
+//     }
 
-    function registerClickHandlersOnAnchors() {
-        $('#uriBrowserTree li a').click(function () {
-            var type = $(this).data('type');
-            var navigateUrl = $(this).data('navigateurl');
-            var inputId = $(this).data('inputid');
+//     function registerClickHandlersOnAnchors() {
+//         $('#uriBrowserTree li a').click(function () {
+//             var type = $(this).data('type');
+//             var navigateUrl = $(this).data('navigateurl');
+//             var inputId = $(this).data('inputid');
 
-            uriSelected(type, navigateUrl, inputId);
-        });
-    }
+//             uriSelected(type, navigateUrl, inputId);
+//         });
+//     }
 
-    function uriSelected(type, url, inputId) {
+//     function uriSelected(type, url, inputId) {
 
-        if (type == 'image' || type == 'file') {
+//         if (type == 'image' || type == 'file') {
 
-            if (enableTinyMCe) {
+//             if (enableTinyMCe) {
                 
-                top.tinymce.activeEditor.windowManager.getParams().oninsert(url);
-                top.tinymce.activeEditor.windowManager.close();
+//                 top.tinymce.activeEditor.windowManager.getParams().oninsert(url);
+//                 top.tinymce.activeEditor.windowManager.close();
                 
-            } else {
+//             } else {
 
-                $("#" + inputId + "", window.opener.document).val(url);
-                top.tinymce.activeEditor.windowManager.close();
-            }
+//                 $("#" + inputId + "", window.opener.document).val(url);
+//                 top.tinymce.activeEditor.windowManager.close();
+//             }
             
-        }
-    }
+//         }
+//     }
 
-    cms.uriBrowser =  {
-        init: init
-    };
-}(window.cms = window.cms || {}, jQuery));
+//     cms.uriBrowser =  {
+//         init: init
+//     };
+// }(window.cms = window.cms || {}, jQuery));
 },{}],12:[function(require,module,exports){
-(function (cms) {
-    'use strict';
-    
-    var _clientId, _gaAccount, _gaHistory, googleLoginButton, callBackFunction;
-    var scopes = 'https://www.googleapis.com/auth/analytics.readonly';
-
-    function init(gaAccount, gaHistory, callBack) {
-
-        _gaAccount = gaAccount;
-        _gaHistory = gaHistory;
-        googleLoginButton = document.getElementById('googlelogin-button');
-        callBackFunction = callBack;
-    }
-
-    function handleClientLoad(apiKey, clientId) {
-        _clientId = clientId;
-        gapi.client.setApiKey(apiKey);
-
-        window.setTimeout(checkAuth, 1);
-    }
-
-    function checkAuth() {
-        // Call the Google Accounts Service to determine the current user's auth status.
-        gapi.auth.authorize({ client_id: _clientId, scope: scopes, immediate: true }, handleAuthResult);
-    }
-
-    function handleAuthResult(authResult) {
-        if (authResult) {
-            loadAnalyticsClient();
-        } else {
-            handleUnAuthorized();
-        }
-    }
-
-    function loadAnalyticsClient() {
-        // Load the Analytics client and set handleAuthorized as the callback function
-        gapi.client.load('analytics', 'v3', handleAuthorized);
-    }
-
-    function handleAuthorized() {
-        googleLoginButton.style.visibility = 'hidden';
-        callBackFunction(_gaAccount, _gaHistory);
-    }
-
-    // Unauthorized user
-    function handleUnAuthorized() {
-        googleLoginButton.style.visibility = '';
-        googleLoginButton.onclick = handleAuthClick;
-    }
-
-    function handleAuthClick(event) {
-        gapi.auth.authorize({ client_id: _clientId, scope: scopes, immediate: false }, handleAuthResult);
-        return false;
-    }
-
-    cms.googleAnalyticsAuthorisation = {
-        handleClientLoad: handleClientLoad,
-        init: init
-    };
-
-}(window.cms = window.cms || {}));
-},{}],13:[function(require,module,exports){
-(function(cms, $) {
-    'use strict';
-
-    var googleAnalyticsBusyIndicator;
-
-    cms.home = {
-        init: init,
-        googleApiAuthorised: googleApiAuthorised
-    };
-
-    function init() {
-
-        initControls();
-    }
-
-    function initControls() {
-        googleAnalyticsBusyIndicator = $('#googleAnalyticsBusyIndicator');
-    }
-
-    function googleApiAuthorised(gaAccount, gaHistory) {
-
-        googleAnalyticsBusyIndicator.show();
-
-        var endDate = new Date().format("yyyy-mm-dd");
-
-        var days = (24 * 60 * 60 * 1000) * gaHistory;
-        var startDate = new Date();
-        startDate.setTime(startDate.getTime() - days);
-        startDate = startDate.format("yyyy-mm-dd");
-
-        var apiQuery = gapi.client.analytics.data.ga.get({
-            'ids': 'ga:' + gaAccount,
-            'start-date': startDate,
-            'end-date': endDate,
-            'dimensions': 'ga:date',
-            'metrics': 'ga:visits',
-            'max-results': 50
-        });
-
-        apiQuery.execute(printResults);
-    }
-    
-    function printResults(results) {
-
-        googleAnalyticsBusyIndicator.hide();
-
-        var googleAnalyticsResult = document.getElementById('googleAnalyticsResult');
-
-        if (results.rows && results.rows.length) {
-
-            var chartData = getVisitorChartData(results);
-
-            new google.visualization.AreaChart(googleAnalyticsResult).
-            draw(chartData.data, {
-                curveType: "none",
-                width: googleAnalyticsResult.clientWidth -20, height: 150, // 20px is the offset of the padding of the fluid-container
-                vAxis: {
-                    maxValue: chartData.maxVisits,
-                    minValue: 0,
-                    gridlines: { color: '#ccc', count: 1 },
-                },
-                hAxis: {
-                    showTextEvery: 3,
-                    textStyle: { fontSize: 10 },
-                    slantedTextAngle: 45
-                },
-                series: [{ color: 'blue', areaOpacity: 0.20 }, { areaOpacity: 0 }]
-            }
-            );
-        }
-        else {
-            googleAnalyticsResult.innerHtml = "no google analytics result found!";
-        }
-    }
-
-    function getVisitorChartData(result) {
-        var arrayNumber = 0;
-        var rows = result.rows;
-        var arrayOfData = new Array(rows.length);
-        var maxVisits = 0;
-        var avg = 0, total = 0;
-
-        for (var j = 0; j < rows.length; j++) {
-            total = total + parseInt(rows[j][1], 10);
-        }
-        avg = total / rows.length;
-
-        arrayOfData[arrayNumber] = new Array(3);
-        arrayOfData[arrayNumber][0] = 'x';
-        arrayOfData[arrayNumber][1] = 'Visits';
-        arrayOfData[arrayNumber][2] = 'avg.';
-
-        for (var i = 0; i < rows.length; i++) {
-
-            arrayNumber++;
-            arrayOfData[arrayNumber] = new Array(2);
-
-            var row = rows[i];
-            var day = row[0];
-            var numVisits = parseInt(row[1], 10);
-
-            var dayPart = day.substring(6, 8);
-            var monthPart = day.substring(4, 6);
-            var yearPart = day.substring(0, 4);
-
-            var formattedDate = dayPart + '-' + monthPart + '-' + yearPart;
-
-            arrayOfData[arrayNumber][0] = formattedDate;
-            arrayOfData[arrayNumber][1] = numVisits;
-            arrayOfData[arrayNumber][2] = avg;
-
-            if (numVisits >= maxVisits) {
-                maxVisits = numVisits;
-            }
-        }
-
-        return {
-            maxVisits: maxVisits,
-            data: google.visualization.arrayToDataTable(arrayOfData)
-        };
-    }
-
-}(window.cms = window.cms || { }, jQuery));
-},{}],14:[function(require,module,exports){
 var angular = require('_angular');
 var angularResource = require('_angular-resource');
 var angularRoute = require('_angular-route');
@@ -1394,7 +1203,7 @@ window.cms.init = function (modules){
         };
     });
 };    
-},{"_angular":undefined,"_angular-resource":undefined,"_angular-route":undefined,"bootstrap":undefined,"jquery.metisMenu":undefined,"sbadmin":undefined,"ui-bootstrap":undefined}],15:[function(require,module,exports){
+},{"_angular":undefined,"_angular-resource":undefined,"_angular-route":undefined,"bootstrap":undefined,"jquery.metisMenu":undefined,"sbadmin":undefined,"ui-bootstrap":undefined}],13:[function(require,module,exports){
 angular.module('cms.focus', [])
     //
     // Directive that registers a focus on an element 
@@ -1407,7 +1216,7 @@ angular.module('cms.focus', [])
     		}
     	};
     }])
-},{}],16:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 
 angular.module('cms.ichecker', [])
     //
@@ -1451,7 +1260,7 @@ angular.module('cms.ichecker', [])
             }
         };
     });
-},{}],17:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  * Binds a TinyMCE widget to <textarea> elements.
  * Downloaded from: https://github.com/angular-ui/ui-tinymce/blob/master/src/tinymce.js
@@ -1532,7 +1341,7 @@ angular.module('ui.tinymce', [])
             }
         };
     }]);
-},{}],18:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  * creates a jquery fileupload
  */
@@ -1558,7 +1367,7 @@ angular.module('ui.upload', [])
             }
         };
     }]);
-},{}],19:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 angular.module('logsApp', ['services', 'ngResource', 'sharedmodule'])
 
 .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
@@ -1573,18 +1382,22 @@ angular.module('logsApp', ['services', 'ngResource', 'sharedmodule'])
 
         $scope.logs = logsService.query({ limit: 75 });
     }]);
-},{}],20:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 angular.module('mainSettingsApp', ['services', 'ngResource', 'sharedmodule', 'httpRequestInterceptors'])
     .value('settingKeys', ['website_mainurl', 'website_title', 'email_address', 'mainaddress']);
-},{}],21:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 angular.module("httpRequestInterceptors", [])
 
 .config(['$httpProvider', function ($httpProvider) {
     
-    $httpProvider.interceptors.push(function($q, notificationService){
+    $httpProvider.interceptors.push(function($q, $window, notificationService){
         
         return {
                 'responseError': function (response) {
+
+                    if(response.status === 403){
+                        $window.location = '/admin/login';
+                    }
 
                     if (response.data.UnhandledExceptionMessage) {
                         notificationService.addErrorMessage(response.data.UnhandledExceptionMessage);
@@ -1602,7 +1415,7 @@ angular.module("httpRequestInterceptors", [])
             };
     });
  }]);
-},{}],22:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 var toastr = require('toastr');
 toastr.options.positionClass = "toast-top-right";
 toastr.options.showMethod = 'fadeIn';
@@ -1705,30 +1518,7 @@ angular.module('services', ['ngResource'])
 	        }
 	    };
 	}]);
-},{"toastr":8}],23:[function(require,module,exports){
-function showGrowl(type, message) {
-
-    if(message === undefined) {
-        message = "an error occured!";
-    }
-
-    if (type === 'success') {
-        $.growl.notice({
-            title: cms.adminResources.get('ADMIN_GROWL_TITLE_SUCCESS'),
-            message: message
-        });
-    }
-
-    if (type === 'error') {
-        $.growl.error({
-            title: cms.adminResources.get('ADMIN_GROWL_TITLE_ERROR'),
-            message: message
-        });
-    }
-}
-
-
-},{}],24:[function(require,module,exports){
+},{"toastr":9}],21:[function(require,module,exports){
 var angular = require('_angular');
 
 angular.module('filters', [])
@@ -1737,7 +1527,7 @@ angular.module('filters', [])
             return cms.adminResources.get(input, args);
         }
     });
-},{"_angular":undefined}],25:[function(require,module,exports){
+},{"_angular":undefined}],22:[function(require,module,exports){
 'use strict';
 
 // Add ECMA262-5 method binding if not supported natively
@@ -1841,7 +1631,7 @@ String.prototype.format = function () {
         ;
     });
 };
-},{}],26:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 angular.module('sharedmodule', [])
 .controller("maincontroller", function($scope, $http, $window){
 	$scope.logout = function () {
@@ -1891,7 +1681,7 @@ angular.module('sharedmodule', [])
         };
 });;
 
-},{}],27:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 cms = window.cms || {};
 
 cms.uploadsApp = angular.module('uploadsApp', ['ui.upload', 'services']).
@@ -1899,7 +1689,7 @@ cms.uploadsApp = angular.module('uploadsApp', ['ui.upload', 'services']).
 
         $httpProvider.responseInterceptors.push('httpInterceptor');
     }]);
-},{}],28:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 cms.uploadsApp.controller('uploadsController', [
     '$scope', 'notificationService', '$http', 'uploadsService',
     function($scope, notificationService, $http, uploadsService) {
@@ -2006,4 +1796,4 @@ cms.uploadsApp.controller('uploadsController', [
         updateProgress(0);
     }
 ]);
-},{}]},{},[9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,1,2,3,4,5,6,7]);
+},{}]},{},[10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,1,2,3,4,5,6,7]);

@@ -15,13 +15,13 @@ exports.init = function(mainApp){
 		ioc.resolve('logger'));
 	authenticator.configure();
 
- //  	mainApp.all('/admin/*', function(req, res, next){
- //  		if (req.isAuthenticated() || req.url === '/admin/login') { 
-	// 		return next(); 
-	// 	}
+  	mainApp.all('/admin/*', function(req, res, next){
+  		if (req.isAuthenticated() || req.url === '/admin/login') { 
+			return next(); 
+		}
   		
- //  		res.redirect('/admin/login');
-	// });
+  		res.send(403);
+	});
 }
 
 exports.register = function(mainApp) {

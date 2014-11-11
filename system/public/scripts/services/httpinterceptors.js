@@ -2,10 +2,14 @@ angular.module("httpRequestInterceptors", [])
 
 .config(['$httpProvider', function ($httpProvider) {
     
-    $httpProvider.interceptors.push(function($q, notificationService){
+    $httpProvider.interceptors.push(function($q, $window, notificationService){
         
         return {
                 'responseError': function (response) {
+
+                    if(response.status === 403){
+                        $window.location = '/admin/login';
+                    }
 
                     if (response.data.UnhandledExceptionMessage) {
                         notificationService.addErrorMessage(response.data.UnhandledExceptionMessage);

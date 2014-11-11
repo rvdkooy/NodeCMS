@@ -1,44 +1,44 @@
-﻿(function (cms, $) {
-    'use strict';
+﻿// (function (cms, $) {
+//     'use strict';
 
-    var enableTinyMCe;
+//     var enableTinyMCe;
 
-    function init(tinyMce) {
+//     function init(tinyMce) {
 
-        enableTinyMCe = tinyMce;
+//         enableTinyMCe = tinyMce;
 
-        registerClickHandlersOnAnchors();
-    }
+//         registerClickHandlersOnAnchors();
+//     }
 
-    function registerClickHandlersOnAnchors() {
-        $('#uriBrowserTree li a').click(function () {
-            var type = $(this).data('type');
-            var navigateUrl = $(this).data('navigateurl');
-            var inputId = $(this).data('inputid');
+//     function registerClickHandlersOnAnchors() {
+//         $('#uriBrowserTree li a').click(function () {
+//             var type = $(this).data('type');
+//             var navigateUrl = $(this).data('navigateurl');
+//             var inputId = $(this).data('inputid');
 
-            uriSelected(type, navigateUrl, inputId);
-        });
-    }
+//             uriSelected(type, navigateUrl, inputId);
+//         });
+//     }
 
-    function uriSelected(type, url, inputId) {
+//     function uriSelected(type, url, inputId) {
 
-        if (type == 'image' || type == 'file') {
+//         if (type == 'image' || type == 'file') {
 
-            if (enableTinyMCe) {
+//             if (enableTinyMCe) {
                 
-                top.tinymce.activeEditor.windowManager.getParams().oninsert(url);
-                top.tinymce.activeEditor.windowManager.close();
+//                 top.tinymce.activeEditor.windowManager.getParams().oninsert(url);
+//                 top.tinymce.activeEditor.windowManager.close();
                 
-            } else {
+//             } else {
 
-                $("#" + inputId + "", window.opener.document).val(url);
-                top.tinymce.activeEditor.windowManager.close();
-            }
+//                 $("#" + inputId + "", window.opener.document).val(url);
+//                 top.tinymce.activeEditor.windowManager.close();
+//             }
             
-        }
-    }
+//         }
+//     }
 
-    cms.uriBrowser =  {
-        init: init
-    };
-}(window.cms = window.cms || {}, jQuery));
+//     cms.uriBrowser =  {
+//         init: init
+//     };
+// }(window.cms = window.cms || {}, jQuery));
