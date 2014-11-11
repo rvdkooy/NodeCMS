@@ -5,14 +5,14 @@ var DashboardController = require('../../../controllers/dashboardcontroller.js')
 
 describe('Dashboard controller specs:', function(){
 
-	describe('When requesting the default layout,', function(){
+	describe('When requesting the main view,', function(){
 		
 		var responseObject = new ResponseObject();
 		var controller = new DashboardController();
 		controller.index(null, responseObject);
 		
-		it('It should render the shared layout', function(){
-			assert.equal(responseObject.view, 'system/server/views/shared/layout');
+		it('It should render the main index view', function(){
+			assert.equal(responseObject.view, 'system/server/views/main/index');
 		});
 	});
 
