@@ -1,5 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-// warning global variable
 var tinyMceConfig = {
     resize: false,
     plugins: [
@@ -189,9 +188,16 @@ app.controller('editPageController', function ($scope, page, $location, notifica
         };
     });
 },{}],2:[function(require,module,exports){
-angular.module('contentSettingsApp', ['contentServices', 'services',
-	'ngResource', 'sharedmodule', 'httpRequestInterceptors'])
+var _ = require('underscore');
 
+angular.module('contentSettingsModule', ['contentServices', 'services',
+	'sharedmodule', 'httpRequestInterceptors'])
+    .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
+        $routeProvider
+            .when('/contentsettings', { 
+                templateUrl: '/admin/contentsettings/index', 
+                controller: 'settingsController' });
+    }])
     .value('settingKeys', ['website_description', 'website_keywords', 'website_landingpage'])
 
     .directive('pagesSelector', function () {
@@ -199,15 +205,25 @@ angular.module('contentSettingsApp', ['contentServices', 'services',
         return {
         	restrict: 'A',
         	scope: {
-        		selectedPage: '=pagesSelector'
-        	},
-            controller: function($scope, pagesService){
-            	$scope.availablePages = pagesService.query();
+                selectedPage: '=pagesSelector'
+            },
+            controller: function($scope, pagesService, $timeout){
+                
+                pagesService.query().$promise.then(function(results){
+                    $scope.availablePages = _.map(results, function(page){
+                        return page.name;
+                    });
+                    $scope.innerSelectedPage = $scope.selectedPage;
+                });
+
+                $scope.changed = function(){
+                    $scope.selectedPage = $scope.innerSelectedPage;
+                };
             },
             templateUrl: '/assets/content/templates/contentsettings/pagesselector.html'
         };
     });
-},{}],3:[function(require,module,exports){
+},{"underscore":undefined}],3:[function(require,module,exports){
 var app = angular.module('menusApp', ['ui.bootstrap', 'services', 'sharedmodule', 'ngResource', 
     'ngRoute', 'httpRequestInterceptors', 'cms.sortableMenu', 'filters']).
     config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {

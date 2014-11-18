@@ -1,4 +1,3 @@
-// warning global variable
 var tinyMceConfig = {
     resize: false,
     plugins: [

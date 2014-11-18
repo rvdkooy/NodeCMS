@@ -50,7 +50,7 @@ exports.register = function(mainApp) {
 	mainApp.use(menuscontroller.cacheMenus);
 
 	//ContentSettings
-	mainApp.get('/admin/contentsettings', contentSettingsController.index);
+	mainApp.get('/admin/contentsettings/index', contentSettingsController.index);
 };
 
 exports.config = {
@@ -62,7 +62,7 @@ exports.config = {
 	 	{ key: 'SETTINGS', url: '#', css: 'fa-cogs', menuItems: [
 		 	{ key: 'CONTENTSETTINGS', url: '/contentsettings', css:'fa-th-list' }] }
 	 	],
-	ngModules: ['contentPagesModule'],
+	ngModules: ['contentPagesModule', 'contentSettingsModule'],
 	adminWidgets: { file: '/assets/content/scripts/contentpages/widgets.js', widgets: ['latestupdates' ] },
 	adminStats: statsProvider.getContentStats
 };

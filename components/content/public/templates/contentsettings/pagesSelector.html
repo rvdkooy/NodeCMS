@@ -1,3 +1,4 @@
-<select class="form-control" ng-model="selectedPage"
-        ng-options="p.name as p.name for p in availablePages">
+<select class="form-control" ng-model="innerSelectedPage"
+        ng-options="o as o for o in availablePages"
+        ng-change="changed()">
 </select>

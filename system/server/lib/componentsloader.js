@@ -107,7 +107,7 @@ function extendConfig(config, mainApp){
 		existingConfig.adminStats.push(config.adminStats); 
 	}
 	if(config.ngModules){
-		existingConfig.ngModules.push(config.ngModules); 
+		existingConfig.ngModules = existingConfig.ngModules.concat(config.ngModules); 
 	}
 	mainApp.set('NODECMS_CONFIG', existingConfig);
 }
