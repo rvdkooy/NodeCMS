@@ -65,5 +65,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.registerTask('test', ['servertests']);
-  grunt.registerTask('build', ['browserify:libs', 'browserify:components', 'watch:browserify']);
+  grunt.registerTask('build', ['browserify:libs', 'browserify:components']);
+  grunt.registerTask('dev', ['browserify:libs', 'browserify:components', 'watch:browserify']);
 };

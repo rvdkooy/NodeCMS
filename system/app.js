@@ -23,7 +23,7 @@ exports.register = function(mainApp) {
 	mainApp.get('/admin/logs', logsController.index);
 	mainApp.get('/admin/api/logs', logsController.apiGetLogs);
 
-	mainApp.get('/admin/mainsettings', settingsController.mainSettings);
+	mainApp.get('/admin/mainsettings/index', settingsController.mainSettings);
 	mainApp.get('/admin/api/settings', settingsController.getSettings);
 	mainApp.post('/admin/api/settings', settingsController.saveSettings);
 
@@ -35,5 +35,6 @@ exports.config = {
 	adminMenu: [ { key: 'DASHBOARD' , css: 'fa-dashboard', url: '/dashboard', order: 10},
 				{ key: 'LOGS' , css: 'fa-bell', url: '/logs', order: 90},
 				{ key: 'SETTINGS', url: '#', css: 'fa-cogs', order: 80, menuItems: [
-		 			{ key: 'MAINSETTINGS', url: '/admin/mainsettings', css:'fa-th-list' }] } ]
+		 			{ key: 'MAINSETTINGS', url: '/mainsettings', css:'fa-th-list' }] } ],
+	ngModules: ['mainSettingsModule']
 };

@@ -196,10 +196,14 @@ angular.module('contentSettingsModule', ['contentServices', 'services',
         $routeProvider
             .when('/contentsettings', { 
                 templateUrl: '/admin/contentsettings/index', 
-                controller: 'settingsController' });
+                controller: 'settingsController',
+                resolve: {
+                    settingKeys: function(){
+                        return ['website_description', 'website_keywords', 'website_landingpage'];
+                    } 
+                }});
     }])
-    .value('settingKeys', ['website_description', 'website_keywords', 'website_landingpage'])
-
+    
     .directive('pagesSelector', function () {
 
         return {
@@ -1428,8 +1432,20 @@ angular.module('logsApp', ['services', 'ngResource', 'sharedmodule'])
         $scope.logs = logsService.query({ limit: 75 });
     }]);
 },{}],19:[function(require,module,exports){
-angular.module('mainSettingsApp', ['services', 'ngResource', 'sharedmodule', 'httpRequestInterceptors'])
-    .value('settingKeys', ['website_mainurl', 'website_title', 'email_address', 'mainaddress']);
+angular.module('mainSettingsModule', ['services', 'ngResource', 'sharedmodule', 'httpRequestInterceptors'])
+    
+    .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
+        $routeProvider
+            .when('/mainsettings', { 
+                templateUrl: '/admin/mainsettings/index', 
+                controller: 'settingsController',
+                resolve: {
+                    settingKeys: function(){
+                    	return ['website_mainurl', 'website_title', 'email_address', 'mainaddress'];
+                    } 
+            	}
+            });
+    }]);	
 },{}],20:[function(require,module,exports){
 angular.module("httpRequestInterceptors", [])
 

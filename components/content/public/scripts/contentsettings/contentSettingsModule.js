@@ -6,10 +6,14 @@ angular.module('contentSettingsModule', ['contentServices', 'services',
         $routeProvider
             .when('/contentsettings', { 
                 templateUrl: '/admin/contentsettings/index', 
-                controller: 'settingsController' });
+                controller: 'settingsController',
+                resolve: {
+                    settingKeys: function(){
+                        return ['website_description', 'website_keywords', 'website_landingpage'];
+                    } 
+                }});
     }])
-    .value('settingKeys', ['website_description', 'website_keywords', 'website_landingpage'])
-
+    
     .directive('pagesSelector', function () {
 
         return {

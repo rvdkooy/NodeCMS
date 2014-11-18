@@ -35,7 +35,7 @@ module.exports = function(settingsrepository){
 
 	this.mainSettings = function(req, res){
 		res.render('system/server/views/mainsettings/index', {
-			layout: 'system/server/views/shared/layout'
+			layout: false
 		});
 	};
 };
