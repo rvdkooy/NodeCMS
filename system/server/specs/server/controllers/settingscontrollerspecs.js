@@ -14,7 +14,7 @@ describe('Settings controller specs:', function(){
 
 		it('It should render the mainsettings view with the standard layout', function(){
 			assert.equal(responseObject.view, 'system/server/views/mainsettings/index');
-			assert.equal(responseObject.options.layout, 'system/server/views/shared/layout');
+			assert.equal(responseObject.options.layout, false);
 		});
 	});
 
